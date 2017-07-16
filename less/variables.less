@@ -41,8 +41,11 @@
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
+//## MES Size info : font : 14px, MalunGothic (Korean)
+//                   button, form height : 24px, 20px(in Table)
+//                   table td height : 24px
 
-@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-sans-serif:  "Malgun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -50,7 +53,8 @@
 
 @font-size-base:          14px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
-@font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
+@font-size-small:         @font-size-base; //ceil((@font-size-base * 0.85)); // ~12px
+@font-size-xs:            ceil((@font-size-base * 0.85)); // ~12px
 
 @font-size-h1:            floor((@font-size-base * 2.6)); // ~36px
 @font-size-h2:            floor((@font-size-base * 2.15)); // ~30px
@@ -60,9 +64,9 @@
 @font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
 
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-base:        1.428571429; // 20/14
+@line-height-base:        1.142857142857143; // 24/16/14 MES default //1.428571429; // 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~16px //~20px
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family:    inherit;
@@ -86,25 +90,28 @@
 //== Components
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+//## PosIX button, form size : height 20px, padding vertical: 2
 
-@padding-base-vertical:     6px;
-@padding-base-horizontal:   12px;
+@padding-base-vertical:     6px;//6px;
+@padding-base-horizontal:   10px;//12px;
 
-@padding-large-vertical:    10px;
-@padding-large-horizontal:  16px;
+@padding-large-vertical:    3px;//10px;
+@padding-large-horizontal:  12px;//16px;
 
-@padding-small-vertical:    5px;
-@padding-small-horizontal:  10px;
+@padding-small-vertical:    1px;//5px;
+@padding-small-horizontal:  8px;//10px;
 
-@padding-xs-vertical:       1px;
-@padding-xs-horizontal:     5px;
+@padding-xs-vertical:       1px;//1px;
+@padding-xs-horizontal:     6px;
 
-@line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
-@line-height-small:         1.5;
+@line-height-large:         1.444444444444444;//1.3333333; // extra decimals for Win 8.1 Chrome
+@line-height-small:         @line-height-base;//1.5;
+@line-height-xs:        1.166666666666667;// New 4MES
 
 @border-radius-base:        4px;
 @border-radius-large:       6px;
 @border-radius-small:       3px;
+@border-radius-xs:          3px; // New 4MES
 
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color:    #fff;
@@ -168,12 +175,18 @@
 @btn-danger-bg:                  @brand-danger;
 @btn-danger-border:              darken(@btn-danger-bg, 5%);
 
+// added value for PosIX(MES)
+@btn-link-color:                 #fff;
+@btn-link-bg:                    @brand-danger;
+@btn-link-border:                darken(@btn-link-bg, 5%);
+
 @btn-link-disabled-color:        @gray-light;
 
 // Allows for customizing button radius independently from global border radius
 @btn-border-radius-base:         @border-radius-base;
 @btn-border-radius-large:        @border-radius-large;
 @btn-border-radius-small:        @border-radius-small;
+@btn-border-radius-xs:           @border-radius-xs;
 
 
 //== Forms
@@ -198,6 +211,8 @@
 @input-border-radius-large:      @border-radius-large;
 //** Small `.form-control` border radius
 @input-border-radius-small:      @border-radius-small;
+//** XSmall `.form-control` border radius. New 4MES
+@input-border-radius-xs:         @border-radius-xs;
 
 //** Border color for inputs on focus
 @input-border-focus:             #66afe9;
@@ -211,6 +226,8 @@
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 //** Small `.form-control` height
 @input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
+//** XSmall `.form-control` height
+@input-height-xs:                (floor(@font-size-xs * @line-height-xs) + (@padding-xs-vertical * 2) + 2);
 
 //** `.form-group` margin
 @form-group-margin-bottom:       15px;

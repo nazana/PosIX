@@ -311,7 +311,8 @@ input[type="checkbox"] {
   min-height: (@line-height-computed + @font-size-base);
 
   &.input-lg,
-  &.input-sm {
+  &.input-sm,
+  &.input-xs {
     padding-left: 0;
     padding-right: 0;
   }
@@ -325,6 +326,35 @@ input[type="checkbox"] {
 //
 // The `.form-group-* form-control` variations are sadly duplicated to avoid the
 // issue documented in https://github.com/twbs/bootstrap/issues/15074.
+
+// New 4MES
+.input-xs {
+  .input-size(@input-height-xs; @padding-xs-vertical; @padding-xs-horizontal; @font-size-xs; @line-height-xs; @input-border-radius-xs);
+}
+.form-group-xs {
+  .form-control {
+    height: @input-height-xs;
+    padding: @padding-xs-vertical @padding-xs-horizontal;
+    font-size: @font-size-xs;
+    line-height: @line-height-xs;
+    border-radius: @input-border-radius-xs;
+  }
+  select.form-control {
+    height: @input-height-xs;
+    line-height: @input-height-xs;
+  }
+  textarea.form-control,
+  select[multiple].form-control {
+    height: auto;
+  }
+  .form-control-static {
+    height: @input-height-xs;
+    min-height: (@line-height-computed + @font-size-xs);
+    padding: (@padding-xs-vertical + 1) @padding-xs-horizontal;
+    font-size: @font-size-xs;
+    line-height: @line-height-xs;
+  }
+}
 
 .input-sm {
   .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @input-border-radius-small);
@@ -422,6 +452,14 @@ input[type="checkbox"] {
   width: @input-height-small;
   height: @input-height-small;
   line-height: @input-height-small;
+}
+// New 4MES
+.input-xs + .form-control-feedback,
+.input-group-xs + .form-control-feedback,
+.form-group-xs .form-control + .form-control-feedback {
+  width: @input-height-xs;
+  height: @input-height-xs;
+  line-height: @input-height-xs;
 }
 
 // Feedback states
@@ -592,7 +630,7 @@ input[type="checkbox"] {
 
   // Form group sizes
   //
-  // Quick utility class for applying `.input-lg` and `.input-sm` styles to the
+  // Quick utility class for applying `.input-lg`, `.input-sm` and `.input-xs` styles to the
   // inputs and labels within a `.form-group`.
   .form-group-lg {
     @media (min-width: @screen-sm-min) {
@@ -607,6 +645,15 @@ input[type="checkbox"] {
       .control-label {
         padding-top: (@padding-small-vertical + 1);
         font-size: @font-size-small;
+      }
+    }
+  }
+  // New 4MES
+  .form-group-xs {
+    @media (min-width: @screen-sm-min) {
+      .control-label {
+        padding-top: (@padding-xs-vertical + 1);
+        font-size: @font-size-xs;
       }
     }
   }

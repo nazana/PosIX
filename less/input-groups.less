@@ -51,6 +51,12 @@
 .input-group-sm > .input-group-btn > .btn {
   .input-sm();
 }
+// New 4MES
+.input-group-xs > .form-control,
+.input-group-xs > .input-group-addon,
+.input-group-xs > .input-group-btn > .btn {
+  .input-xs();
+}
 
 
 // Display as table-cell
@@ -86,6 +92,12 @@
   border-radius: @input-border-radius;
 
   // Sizing
+  // New 4MES
+  &.input-xs {
+    padding: @padding-xs-vertical @padding-xs-horizontal;
+    font-size: @font-size-xs;
+    border-radius: @input-border-radius-xs;
+  }
   &.input-sm {
     padding: @padding-small-vertical @padding-small-horizontal;
     font-size: @font-size-small;
@@ -158,7 +170,8 @@
   &:first-child {
     > .btn,
     > .btn-group {
-      margin-right: -1px;
+      z-index: 3; // fixed to make glossy right border when btn status is actvie in right side input-group-btn
+      margin-right: -2px; // fixed to remove space of right side 
     }
   }
   &:last-child {
