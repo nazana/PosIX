@@ -57,8 +57,10 @@
 }
 
 // Button sizes
-.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
-  padding: @padding-vertical @padding-horizontal;
+//.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+//  padding: @padding-vertical @padding-horizontal;
+.button-size(@padding-top; @padding-right; @padding-bottom; @padding-left; @font-size; @line-height; @border-radius) {
+  padding: @padding-top @padding-right @padding-bottom @padding-left;
   font-size: @font-size;
   line-height: @line-height;
   border-radius: @border-radius;

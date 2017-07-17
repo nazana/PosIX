@@ -19,6 +19,7 @@
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
 @brand-danger:          #d9534f;
+@brand-mes:             #3375BF; //add PosIX 4MES (#004D99)
 
 
 //== Scaffolding
@@ -45,7 +46,7 @@
 //                   button, form height : 24px, 20px(in Table)
 //                   table td height : 24px
 
-@font-family-sans-serif:  "Malgun Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-sans-serif:  "Malgun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -92,21 +93,29 @@
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 //## PosIX button, form size : height 20px, padding vertical: 2
 
-@padding-base-vertical:     6px;//6px;
+@padding-base-vertical:     3px;//6px;
 @padding-base-horizontal:   10px;//12px;
+@padding-base-top:          2px;
+@padding-base-bottom:       4px;
 
 @padding-large-vertical:    3px;//10px;
 @padding-large-horizontal:  12px;//16px;
+@padding-large-top:         3px;
+@padding-large-bottom:      6px;
 
 @padding-small-vertical:    1px;//5px;
 @padding-small-horizontal:  8px;//10px;
+@padding-small-top:         1px;
+@padding-small-bottom:      2px;
 
 @padding-xs-vertical:       1px;//1px;
 @padding-xs-horizontal:     6px;
+@padding-xs-top:            0px;
+@padding-xs-bottom:         2px;
 
 @line-height-large:         1.444444444444444;//1.3333333; // extra decimals for Win 8.1 Chrome
 @line-height-small:         @line-height-base;//1.5;
-@line-height-xs:        1.166666666666667;// New 4MES
+@line-height-xs:            1.166666666666667;// New 4MES
 
 @border-radius-base:        4px;
 @border-radius-large:       6px;
@@ -175,10 +184,14 @@
 @btn-danger-bg:                  @brand-danger;
 @btn-danger-border:              darken(@btn-danger-bg, 5%);
 
-// added value for PosIX(MES)
-@btn-link-color:                 #fff;
-@btn-link-bg:                    @brand-danger;
-@btn-link-border:                darken(@btn-link-bg, 5%);
+// added PosIX value 4MES
+@btn-mes-color:                  @brand-mes;
+@btn-mes-bg:                     #fff;
+@btn-mes-border:                 @brand-mes;
+
+@btn-visit-color:                #fff;
+@btn-visit-bg:                   @brand-mes;
+@btn-visit-border:               darken(@btn-visit-bg, 5%);
 
 @btn-link-disabled-color:        @gray-light;
 
@@ -199,7 +212,7 @@
 @input-bg-disabled:              @gray-lighter;
 
 //** Text color for `<input>`s
-@input-color:                    @gray;
+@input-color:                    @gray-dark; //@gray
 //** `<input>` border color
 @input-border:                   #ccc;
 
@@ -211,23 +224,27 @@
 @input-border-radius-large:      @border-radius-large;
 //** Small `.form-control` border radius
 @input-border-radius-small:      @border-radius-small;
-//** XSmall `.form-control` border radius. New 4MES
+//** XSmall `.form-control` border radius. added 4MES
 @input-border-radius-xs:         @border-radius-xs;
 
 //** Border color for inputs on focus
 @input-border-focus:             #66afe9;
 
 //** Placeholder text color
-@input-color-placeholder:        #999;
+@input-color-placeholder:        lighten(@gray-dark,40%); //#999;
 
 //** Default `.form-control` height
-@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2) + 2);
+//@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2) + 2);
+@input-height-base:              (@line-height-computed + (@padding-base-top + @padding-base-bottom) + 2);
 //** Large `.form-control` height
-@input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
+//@input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
+@input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-top + @padding-large-bottom) + 2);
 //** Small `.form-control` height
-@input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
-//** XSmall `.form-control` height
-@input-height-xs:                (floor(@font-size-xs * @line-height-xs) + (@padding-xs-vertical * 2) + 2);
+//@input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
+@input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-top + @padding-small-bottom) + 2);
+//** XSmall `.form-control` height. added 4MES
+//@input-height-xs:                (floor(@font-size-xs * @line-height-xs) + (@padding-xs-vertical * 2) + 2);
+@input-height-xs:                (floor(@font-size-xs * @line-height-xs) + (@padding-xs-top + @padding-xs-bottom) + 2);
 
 //** `.form-group` margin
 @form-group-margin-bottom:       15px;

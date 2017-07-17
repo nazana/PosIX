@@ -1,90 +1,189 @@
 <html>
+
 <head lang="kr">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <title></title>
 
   <!-- Bootstrap core CSS -->
   <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body{
-      font-family: "Helvetica Nene", Helvetica, Arial, "malgun gothic", sans-serif;
-    }
+
+
   </style>
 </head>
+
 <body>
-<div class="container">
-  <div>
-    <h1>Bootstrap 부트스트랩</h1>
-  </div>
-<!--
-  <div>
-    <h3>Default</h3>
-    <button type="button" id="btn1" class="btn btn-default">디펄트</button>
-    <input type="text" id="form1" class="form-control" val="" placeholder="search">
-  </div>
-  <BR>
-  <div>
-    <h3>Extra Small</h3>
-    <button type="button" id="btn1" class="btn btn-default btn-xs">엑스스몰</button>
-    <input type="text" id="form1" class="form-control input-xs" val="" placeholder="search">
-  </div>
-  <BR>
-  <div>
-    <h3>Small</h3>
-    <button type="button" id="btn1" class="btn btn-default btn-sm">스몰</button>
-    <input type="text" id="form1" class="form-control input-sm" val="" placeholder="search">
-  </div>
-  <BR>
-  <div>
-    <h3>Large</h3>
-    <button type="button" id="btn1" class="btn btn-default btn-lg">라지</button>
-    <input type="text" id="form1" class="form-control input-lg" val="" placeholder="search">
-  </div>
-  <BR>
--->
-  <div>
-    <h3>Button</h3>
-    <button type="button" id="btn1" class="btn btn-default btn-xs">코리안lg</button>
-    <button type="button" id="btn1" class="btn btn-default btn-sm">코리안lg</button>
-    <button type="button" id="btn1" class="btn btn-default">코리안lg</button>
-    <button type="button" id="btn1" class="btn btn-default btn-lg">코리안lg</button>
-  </div>
-  <BR>
-  <div>
-    <h3>Input</h3>
-    <div class="row">
-      <input type="text" id="form1" class="form-control input-xs col-md-3" value="" placeholder="search">
-      <input type="text" id="form1" class="form-control input-sm col-md-3" value="" placeholder="search">
-      <input type="text" id="form1" class="form-control col-md-3" value="" placeholder="search">
-      <input type="text" id="form1" class="form-control input-lg col-md-3" value="" placeholder="search">
+  <div class="container">
+    <div>
+      <h1><B>Bootstrap 4MES</B></h1>
     </div>
-  </div>
-  <div class="row">
-    <h3>Input + input group btn</h3>
-    <div class="col-lg-6">
-      <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">Go!</button>
-        </span>
-        <input type="text" class="form-control" placeholder="Search for...">
-      </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-    <div class="col-lg-6">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">Go!</button>
-        </span>
-      </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-  </div><!-- /.row -->
-</div>
+    <div>
+      <h2><B>Button & Form</B></h2>
+      <div class="row">
+        <h3>Button size</h3>
+        <button type="button" id="btn1" class="btn btn-xs">btn-xs</button>
+        <button type="button" id="btn1" class="btn btn-sm">btn-sm</button>
+        <button type="button" id="btn1" class="btn">btn</button>
+        <button type="button" id="btn1" class="btn btn-lg">btn-lg</button>
+      </div>
+      <div class="row">
+        <h3>Button color</h3>
+        <div>
+          <!-- Standard button -->
+          <button type="button" class="btn">btn</button>
+
+          <!-- Indicates a linked action for MES -->
+          <button type="button" class="btn btn-visit">btn-visit</button>
+
+          <!-- Default button -->
+          <button type="button" class="btn btn-default">btn-default</button>
+
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <button type="button" class="btn btn-primary">btn-primary</button>
+
+          <!-- Indicates a successful or positive action -->
+          <button type="button" class="btn btn-success">btn-success</button>
+
+          <!-- Contextual button for informational alert messages -->
+          <button type="button" class="btn btn-info">btn-info</button>
+
+          <!-- Indicates caution should be taken with this action -->
+          <button type="button" class="btn btn-warning">btn-warning</button>
+
+          <!-- Indicates a dangerous or potentially negative action -->
+          <button type="button" class="btn btn-danger">btn-danger</button>
+          
+          <!-- Indicates linked action -->
+          <button type="button" class="btn btn-link">btn-link</button>
+
+        </div>
+
+      </div>
+      <div class="row">
+        <h3>Input</h3>
+        <div class="row form-inline">
+          <div class="col-md-3 form-group">
+            <input type="text" id="form1" class="form-control input-xs" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+          <input type="text" id="form1" class="form-control input-sm" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+          <input type="text" id="form1" class="form-control" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+          <input type="text" id="form1" class="form-control input-lg" value="" placeholder="search">
+          </div>
+        </div>
+      </div>
+      <BR>
+      <div class="row">
+        <h3>Input + input group btn</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-xs">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-xs">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-sm">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-lg">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR>
+      </div>
+      <!-- /.row -->
+    </div>
 
 </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
-  <script src="../dist/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')
+
+</script>
+<script src="../dist/js/bootstrap.min.js"></script>
+
 </html>
