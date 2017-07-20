@@ -15,7 +15,7 @@ select.selectpicker {
   width: 220px \0; /*IE9 and below*/
 
   // The selectpicker button
-  > .dropdown-toggle {
+  &:not(.combobox) > .dropdown-toggle {
     width: 100%;
     padding-right: 25px;
     z-index: 1;
@@ -156,15 +156,16 @@ select.selectpicker {
       width: 100%;
       text-align: left;
     }
+  }
 
-    .caret {
+  // fixed caret to use combobox
+  &:not(.combobox) .dropdown-toggle .caret {
       position: absolute;
       top: 50%;
       right: 12px;
       margin-top: -2px;
       vertical-align: middle;
     }
-  }
 
   &[class*="col-"] .dropdown-toggle {
     width: 100%;

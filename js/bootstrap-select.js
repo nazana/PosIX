@@ -479,6 +479,7 @@
       // If we are multiple or showTick option is set, then add the show-tick class
       var showTick = (this.multiple || this.options.showTick) ? ' show-tick' : '',
           inputGroupBtn = this.inputGroup ? ' input-group-btn' : '',
+          inputCombobox = this.combobox? ' combobox' :  '',
           autofocus = this.autofocus ? ' autofocus' : '';
       // Elements
       var header = this.options.header ? '<div class="popover-title"><button type="button" class="close" aria-hidden="true">&times;</button>' + this.options.header + '</div>' : '';
@@ -510,7 +511,7 @@
       '</div>'
           : '';
       var drop =
-          '<div class="btn-group bootstrap-select' + showTick + inputGroupBtn + '">' +
+          '<div class="btn-group bootstrap-select' + showTick + inputGroupBtn + inputCombobox + '">' +
           '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" data-toggle="dropdown"' + autofocus + ' role="button">' +
           '<span class="filter-option pull-left"></span>' + 
           '<span class="bs-caret">' +

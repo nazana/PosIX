@@ -6080,15 +6080,15 @@ select.selectpicker {
   width: 220px \0;
   /*IE9 and below*/
 }
-.bootstrap-select > .dropdown-toggle {
+.bootstrap-select:not(.combobox) > .dropdown-toggle {
   z-index: 1;
   width: 100%;
   padding-right: 25px;
 }
-.bootstrap-select > .dropdown-toggle.bs-placeholder,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:active {
+.bootstrap-select:not(.combobox) > .dropdown-toggle.bs-placeholder,
+.bootstrap-select:not(.combobox) > .dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select:not(.combobox) > .dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select:not(.combobox) > .dropdown-toggle.bs-placeholder:active {
   color: #999;
 }
 .bootstrap-select > select {
@@ -6190,7 +6190,7 @@ select.selectpicker {
   overflow: hidden;
   text-align: left;
 }
-.bootstrap-select.btn-group .dropdown-toggle .caret {
+.bootstrap-select.btn-group:not(.combobox) .dropdown-toggle .caret {
   position: absolute;
   top: 50%;
   right: 12px;
