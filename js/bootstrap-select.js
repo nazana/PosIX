@@ -3,7 +3,7 @@
  *
  * Copyright 2013-2017 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
- * Modified by Kyongbo Shim (For Korean Search, v1.12.3.1)
+ * Modified by Kyongbo Shim (For Korean Search, v1.12.3.2)
  */
 
 (function (root, factory) {
@@ -826,7 +826,10 @@
      */
     setStyle: function (style, status) {
       if (this.$element.attr('class')) {
-        this.$newElement.addClass(this.$element.attr('class').replace(/selectpicker|mobile-device|bs-select-hidden|validate\[.*\]/gi, ''));
+        this.$newElement.addClass(this.$element.attr('class')
+          .replace(/btn-lg|btn-sm|btn-xs/gi, function ch(str){return str.replace(/-/,'-group-')}) // Increase developer convenience
+          .replace(/input-lg|input-sm|input-xs/gi, function ch(str){return str.replace(/-/,'-group-')})
+          .replace(/selectpicker|mobile-device|bs-select-hidden|validate|btn-lg|btn-sm|btn-xs\[.*\]/gi, ''));
       }
 
       var buttonClass = style ? style : this.options.style;

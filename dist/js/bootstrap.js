@@ -2772,8 +2772,6 @@ if (typeof jQuery === 'undefined') {
       this.liObj = {};
       this.inputGroup = this.$element.parent().hasClass('input-group') ? true : false;
       this.combobox = this.$element.siblings('input').hasClass('combobox') ? true : false;
-//      this.btnSize = this.$element.hasClass('btn-lg btn-xs btn-sm') ? true : false;
-      console.log(this.$element.hasClass('btn-lg btn-xs btn-sm') ? true : false);
       this.multiple = this.$element.prop('multiple');
       this.autofocus = this.$element.prop('autofocus');
       this.$newElement = this.createView();
@@ -3206,7 +3204,10 @@ if (typeof jQuery === 'undefined') {
      */
     setStyle: function (style, status) {
       if (this.$element.attr('class')) {
-        this.$newElement.addClass(this.$element.attr('class').replace(/selectpicker|mobile-device|bs-select-hidden|validate\[.*\]/gi, ''));
+        this.$newElement.addClass(this.$element.attr('class')
+          .replace(/btn-lg|btn-sm|btn-xs/gi, function ch(str){return str.replace(/-/,'-group-')}) // Increase developer convenience
+          .replace(/input-lg|input-sm|input-xs/gi, function ch(str){return str.replace(/-/,'-group-')})
+          .replace(/selectpicker|mobile-device|bs-select-hidden|validate|btn-lg|btn-sm|btn-xs\[.*\]/gi, ''));
       }
 
       var buttonClass = style ? style : this.options.style;
