@@ -2705,7 +2705,8 @@ fieldset[disabled] .checkbox label {
   padding-right: 0;
   padding-left: 0;
 }
-.input-xs {
+.input-xs,
+.bootstrap-select.btn-group-xs .bs-searchbox .form-control {
   height: 18px;
   padding: 0 6px 2px 6px;
   font-size: 12px;
@@ -2742,7 +2743,8 @@ select[multiple].input-xs {
   font-size: 12px;
   line-height: 1.16666667;
 }
-.input-sm {
+.input-sm,
+.bootstrap-select.btn-group-sm .bs-searchbox .form-control {
   height: 20px;
   padding: 1px 8px 2px 8px;
   font-size: 14px;
@@ -2780,7 +2782,8 @@ select[multiple].input-sm {
   font-size: 14px;
   line-height: 1.1;
 }
-.input-lg {
+.input-lg,
+.bootstrap-select.btn-group-lg .bs-searchbox .form-control {
   height: 32px;
   padding: 2px 12px 6px 12px;
   font-size: 18px;
@@ -6076,8 +6079,9 @@ select.bs-select-hidden,
 select.selectpicker {
   display: none !important;
 }
-.bootstrap-select {
+.bootstrap-select:not(.combobox) {
   width: auto;
+  /*IE9 and below*/
   min-width: 50px;
 }
 .bootstrap-select:not(.combobox) > .dropdown-toggle {
@@ -6155,11 +6159,13 @@ select.selectpicker {
   margin-bottom: 0;
 }
 .form-group-lg .bootstrap-select.btn-group.form-control,
-.form-group-sm .bootstrap-select.btn-group.form-control {
+.form-group-sm .bootstrap-select.btn-group.form-control,
+.form-group-xs .bootstrap-select.btn-group.form-control {
   padding: 0;
 }
 .form-group-lg .bootstrap-select.btn-group.form-control .dropdown-toggle,
-.form-group-sm .bootstrap-select.btn-group.form-control .dropdown-toggle {
+.form-group-sm .bootstrap-select.btn-group.form-control .dropdown-toggle,
+.form-group-xs .bootstrap-select.btn-group.form-control .dropdown-toggle {
   height: 100%;
   font-size: inherit;
   line-height: inherit;
@@ -6292,6 +6298,21 @@ select.selectpicker {
 }
 .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
   margin-right: 34px;
+}
+.btn-group-lg.bootstrap-select.btn-group .dropdown-menu > li > a,
+.input-group-lg .bootstrap-select.btn-group .dropdown-menu > li > a {
+  font-size: 18px;
+  line-height: 1.22222222;
+}
+.btn-group-sm.bootstrap-select.btn-group .dropdown-menu > li > a,
+.input-group-sm .bootstrap-select.btn-group .dropdown-menu > li > a {
+  font-size: 14px;
+  line-height: 1.1;
+}
+.btn-group-xs.bootstrap-select.btn-group .dropdown-menu > li > a,
+.input-group-xs .bootstrap-select.btn-group .dropdown-menu > li > a {
+  font-size: 12px;
+  line-height: 1.16666667;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle {
   z-index: 1061;

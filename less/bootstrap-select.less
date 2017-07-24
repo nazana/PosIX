@@ -12,9 +12,11 @@ select.selectpicker {
 }
 
 .bootstrap-select {
-//  width: auto; /*IE9 and below*/
-  width: auto;
-  min-width: 50px;
+
+  &:not(.combobox) {
+    width: auto; /*IE9 and below*/
+    min-width: 50px;
+  }
 
   // The selectpicker button
   &:not(.combobox) > .dropdown-toggle {
@@ -115,7 +117,8 @@ select.selectpicker {
   }
 
   .form-group-lg &.form-control,
-  .form-group-sm &.form-control {
+  .form-group-sm &.form-control,
+  .form-group-xs &.form-control {
     padding: 0;
 
     .dropdown-toggle {
@@ -283,6 +286,31 @@ select.selectpicker {
       margin-right: 34px;
     }
   }
+  
+  // dropdown-menu font size which group size
+  .btn-group-lg& .dropdown-menu,
+  .input-group-lg & .dropdown-menu {
+    & > li > a {
+      font-size: @font-size-large;
+      line-height: @line-height-large;
+    }
+  }
+
+  .btn-group-sm& .dropdown-menu,
+  .input-group-sm & .dropdown-menu {
+    & > li > a {
+      font-size: @font-size-small;
+      line-height: @line-height-small;
+    }
+  } 
+
+  .btn-group-xs& .dropdown-menu,
+  .input-group-xs & .dropdown-menu {
+    & > li > a {
+      font-size: @font-size-xs;
+      line-height: @line-height-xs;
+    }
+  } 
 }
 
 .bootstrap-select.show-menu-arrow {
@@ -385,4 +413,9 @@ select.selectpicker {
     width: 100%;
     float: none;
   }
+  
+   // Dropdown-menu font-size which btn-group size
+  .bootstrap-select.btn-group-lg & .form-control { &:extend(.input-lg); }
+  .bootstrap-select.btn-group-sm & .form-control { &:extend(.input-sm); }
+  .bootstrap-select.btn-group-xs & .form-control { &:extend(.input-xs); }
 }
