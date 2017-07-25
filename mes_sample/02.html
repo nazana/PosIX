@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="X-UA-Compatible" content="IE=9">
+<title>PosMC 전단실적 조회 및 등록</title>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/venus.css" type="text/css">
+
+<style>
+/* Ensure that the demo table scrolls */
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 1330px;
+        margin: 0 auto;
+    }
+</style>
+
+<script language="javascript" src="js/jquery.min.js"></script>
+<script language="javascript" src="js/jquery-ui.min.js"></script>
+<script language="javascript" src="js/venus.js"></script>
+<script language="javascript" src="js/venusUtil.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#mes-header').mesheader();
+
+    //작업일자 달력 설정
+    $('[data-calendar]').datetimepicker({
+        locale: 'ko',
+        dayViewHeaderFormat: 'YYYY MMMM',
+        format: 'YYYY-MM-DD',
+        defaultDate: '2017-02-09'
+    });
+
+    var $form = $("form[name=form1]");
+    var postURL = $form.attr("action");
+
+    var tblMainApi = $('#form1 #tblMain').DataTable({
+        info: false,
+        paging: false,
+        searching: true,
+        ordering: true,
+        scrollX: true,
+        scrollY: "463px",
+        scrollCollapse: true,
+        select: true,
+        fixedColumns: true, //{ leftColumns: 2 }, //fixedColumns를 적용하면 IE9에서는 깨짐 
+        dom: 'lBiftp',
+        buttons: ['create', 'remove', 'edit', 'excel','colvis'],
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'dt-body-center',
+            }
+        ],
+        columns: [
+            { data: "a0"},
+            { data: "a1"},
+            { data: "a2"},
+            { data: "a3"},
+            { data: "a4"},
+            { data: "a5"},
+            { data: "a6"},
+            { data: "a7"},
+            { data: "a8"},
+            { data: "a9"},
+
+            { data: "a10"},
+            { data: "a11"},
+            { data: "a12"},
+            { data: "a13"},
+            { data: "a14"},
+            { data: "a15"},
+            { data: "a16"},
+            { data: "a17"},
+            { data: "a18"},
+            { data: "a19"},
+
+            { data: "a20"},
+            { data: "a21"},
+            { data: "a22"},
+            { data: "a23"},
+            { data: "a24"},
+            { data: "a25"},
+            { data: "a26"},
+            { data: "a27"},
+            { data: "a28"},
+            { data: "a29"},
+
+            { data: "a30"},
+            { data: "a31"},
+            { data: "a32"},
+            { data: "a33"},
+            { data: "a34"},
+            { data: "a35"},
+            { data: "a36"},
+            { data: "a37"},
+            { data: "a38"},
+            { data: "a39"}
+        ]
+    });
+
+    $(window).resize( function () {
+        tblMainApi.columns.adjust();
+    });
+
+    //사후정비의뢰 버튼 클릭했을 때
+    $('#form1 #btn_request_repair').click(function() {
+        openModalNewly({
+            url: "http://ppmtsa.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r010&NS_FKEY=m510200602pop02_f001&infoMode=A",
+            data: {
+                'infoMode': 'A',
+                'WorksCode': 'P'
+            }
+        });
+    });
+});
+
+</script>
+</head>
+
+
+<body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0" onLoad="">
+  <form name="form1" id="form1" method="post" action="/M51/M51A10/m510200301" class="form-horizontal" role="form">
+    
+    
+    <SCRIPT language='JavaScript'>
+var arrSerial = Array("380338B1952CB64D67716522D672DDE5");
+</SCRIPT>
+
+  <input type="hidden" name="NS_RKEY" value="m51a_r010">
+  <input type="hidden" name="NS_FKEY" value="m510200301_f003">
+  <input type="hidden" name="NS_MKEY" value="2107556">
+  <input type="hidden" name="NS_MKEY" value="2107428">
+  
+                    <div id='mes-header' data-menu='{"menuData":[{"MenuName":"포-철도운전-운전관리자","MenuLevel":"0","MenuURL":""},{"MenuName":"기관차운행진행관리","MenuLevel":"1","MenuURL":""},{"MenuName":"철도차량실시간Tracking","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510100201?NS_FKEY=m510100201_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차PDAmenu","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m511100010pda?NS_FKEY=m511100010pda_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행지시모니터링","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200201?NS_FKEY=m510200201_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행승인요청정보수정","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200203?NS_FKEY=m510200203_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도차량운행정보","MenuLevel":"1","MenuURL":""},{"MenuName":"철도차량실시간Tracking","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510100201?NS_FKEY=m510100201_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량진행이력조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200305?NS_FKEY=m510200305_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량모니터링관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200301?NS_FKEY=m510200301_f003&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량교대위치모니터링","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200306?NS_FKEY=m510200306_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차탑승승무원관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200304?NS_FKEY=m510200304_f002&NS_RKEY=m51a_r010"},{"MenuName":"기관차승무원배차관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200303?NS_FKEY=m510200303_f002&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행기록관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200302?NS_FKEY=m510200302_f002&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비기준관리","MenuLevel":"1","MenuURL":""},{"MenuName":"장설비제원기준조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200501?NS_FKEY=m510200501_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도차량정비예측정보조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200502?NS_FKEY=m510200502_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비진행관리","MenuLevel":"1","MenuURL":""},{"MenuName":"기관차\/TLC\/OLC\/신호\/부대설비 예방정비편성관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200601?NS_FKEY=m510200601_f005&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비진행관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200602?NS_FKEY=m510200602_f004&NS_RKEY=m51a_r010"},{"MenuName":"사후정비의뢰(코렘)","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200602pop02?NS_FKEY=m510200602pop02_f101&NS_RKEY=m51a_r010"},{"MenuName":"철도선로정비진행관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200604?NS_FKEY=m510200604_f004&NS_RKEY=m51a_r010"},{"MenuName":"변동작업의뢰(철도주임)","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200604pop01?NS_FKEY=m510200604pop01_f003&NS_RKEY=m51a_r010"},{"MenuName":"철도휠관리조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200603?NS_FKEY=m510200603_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비실적관리","MenuLevel":"1","MenuURL":""},{"MenuName":"철도장설비정비이력조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200701?NS_FKEY=m510200701_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비비용결과이력","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200703?NS_FKEY=m510200703_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비별정비실적조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200706?NS_FKEY=m510200706_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제 지표","MenuLevel":"1","MenuURL":""},{"MenuName":"철도관제일일속보조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300107?NS_FKEY=m510300107_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제일일속보상세실적","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300107pop03?NS_FKEY=m510300107pop03_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제지표조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300104?NS_FKEY=m510300104_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제지표계획조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300106?NS_FKEY=m510300106_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도선로정비지표","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300101?NS_FKEY=m510300101_f001&NS_RKEY=m51a_r010"},{"MenuName":"TLC적정운영대수점검","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m511000101?NS_FKEY=m511000101_f001&NS_RKEY=m51a_r010"}]}'  workscode="P"></div>
+
+
+
+    <div class="mes-condition-wrap">
+      <!--conditionArea 시작(조회영역)-->
+      <div class="well mes-condition">
+        <table>
+          <col width="8%"><col width="10%">
+          <col width="8%"><col width="10%">
+          <col width="10%"><col width="10%">
+          <col width="44%">
+          <tr>
+            <th>공장</th>
+            <td>
+              <select name="f1" class="selectpicker" data-style='btn-mes-selectList'>
+                <option value="1" selected>1연주</option>
+                <option value="2">2연주</option>
+                <option value="3">3연주</option>
+                <option value="4">4연주</option>
+              </select>
+            </td>
+            <th>M/C</th>
+            <td>
+              <select name="f2" class="selectpicker" data-style='btn-mes-selectList'>
+                <option value="1" selected>PosMC</option>
+                <option value="2">2연주</option>
+                <option value="3">3연주</option>
+                <option value="4">4연주</option>
+              </select>
+            </td>
+            <th>Charge번호</th>
+            <td>
+              <select name="f3" class="selectpicker" data-style='btn-mes-selectList'>
+                <option value="SA24929">SA24929</option>
+                <option value="SA24930">SA24930</option>
+                <option value="SA24931">SA24931</option>
+                <option value="SA24932">SA24932</option>
+                <option value="SA24933">SA24933</option>
+                <option value="SA24934">SA24934</option>
+                <option value="SA24935">SA24935</option>
+                <option value="SA24936,SA24937" selected>SA24936,SA24937</option>
+                <option value="SA24937">SA24937</option>
+                <option value="SA24938">SA24938</option>
+                <option value="SA24939">SA24939</option>
+                <option value="SA24940">SA24940</option>
+                <option value="SA24941">SA24941</option>
+                <option value="SA24942">SA24942</option>
+                <option value="SA24943">SA24943</option>
+                <option value="SA24944">SA24944</option>
+                <option value="SA24945">SA24945</option>
+                <option value="SA24946">SA24946</option>
+                <option value="SA24947">SA24947</option>
+                <option value="SA24948">SA24948</option>
+                <option value="SA24949">SA24949</option>
+                <option value="SA24950">SA24950</option>
+                <option value="SA24951">SA24951</option>
+              </select>
+            </td>
+            <td>&nbsp;</td>
+            <!--
+            <th>M/C</th>
+            <td>
+              <div class="input-group input-group-mes date" data-calendar="infoOpSumupDtFmt" style="width: 130px;">
+                <input type="text" class="form-control" name="infoOpSumupDtFmt" value="2017-02-09">
+                <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+              </div>
+            </td>
+            -->
+          </tr>
+        </table>
+        <!-- 조회버튼 -->
+        <button class="btn btn-search-big" type="button" id="btn_find">
+          <div class="btn-search-big-inner">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">조회</span>
+          </div>
+        </button>
+      </div>
+      <!-- conditionArea 끝 -->
+      <div class="mes-condition-hide-btn">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </div>
+    </div>
+    <!--버튼영역-->
+    <div class="mes-btn-area">
+      <button type="button" id="btn_enter"            class="btn btn-link btn-mes">SLAB칫수허용범위조회</button>
+      <button type="button" id="btn_modify"           class="btn btn-link btn-mes">PosMC전단지시조회</button>
+    </div>
+    <!--버튼영역끝-->
+    
+    <div class="mes-wrap">
+      <div class="panel panel-transparent">
+        <!--테이블 titLine-->
+        <!--테이블 contentLine-->
+        <div class="panel-body">
+          <table id="tblSub" class="table display">
+            <TR>
+                <TH class="blue3 center">예정NO</TD>
+                <TD class="white center">SBPB7349</TD>
+                <TH class="blue3 center">SEQ NO</TD>
+                <TD class="white center">5-5</TD>
+                <TH class="blue3 center">용강특성</TD>
+                <TD class="white center">PZP37</TD>
+                <TH class="blue3 center">출강목표</TD>
+                <TD class="white center">V15110L5XX</TD>
+                <TH class="blue3 center">성분판정</TD>
+                <TD class="white center">P</TD>
+                <TH class="blue3 center">2차정련</TD>
+                <TD class="white center">H1</TD>
+                <TH class="blue3 center">주편사용제한</TD>
+                <TD class="white center">&nbsp;</TD>
+            </TR>
+            <TR>
+                <TH class="blue3 center">경압하</TD>
+                <TD class="gray3 center"><font color=blue><B>A</TD>
+                <TH class="blue3 center">총주편수</TD>
+                <TD class="gray3 center">9</TD>
+                <TH class="blue3 center">총주편량</TD>
+                <TD class="gray3 center">309910</TD>
+                <TH class="blue3 center">제품구분</TD>
+                <TD class="gray3 center">P</TD>
+                <TH class="blue3 center">특수원소</TD>
+                <TD class="gray3 center">SL</TD>
+                <TH class="blue3 center">전단일시</TD>
+                <TD class="gray3 center">02-09 08:26</TD>
+                <TH class="blue3 center">말주편목표길이</TD>
+                <TD class="gray3 center">0</TD>
+            </TR>
+          </table>
+        </div>
+      </div>
+          
+      <div class="panel panel-transparent">
+        <!--테이블 titLine-->
+        <!-- div class="panel-heading">
+          <span class="mtit">조회목록</span>
+          <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+        </div -->
+        <!--테이블 contentLine-->
+        <div class="panel-body">
+          <table id="tblMain" class="table display">
+            <thead>
+              <tr class="blue3 center middle">
+                <th rowspan=2>주편NO</TD>
+                <th rowspan=2>STR</TD>
+                <th rowspan=2>두께</TD>
+                <th colspan=2>폭</TD>
+                <th colspan=2>길이</TD>
+                <th rowspan=2>중량</TD>
+                <th colspan=2>HCR</TD>
+                <th rowspan=2>행선</TD>
+                <TH colspan=3>S/F</TD>
+                <TH rowspan=2>배폭<BR>구분</TD>
+                <TH rowspan=2>냉<BR>각</TD>
+                <TH rowspan=2>시편<BR>지시</TD>
+                <TH rowspan=2>주편<BR>지정</TD>
+                <TH rowspan=2>이강종</TD>
+                <TH colspan=2>여재</TD>
+                <TH rowspan=2 title="REJECT원인">REJ<BR>원인</TD>
+                <TH rowspan=2>품질<BR>TRK</TD>
+                <TH colspan=3>S/F부여</TD>
+                <TH rowspan=2>가열로장입<BR>LOT번호</TD>
+                <TH rowspan=2>품질대표<br>여부</TD>
+                <TH colspan=2>MixedZone위치</TD>
+                <TH rowspan=2>TRIM</TD>
+                <TH rowspan=2>규격</TD>
+                <TH rowspan=2>제품<BR>두께</TD>
+                <TH rowspan=2>L-Code<BR>대표주편</TD>
+                <TH rowspan=2>압연<BR>지시</TD>
+                <TH rowspan=2>산적LOT코드</TD>
+                <TH rowspan=2>분류코드</TD>
+                <TH rowspan=2>분류명</TD>
+                <TH colspan=2>품질예측</TD>
+
+              </TR>
+              <tr class="blue5 center middle">
+                <th>시작폭</TD>
+                <th>끝폭</TD>
+                <th>지시</TD>
+                <th>실적</TD>
+                <th>지</TD>
+                <th>실</TD>
+                <TH title="최초지시손질방법">초</TD>
+                <TH title="지시손질방법">지</TD>
+                <TH title="대표실적손질방법">실</TD>
+                <TH>지시</TD>
+                <TH>TRK'</TD>
+                <TH>CD</TD>
+                <TH>원인</TD>
+                <TH>특기</TD>
+                <TH>시작</TD>
+                <TH>끝</TD>
+                <TH>결과</TD>
+                <TH>S/F</TD>
+              </TR>
+              </tr>
+            </thead>
+            <tbody>
+<TR>
+  <td>SA24936 01</td>
+  <td>1</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>C</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+<TR>
+  <td>SA24936 02</td>
+  <td>1</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>M</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+<TR>
+  <td>SA24936 01</td>
+  <td>1</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>D</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+<TR>
+  <td>SA24936 51</td>
+  <td>2</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>C</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+<TR>
+  <td>SA24936 52</td>
+  <td>2</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>M</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+<TR>
+  <td>SA24936 51</td>
+  <td>2</td>
+  <td>700</td>
+  <td>1800</td>
+  <td>1800</td>
+  <td>4900</td>
+  <td>4900</td>
+  <td>48300</td>
+  <td>C</td>
+  <td>C</td>
+  <td>P2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>A</td>
+  <td></td>
+  <td>D</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>S</td>
+  <td>EN-S275JRAR</td>
+  <td>15.01</td>
+  <td></td>
+  <td>N</td>
+  <td>PBHP115240021H</td>
+  <td>TPA00</td>
+  <td>TMCP강재-후판-핵심</td>
+  <td>0</td>
+  <td></td>
+</TR>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+</html>

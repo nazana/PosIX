@@ -1,0 +1,155 @@
+<!-- (ver3.1) -->
+A.t:link     {font-family:µ¸¿ò,verdana;  color:#3B3B3B; text-decoration:none;}
+A.t:visited  {font-family:µ¸¿ò,verdana;  color:64AE4A;  text-decoration:none;}
+A.t:hover    {font-family:µ¸¿ò,verdana;  color:#009711; text-decoration:underline;}
+
+BODY { font-size:30pt }
+
+
+
+/// Input Tag Style
+
+.input1         {font-family:"µ¸¿ò","Verdana"; font:24px;width:130;margin-top:1px}
+.solid          {font-family:"µ¸¿ò","Verdana"; font:242px;color:#4A4A4A; border: 1x solid #999999;}
+.adf            {border-width:1px; background-color:#5b90bf; border-color:#404040;font:24px;color:white; text-align: left;}
+.adb            {border-width:1px; background-color:white; border-color:#404040;font:24px;text-align: left;}
+
+.adf1           {border-width:1px; background-color:#E9F3FE; border-color:#404040;font:24px;text-align: left; padding-left:2}
+.adb1            {border-width:1px; background-color:white; border-color:#404040;font:24px;text-align: left;padding-left:2}
+.adb1_35            {border-width:1px; background-color:white; border-color:#404040;font:35px;text-align: left;padding-left:2}
+
+.adf2           {border-width:1px; background-color:#E9F3FE; border-color:#404040;font:24px;text-align: right; padding-right:2}
+.adb2            {border-width:1px; background-color:white; border-color:#404040;font:24px;text-align: right; padding-right:2}
+
+.fs{font:40px}
+.bott{font-size: 8pt;)
+//.Vagn{font-size:15pt; vertical-align:middle; }
+.Vagn{font-size:12px; vertical-align:middle  }
+.mkTb{width:100%;  height:100%; margin-left:0px;margin-top:0px;}
+
+.mkT{text-align:center; background-color:#000033; color:#FFFFFF; vertical-align:middle; font-size:24pt}
+.mkLT{text-align:center; background-color:#000033; color:#FFFFFF; vertical-align:middle}
+
+.mkRT{  width:5%; text-align:right; background-color:#C0C0C0; color:#FFFFFF; vertical-align:middle}
+
+.inStyle{text-align:left;border-width:0;font-weight:bold;font-size:15}
+
+.button1{font-size:24px;width:120px;height:40px;font-weight:bold;text-align:center; cursor:hand};
+.button1_1{font-size:24px;width:150px;height:40px;font-weight:bold;text-align:center; cursor:hand};
+.button1_2{font-size:24px;width:180px;height:40px;font-weight:bold;text-align:center; cursor:hand};
+.button1_2_N{font-size:34px;width:180px;height:40px;font-weight:bold;text-align:center; cursor:hand};
+.button1_N{font-size:34px;width:120px;height:40px;font-weight:bold;text-align:center; cursor:hand};
+.button2{font-size:28px;width:150px;height:54px;font-weight:bold;text-align:center; cursor:hand};
+.button2_1{font-size:28px;width:180px;height:54px;font-weight:bold;text-align:center; cursor:hand};
+.button2_N{font-size:40px;width:150px;height:54px;font-weight:bold;text-align:center; cursor:hand};
+.button3{font-size:28pt;width:300px;height:130px;font-weight:bold;text-align:center; cursor:hand};
+.button3_N{font-size:38pt;width:300px;height:130px;font-weight:bold;text-align:center; cursor:hand};
+.button4{font-size:28px;width:80px;height:54px;font-weight:bold;text-align:center; cursor:hand};
+.button5{font-size:28px;width:500px;height:100px;font-weight:bold;text-align:center; cursor:hand};
+.button5_1{font-size:38px;width:500px;height:100px;font-weight:bold;text-align:center; cursor:hand};
+.button6{font-size:28px;width:500px;height:60px;font-weight:bold;text-align:center; cursor:hand};
+
+.selectBox1{font-size:24px; width:80px;};
+
+.mkE{text-align: left; background-color:#000033; color:#FF9900;  vertical-align:middle }
+
+.mkB{    background-color:#C0C0C0;  padding:0pt; vertical-align:middle}
+.mkB_24{    background-color:#C0C0C0;  padding:0pt; vertical-align:middle; font-size:24px; }
+.mkIT{width:40%;  font-size:12px;  background-color:#D8E9FF; font-weight:normal; text-align:right; padding-right:3;text-decoration:none; vertical-align:middle  }
+.mkID{ } ///Ç×¸ñ(±ä¶óÀÎ)
+
+.info{
+    background-color:#FAFAFA; font-weight:normal;text-decoration:none }
+
+ table{font-family:"µ¸¿ò","Verdana";font-size:24px; vertical-align:middle; color:#3B3B3B }
+
+.tblb{
+   background-color:#EDF5FF; font-weight:normal;text-decoration:none    }
+
+.tbly{
+   background-color:#F9F9E8; text-align:right; padding-right:3;text-decoration:none }
+
+.tbldb{
+   background-color:#B3CDEE ; font-weight:normal;text-decoration:none;text-align:center }
+
+.tbllb{
+   background-color:#D8E9FF; font-size:24px; font-weight:bold;text-decoration:none;text-align:center }
+
+.tbllb_35{
+   background-color:#D8E9FF; font-size:35px; font-weight:bold;text-decoration:none;text-align:center }
+
+.tbllg{
+   background-color:#f5f5f5;font-size:24px; font-weight:bold;text-align:left;text-decoration:none;vertical-align:middle }
+
+.tbllg_35{
+   background-color:#f5f5f5;font-size:35px; font-weight:bold;text-align:left;text-decoration:none;vertical-align:middle }
+
+.tbllg_35C{
+   background-color:#f5f5f5;font-size:35px; font-weight:bold;text-align:left;text-decoration:none;vertical-align:middle;text-align:center }
+
+.tbllw{
+      background-color:#ffffff;   text-align:left;text-decoration:none
+     }
+
+.tblvdb{
+  background-color:#B3CDEE; font-weight:normal; text-align:right; padding-right:3;text-decoration:none
+    }
+
+.tblvlb{
+   background-color:#D8E9FF; font-size:24px; font-weight:bold; text-align:right; padding-right:3;text-decoration:none
+    }
+.tblvlbl{
+   background-color:#D8E9FF; font-size:24px; font-weight:bold; text-align:left; padding-right:3;text-decoration:none
+    }
+
+.tblrg{
+    background-color:#f5f5f5;  font-size:24px; font-weight:bold; text-align:right; padding-right:3;text-decoration:none
+     }
+
+.tblrw{
+    background-color:#ffffff;   text-align:right; padding-right:3;text-decoration:none
+     }
+.tblcw{
+      background-color:#ffffff;   text-align:center;text-decoration:none
+     }
+.tblcg{
+      background-color:#f5f5f5;  font-size:24px; font-weight:bold; text-align:center;text-decoration:none
+     }
+.tblrm{
+      background-color:#F7FFF4;   text-align:right;padding-right:3;text-decoration:none
+     }
+
+.tblcm{
+      background-color:#F7FFF4;   text-align:center;text-decoration:none
+     }
+
+.tbllm{
+      background-color:#F7FFF4;   text-align:left;text-decoration:none
+     }
+
+/// Scrollbar Style
+
+
+<!--
+-----------------------------------------------------------------------------------------------
+°³Á¤ÀÌ·Â
+
+  tblrm
+  tblcm
+  tbllm
+ (Ver3.1)³»¿ë Ãß°¡µÊ
+
+-->
+<!--
+body
+
+{scrollbar-face-color:#D7D7D7; scrollbar-highlight-color:#D7D7D7;
+scrollbar-3dlight-color: 666666; scrollbar-shadow-color:666666;
+scrollbar-darkshadow-color:#f5f5f5;scrollbar-track-color: ffffff;
+scrollbar-arrow-color:#4A4A4A;font-size:30pt}
+ (ver3.0)
+
+-->
+
+
+

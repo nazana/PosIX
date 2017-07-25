@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="X-UA-Compatible" content="IE=9">
+<title>CHARGE연주지시조회</title>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/venus.min.css" type="text/css">
+
+<script language="javascript" src="js/jquery.min.js"></script>
+<script language="javascript" src="js/jquery-ui.min.js"></script>
+<script language="javascript" src="js/venus.min.js"></script>
+<script language="javascript" src="js/venusUtil.js"></script>
+
+<script>
+
+var m510200301 = m510200301 || {};
+
+m510200301.colorDnF = 'black'; //편성완료 텍스트 색상
+m510200301.hasCompleted = false; //교대위치 편성 여부
+
+$(document).ready(function() {
+    $('#mes-header').mesheader();
+
+    //작업일자 달력 설정
+    $('[data-calendar]').datetimepicker({
+        locale: 'ko',
+        dayViewHeaderFormat: 'YYYY MMMM',
+        format: 'YYYY-MM-DD',
+        defaultDate: '2017-02-09'
+    });
+
+    var $form = $("form[name=form1]");
+    var postURL = $form.attr("action");
+
+    var tblMainApi = $('#form1 #tblMain').DataTable({
+        info: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        scrollY: "463px",
+        scrollCollapse: true,
+        select: {style: "single"},
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'dt-body-center',
+            },
+            {
+                targets: 3,
+                type: 'html',
+            }
+        ],
+        columns: [
+            { data: "a1"},
+            { data: "a2"},
+            { data: "a3"},
+            { data: "a4"},
+            { data: "a5"},
+            { data: "a6"},
+            { data: "a7"},
+            { data: "a8"},
+            { data: "a9"},
+            { data: "a10"},
+            
+            { data: "a11"},
+            { data: "a12"},
+            { data: "a13"},
+            { data: "a14"},
+            { data: "a15"},
+            { data: "a16"},
+            { data: "a17"},
+            { data: "a18"},
+            { data: "a19"},
+            { data: "a20"},
+            
+            { data: "a21"},
+            { data: "a22"},
+            { data: "a23"}
+            
+        ]
+    });
+
+    $(window).resize( function () {
+        tblMainApi.columns.adjust();
+    });
+
+    //사후정비의뢰 버튼 클릭했을 때
+    $('#form1 #btn_request_repair').click(function() {
+        openModalNewly({
+            url: "http://ppmtsa.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r010&NS_FKEY=m510200602pop02_f001&infoMode=A",
+            data: {
+                'infoMode': 'A',
+                'WorksCode': 'P'
+            }
+        });
+    });
+});
+
+</script>
+</head>
+
+
+<body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0" onLoad="">
+  <form name="form1" id="form1" method="post" action="/M51/M51A10/m510200301" class="form-horizontal" role="form">
+    
+    
+    <SCRIPT language='JavaScript'>
+var arrSerial = Array("380338B1952CB64D67716522D672DDE5");
+</SCRIPT>
+
+  <input type="hidden" name="NS_RKEY" value="m51a_r010">
+  <input type="hidden" name="NS_FKEY" value="m510200301_f003">
+  <input type="hidden" name="NS_MKEY" value="2107556">
+  <input type="hidden" name="NS_MKEY" value="2107428">
+  
+                    <div id='mes-header' data-menu='{"menuData":[{"MenuName":"포-철도운전-운전관리자","MenuLevel":"0","MenuURL":""},{"MenuName":"기관차운행진행관리","MenuLevel":"1","MenuURL":""},{"MenuName":"철도차량실시간Tracking","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510100201?NS_FKEY=m510100201_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차PDAmenu","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m511100010pda?NS_FKEY=m511100010pda_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행지시모니터링","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200201?NS_FKEY=m510200201_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행승인요청정보수정","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200203?NS_FKEY=m510200203_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도차량운행정보","MenuLevel":"1","MenuURL":""},{"MenuName":"철도차량실시간Tracking","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510100201?NS_FKEY=m510100201_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량진행이력조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200305?NS_FKEY=m510200305_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량모니터링관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200301?NS_FKEY=m510200301_f003&NS_RKEY=m51a_r010"},{"MenuName":"철도운행차량교대위치모니터링","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200306?NS_FKEY=m510200306_f001&NS_RKEY=m51a_r010"},{"MenuName":"기관차탑승승무원관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200304?NS_FKEY=m510200304_f002&NS_RKEY=m51a_r010"},{"MenuName":"기관차승무원배차관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200303?NS_FKEY=m510200303_f002&NS_RKEY=m51a_r010"},{"MenuName":"기관차운행기록관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200302?NS_FKEY=m510200302_f002&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비기준관리","MenuLevel":"1","MenuURL":""},{"MenuName":"장설비제원기준조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200501?NS_FKEY=m510200501_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도차량정비예측정보조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200502?NS_FKEY=m510200502_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비진행관리","MenuLevel":"1","MenuURL":""},{"MenuName":"기관차\/TLC\/OLC\/신호\/부대설비 예방정비편성관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200601?NS_FKEY=m510200601_f005&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비진행관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200602?NS_FKEY=m510200602_f004&NS_RKEY=m51a_r010"},{"MenuName":"사후정비의뢰(코렘)","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200602pop02?NS_FKEY=m510200602pop02_f101&NS_RKEY=m51a_r010"},{"MenuName":"철도선로정비진행관리","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200604?NS_FKEY=m510200604_f004&NS_RKEY=m51a_r010"},{"MenuName":"변동작업의뢰(철도주임)","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200604pop01?NS_FKEY=m510200604pop01_f003&NS_RKEY=m51a_r010"},{"MenuName":"철도휠관리조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200603?NS_FKEY=m510200603_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비실적관리","MenuLevel":"1","MenuURL":""},{"MenuName":"철도장설비정비이력조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200701?NS_FKEY=m510200701_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비정비비용결과이력","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200703?NS_FKEY=m510200703_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도장설비별정비실적조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510200706?NS_FKEY=m510200706_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제 지표","MenuLevel":"1","MenuURL":""},{"MenuName":"철도관제일일속보조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300107?NS_FKEY=m510300107_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제일일속보상세실적","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300107pop03?NS_FKEY=m510300107pop03_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제지표조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300104?NS_FKEY=m510300104_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도관제지표계획조회","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300106?NS_FKEY=m510300106_f001&NS_RKEY=m51a_r010"},{"MenuName":"철도선로정비지표","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m510300101?NS_FKEY=m510300101_f001&NS_RKEY=m51a_r010"},{"MenuName":"TLC적정운영대수점검","MenuLevel":"2","MenuURL":"\/M51\/M51A10\/m511000101?NS_FKEY=m511000101_f001&NS_RKEY=m51a_r010"}]}'  workscode="P"></div>
+
+
+
+    <div class="mes-condition-wrap">
+      <!--conditionArea 시작(조회영역)-->
+      <div class="well mes-condition">
+        <table>
+          <col width="8%"><col width="10%">
+          <col width="8%"><col width="10%">
+          <col width="10%"><col width="10%">
+          <col width="44%">
+          <tr>
+            <th>공장</th>
+            <td>
+              <select name="f1" class="selectpicker">
+                <option value="1" selected>1연주</option>
+                <option value="2">2연주</option>
+                <option value="3">3연주</option>
+                <option value="4">4연주</option>
+              </select>
+            </td>
+            <th>M/C</th>
+            <td>
+              <select name="f2" class="selectpicker">
+                <option value="1" selected>PosMC</option>
+                <option value="2">2연주</option>
+                <option value="3">3연주</option>
+                <option value="4">4연주</option>
+              </select>
+            </td>
+            <th>Charge번호</th>
+            <td>
+              <div class="input-group">
+                <input type="text" name="f3" id="f3" class="form-control combobox" />
+                <select name="f3" class="selectpicker" data-live-search="true">
+                  <option value="SA24929">SA24929</option>
+                  <option value="SA24930">SA24930</option>
+                  <option value="SA24931">SA24931</option>
+                  <option value="SA24932">SA24932</option>
+                  <option value="SA24933">SA24933</option>
+                  <option value="SA24934">SA24934</option>
+                  <option value="SA24935">SA24935</option>
+                  <option value="SA24936" selected>SA24936</option>
+                  <option value="SA24937">SA24937</option>
+                  <option value="SA24938">SA24938</option>
+                  <option value="SA24939">SA24939</option>
+                  <option value="SA24940">SA24940</option>
+                  <option value="SA24941">SA24941</option>
+                  <option value="SA24942">SA24942</option>
+                  <option value="SA24943">SA24943</option>
+                  <option value="SA24944">SA24944</option>
+                  <option value="SA24945">SA24945</option>
+                  <option value="SA24946">SA24946</option>
+                  <option value="SA24947">SA24947</option>
+                  <option value="SA24948">SA24948</option>
+                  <option value="SA24949">SA24949</option>
+                  <option value="SA24950">SA24950</option>
+                  <option value="SA24951">SA24951</option>
+                </select>
+              </div>
+            </td>
+            <td>&nbsp;</td>
+            <!--
+            <th>M/C</th>
+            <td>
+              <div class="input-group input-group-mes date" data-calendar="infoOpSumupDtFmt" style="width: 130px;">
+                <input type="text" class="form-control" name="infoOpSumupDtFmt" value="2017-02-09">
+                <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+              </div>
+            </td>
+            -->
+          </tr>
+        </table>
+        <!-- 조회버튼 -->
+        <button class="btn btn-search-big" type="button" id="btn_find">
+          <div class="btn-search-big-inner">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">조회</span>
+          </div>
+        </button>
+      </div>
+      <!-- conditionArea 끝 -->
+      <div class="mes-condition-hide-btn">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </div>
+    </div>
+    <!--버튼영역-->
+    <div class="mes-btn-area">
+    <!--
+      <button type="button" id="btn_enter"            class="btn btn-common btn-mes">등록</button>
+      <button type="button" id="btn_modify"           class="btn btn-common btn-mes">수정</button>
+
+      <button type="button" id="btn_change"           class="btn btn-common btn-mes" style="display:none;">교대위치 변경</button>
+
+      <button type="button" id="btn_enter_alt_train"  class="btn btn-common btn-mes">대체기관차 등록</button>
+      <button type="button" id="btn_delete_alt_train" class="btn btn-common btn-mes">대체기관차 삭제</button>
+      <button type="button" id="btn_request_repair"   class="btn btn-link btn-mes">사후정비 의뢰</button>
+
+      <button type="button" id="btn_enter_record"     class="btn btn-link btn-mes">운행기록 등록</button>
+      <button type="button" id="btn_modify_record"    class="btn btn-link btn-mes">운행기록 수정</button>
+    -->
+    </div>
+    <!--버튼영역끝-->
+    <div class="mes-wrap">
+      <div class="panel panel-transparent">
+        <!--테이블 titLine-->
+        <!-- div class="panel-heading">
+          <span class="mtit">조회목록</span>
+          <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+        </div -->
+        <!--테이블 contentLine-->
+        <div class="panel-body">
+          <table id="tblMain" class="table display">
+            <thead>
+              <tr class="blue3 center middle">
+                <th>Charge번호</th>
+                <th>예정<BR>Charge번호</th>
+                <th>MC</th>
+                <th>수순</th>
+                <th>출강목표</th>
+                <th>이강종<BR>LMC</th>
+                <th>특수<BR>원소</th>
+                <th>LD</th>
+                <th>LF</th>
+                <th>RH</th>
+                
+                <th>래들</th>
+                <th>출강완료</th>
+                <th>주조개시</th>
+                <th>주조완료</th>
+                <th>행선</th>
+                <th>두께</th>
+                <th>X폭</th>
+                <th>Y폭</th>
+                <th>폭변경<BR>(X-Y)</th>
+                <th>품명</th>
+
+                <th>샘플</th>
+                <th>HCR</th>
+                <th>규격약호</th>
+              </tr>
+            </thead>
+            <tbody class="center">
+<tr>
+  <td>SA24936</td>
+  <td>SAVB4975</td>
+  <td>4</td>
+  <td>01-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>32</td>
+  <td>09 04:53</td>
+  <td>09 06:03</td>
+  <td>09 06:55</td>
+  <td>W2</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24937</td>
+  <td>SAVB4976</td>
+  <td>4</td>
+  <td>02-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>40</td>
+  <td>09 05:42</td>
+  <td>09 06:55</td>
+  <td>09 07:46</td>
+  <td>W2</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24938</td>
+  <td>SAVB4977</td>
+  <td>4</td>
+  <td>03-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>34</td>
+  <td>09 06:28</td>
+  <td>09 07:46</td>
+  <td>09 08:38</td>
+  <td>W2</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>JS-SWRM10K</td>
+</tr>
+<tr>
+  <td>SA24939</td>
+  <td>SAVB4978</td>
+  <td>4</td>
+  <td>04-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>42</td>
+  <td>09 07:19</td>
+  <td>09 08:38</td>
+  <td>09 09:31</td>
+  <td>W2</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>JS-S10C</td>
+</tr>
+<tr>
+  <td>SA24940</td>
+  <td>SAVB4979</td>
+  <td>4</td>
+  <td>05-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>32</td>
+  <td>09 08:22</td>
+  <td>09 09:31</td>
+  <td>09 10:23</td>
+  <td>W2</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>JS-S10C</td>
+</tr>
+<tr>
+  <td>SA24941</td>
+  <td>SAVA4974</td>
+  <td>4</td>
+  <td>06-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>40</td>
+  <td>09 09:01</td>
+  <td>09 10:23</td>
+  <td>09 11:35</td>
+  <td>W1</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24942</td>
+  <td>SAVC4980</td>
+  <td>4</td>
+  <td>07-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td>1</td>
+  <td></td>
+  <td>34</td>
+  <td>09 09:49</td>
+  <td>09 11:35</td>
+  <td>09 12:23</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24943</td>
+  <td>SAVC4981</td>
+  <td>4</td>
+  <td>08-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td>42</td>
+  <td>09 10:58</td>
+  <td>09 12:23</td>
+  <td>09 13:11</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24944</td>
+  <td>SAVC4982</td>
+  <td>4</td>
+  <td>09-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>09 12:43</td>
+  <td>09 13:11</td>
+  <td>09 13:59</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24945</td>
+  <td>SAVC4983</td>
+  <td>4</td>
+  <td>10-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>09 13:33</td>
+  <td>09 13:59</td>
+  <td>09 14:47</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24946</td>
+  <td>SAVC4984</td>
+  <td>4</td>
+  <td>11-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>09 14:23</td>
+  <td>09 14:47</td>
+  <td>09 15:35</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24947</td>
+  <td>SAVC4985</td>
+  <td>4</td>
+  <td>12-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>09 15:13</td>
+  <td>09 15:35</td>
+  <td>09 16:23</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24948</td>
+  <td>SAVC4986</td>
+  <td>4</td>
+  <td>13-13</td>
+  <td>P10050RRXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>09 16:03</td>
+  <td>09 16:23</td>
+  <td>09 17:11</td>
+  <td>W3</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>SAE1010K</td>
+</tr>
+<tr>
+  <td>SA24949</td>
+  <td>SAVA4950</td>
+  <td>4</td>
+  <td>05-01</td>
+  <td>B04050LLXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td>1</td>
+  <td></td>
+  <td>09 17:33</td>
+  <td>09 18:40</td>
+  <td>09 19:27</td>
+  <td>W1</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>JS-SWRY11</td>
+</tr>
+<tr>
+  <td>SA24950</td>
+  <td>SAVA4951</td>
+  <td>4</td>
+  <td>05-02</td>
+  <td>B04050LLXX</td>
+  <td>_Y_</td>
+  <td>X</td>
+  <td>1</td>
+  <td></td>
+  <td>1</td>
+  <td></td>
+  <td>09 18:23</td>
+  <td>09 19:27</td>
+  <td>09 20:14</td>
+  <td>W1</td>
+  <td>160</td>
+  <td>160</td>
+  <td>160</td>
+  <td></td>
+  <td>FWA</td>
+  <td></td>
+  <td>C</td>
+  <td>JS-SWRY11</td>
+</tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
