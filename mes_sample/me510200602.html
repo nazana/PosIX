@@ -1,0 +1,3392 @@
+<html><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=9">
+  <title>철도장설비정비진행관리</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/venus.css" type="text/css">
+  <style>
+    body {
+      overflow: hidden;
+    }
+    
+    .ellipsis {
+      max-width: 140px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    
+    table.display {
+      max-width: none;
+      min-height: 0%;
+    }
+    
+    .btn_hide {
+      display: none;
+    }
+    .well.mes-condition th {
+      text-align: left;
+    }
+  </style>
+  <script language="javascript" src="/js/messcript.js"></script>
+  <script language="javascript" src="js/M501Util.js">
+  </script>
+  <script language="javascript" src="js/jquery.min.js"></script>
+  <script language="javascript" src="js/jquery-ui.min.js"></script>
+  <script language="javascript" src="js/jquery.form.min.js"></script>
+  <script language="javascript" src="js/venus.js"></script>
+  <script language="javascript" src="js/venusUtil.js"></script>
+  <script>
+    var FUNC_KEY = 'm510200602_f006'; //현재 Function Key
+    var RESP_KEY = 'm51a_r001';
+
+    /*
+     * selectpicker 생성
+     */
+    function createOptions($target, data) {
+      $target.find('option:gt(0)').remove();
+      if (data.length > 0) {
+        $.each(data, function(k, d) {
+          $target.append('<option value="' + d.Code + '">' + d.CodeNm + '</option>');
+        });
+      }
+      $target.selectpicker('refresh');
+    }
+
+    $(document).ready(function() {
+      $('#mes-header').mesheader();
+
+      var postURL = $('#form1').attr('action');
+
+      //조회
+      var doFind = function() {
+        $.ajax({
+          url: postURL,
+          type: "POST",
+          data: (function() {
+            var queryString = $('#form1').serialize().replace(/\+/g, '') + "&find.x=0";
+            return decodeURIComponent(queryString);
+          })(),
+          dataType: "text",
+          success: function(result, status, xhr) {
+            var jsonResult = $.parseJSON(result);
+            if (jsonResult.ajaxErrorMessage != undefined || jsonResult.ajaxErrorMessage != null) {
+              message.modal({
+                title: '에러',
+                text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                type: 'alert'
+              });
+              return;
+            }
+
+            //Datatable refresh
+            tblMainApi.clear();
+            tblMainApi.rows.add(jsonResult.GetRwayEqpMceProgressInfoResult).draw();
+          },
+          error: function(xhr, status, error) {
+            message.modal({
+              title: '에러',
+              text: '<p>' + xhr.status + "\n" + error + '</p>',
+              type: 'alert'
+            });
+          }
+        });
+      };
+
+      //조회일자 초기 설정
+      $('#form1 [data-calendar="daylinkedfrom"]').datetimepicker({
+        locale: 'ko',
+        dayViewHeaderFormat: 'YYYY MMMM',
+        format: 'YYYY-MM-DD',
+        defaultDate: '2017-08-08'
+      });
+      $('#form1 [data-calendar="daylinkedto"]').datetimepicker({
+        useCurrent: false, //Important! See issue #1075
+        locale: 'ko',
+        dayViewHeaderFormat: 'YYYY MMMM',
+        format: 'YYYY-MM-DD',
+        defaultDate: '2017-08-08'
+      });
+      /* $('#form1 [data-calendar="daylinkedfrom"]').on("dp.change", function (e) {
+          $('#form1 [data-calendar="daylinkedto"]').data("DateTimePicker").minDate(e.date);
+      });
+      $('#form1 [data-calendar="daylinkedto"]').on("dp.change", function (e) {
+          $('#form1 [data-calendar="daylinkedfrom"]').data("DateTimePicker").maxDate(e.date);
+      }); */
+
+      //DataTables API 적용
+      var tblMainApi = $('#form1 #tblMain').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        deferRender: true,
+        scrollX: '1300px',
+        scrollY: '365px',
+        scrollCollapse: true,
+        select: {
+          style: 'single'
+        },
+        data: [],
+        columnDefs: [{
+            targets: 0,
+            render: Formatter.sequence(),
+            type: 'number'
+          },
+          {
+            targets: 8,
+            className: 'dt-body-center',
+            /*
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    return '<div class="ellipsis">'+data+'</div>';
+                }
+                return data;
+            },
+            */
+            createdCell: function(td, cellData, rowData, rowIndex, colIndex) {
+              $(td).attr({
+                'data-toggle': 'tooltip',
+                'data-placement': 'top',
+                'data-container': 'body',
+                'data-original-title': rowData.ItrsRwayMceRqusDdyCont
+              });
+            }
+          },
+          {
+            targets: (function() {
+              var arr = [];
+              for (var i = -1; i >= -16; i--) {
+                arr[arr.length] = i;
+              }
+              return arr;
+            })(),
+            visible: false
+          }
+        ],
+        columns: [{
+            data: null,
+            width: '60px'
+          },
+          {
+            data: 'ItrsRwayMceJobIndNo',
+            width: '100px'
+          },
+          {
+            data: 'RwayVehcTpNm',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayEqpNm',
+            width: '150px'
+          },
+          {
+            data: 'RwayMoveVehcNo',
+            width: '150px'
+          },
+          {
+            data: 'RwayVehcMcePrgStatNm',
+            width: '200px'
+          },
+          {
+            data: 'LocoMceCylTp',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayEqpMceNm',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayEqpDapMceTpNm',
+            width: '100px'
+          },
+          {
+            data: 'OopClrFcVcstTpNm',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayEqpMceRqusDt',
+            width: '150px'
+          },
+          {
+            data: 'ItrsRwayMceReliNm',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayMceFcmtRprNm',
+            width: '100px'
+          },
+          {
+            data: 'RwayVehcMvmtPosbF',
+            width: '100px'
+          },
+          {
+            data: 'ItrsRwayMceJobStkRqstDt',
+            width: '100px'
+          },
+          {
+            data: 'LocoMceWkYrdNm',
+            width: '200px'
+          },
+          {
+            data: 'LocoMceSatTm',
+            width: '150px'
+          },
+          {
+            data: 'LocoMceDnTm',
+            width: '150px'
+          },
+          {
+            data: 'MceWorkTime',
+            width: '100px'
+          },
+          {
+            data: 'MessageExplain2',
+            width: '150px'
+          },
+          {
+            data: 'ItrsRwayMceRstRegrNm',
+            width: '100px'
+          },
+          //hidden columns
+          {
+            data: 'Description'
+          },
+          {
+            data: 'Message'
+          },
+          {
+            data: 'RwayVehcMceHisId'
+          },
+          {
+            data: 'LocoMceCylNm'
+          },
+          {
+            data: 'RwayVehcMcePrgStatTp'
+          },
+          {
+            data: 'ItrsRwayEqpMceTp'
+          },
+          {
+            data: 'RwayVehcTpTp'
+          },
+          {
+            data: 'RwayMoveVehcNo'
+          },
+          {
+            data: 'ItrsRwayMceJobIndNo'
+          },
+          {
+            data: 'ItrsRwayMceExpAmt'
+          },
+          {
+            data: 'LocoMceCylTp'
+          },
+          {
+            data: 'ItrsRwayEqpDapMceTp'
+          },
+          {
+            data: 'ItrsRwayMceFcmtRprTp'
+          },
+          {
+            data: 'ItrsRwayEqpTp'
+          },
+          {
+            data: 'TrsEqpModelNm'
+          },
+          {
+            data: 'ItrsRwayMceRqusDdyCont'
+          }
+        ],
+        drawCallback: function(settings) {
+          $('[data-toggle="tooltip"]').tooltip();
+          //tooltip 적용된 div를 클릭하면 해당 <td>에 클릭 이벤트 발생시킴.
+          //$('.ellipsis').click(function() {
+          //    $(this).closest('td').click();
+          //});
+          if (tblMainApi != null) {
+            tblMainApi.row(0).select().deselect();
+          }
+        }
+      });
+
+      $(window).resize(function() {
+        tblMainApi.columns.adjust();
+      });
+
+
+      //행을 클릭하면 인계특이사항 항목의 내용을 보여준다.
+      $('#form1 #tblMain tbody').on('click', 'tr', function() {
+
+        // 버튼 출력 설정
+        $('#form1 .btn_hide').hide();
+
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) return;
+
+        var rwayVehcMcePrgStatTp = data.RwayVehcMcePrgStatTp; //진행상태
+        var itrsRwayEqpMceTp = data.ItrsRwayEqpMceTp; //예방사후구분
+        var itrsRwayMceFcmtRprTp = data.ItrsRwayMceFcmtRprTp //노재수리구분
+        var itrsRwayEqpDapMceTp = data.itrsRwayEqpDapMceTp //사후구분
+        //외주사(코렘) : 정비의뢰 상태일 경우만 삭제 버튼 활성화
+        //설비담당자, 시스템담당자는 항상 삭제 버튼 활성화
+        if ((FUNC_KEY === 'm510200602_f002' && rwayVehcMcePrgStatTp === 'D') || FUNC_KEY === 'm510200602_f003' || FUNC_KEY === 'm510200602_f006') {
+          $('#form1 #btn_delete').show(); //삭제
+        }
+
+        if (rwayVehcMcePrgStatTp === 'P' || rwayVehcMcePrgStatTp === 'D') //계획상태,정비의뢰상태
+        {
+          if (itrsRwayEqpMceTp == 'A') //사후
+          {
+            if (FUNC_KEY === 'm510200602_f003' || FUNC_KEY === 'm510200602_f006') //설비담당자
+            {
+              $('#form1 #btAccMceReqConfirm').show(); //담당자확인
+            }
+          } else if (itrsRwayEqpMceTp == 'P') //예방
+          {
+            if (itrsRwayMceFcmtRprTp == '') //노재수리구분 값이 null일 경우
+            {
+              if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+              {
+                $('#form1 #btMceDelay').show(); //정비대기
+                $('#form1 #btMceStart').show(); //정비개시
+              }
+              if (FUNC_KEY === 'm510200602_f004' || FUNC_KEY === 'm510200602_f006') //철도운전-운전관리자
+              {
+                $('#form1 #btPreMceSave').show(); //예방정비등록
+              }
+            } else //노재수리구분값이 있을경우
+            {
+              if (FUNC_KEY === 'm510200602_f007' || FUNC_KEY === 'm510200602_f006') //노재수리과권한
+              {
+                $('#form1 #btMceReSave').show(); //정비결과등록
+              }
+            }
+          }
+        } else if (rwayVehcMcePrgStatTp === 'H') //담당자확인
+        {
+          if (itrsRwayEqpMceTp === 'A') //사후
+          {
+            if (itrsRwayEqpDapMceTp === 'A') //사고일 경우만 파트장 확인
+            {
+              if (FUNC_KEY === 'm510200602_f004' || FUNC_KEY === 'm510200602_f006') //철도운전-운전관리자
+              {
+                $('#form1 #btAccMceReqPartConfirm').show(); //사후정비승인(철도운전-운전관리자)
+              }
+            } else if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+            {
+              $('#form1 #btMceDelay').show(); //정비대기
+              $('#form1 #btMceStart').show(); //정비개시
+            }
+          }
+        } else if (rwayVehcMcePrgStatTp === 'I') //파트장확인
+        {
+          if (itrsRwayEqpMceTp === 'A') //사후
+          {
+            if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+            {
+              $('#form1 #btMceDelay').show(); //정비대기
+              $('#form1 #btMceStart').show(); //정비개시
+            }
+          }
+        } else if (rwayVehcMcePrgStatTp === 'F') //정비대기
+        {
+          if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+          {
+            $('#form1 #btMceStart').show(); //정비개시
+          }
+        } else if (rwayVehcMcePrgStatTp === 'G') //정비중
+        {
+          if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+          {
+            $('#form1 #btMceReSave').show(); //정비결과등록
+          }
+        } else if (rwayVehcMcePrgStatTp === 'C') //정비완료
+        {
+          if (itrsRwayMceFcmtRprTp === '') //노재수리구분값이 null일경우
+          {
+            if (FUNC_KEY === 'm510200602_f003' || FUNC_KEY === 'm510200602_f006') //설비담당자
+            {
+              $('#form1 #btMceReSaveConfirm').show();
+            } else if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') //외주사(코렘)
+            {
+              $('#form1 #btMceReModify').show();
+            }
+          }
+        } else if (rwayVehcMcePrgStatTp === 'J') //정비결과담당자확인
+        {
+          if (FUNC_KEY === 'm510200602_f006') //시스템담당자
+          {
+            $('#form1 #btMceReModify').show();
+          }
+        }
+
+      });
+
+
+      //조회 버튼 클릭
+      $('#form1 #btn_find').click(doFind);
+
+      //Export 버튼 클릭
+      $('#form1 #btn_export').click(function() {
+        var popupURL = [postURL, "?", $('#form1').serialize(), "&export.x=0"].join('');
+        window.open(popupURL, FUNC_KEY);
+      });
+
+      //삭제 버튼 클릭
+      $('#form1 #btn_delete').click(function() {
+        var rowData = tblMainApi.row({
+          selected: true
+        }).data();
+        if (rowData == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>삭제 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+          return;
+        }
+
+        var rwayVehcMcePrgStatTp = rowData.RwayVehcMcePrgStatTp; //진행상태
+
+        if (FUNC_KEY === 'm510200602_f006' || rwayVehcMcePrgStatTp === 'P' || rwayVehcMcePrgStatTp === 'D') { //시스템담당자 or 계획상태, 정비의뢰상태
+
+          //계획상태,정비의뢰상태
+          message.modal({
+            title: '확인',
+            text: '<p>선택하신 대상을 삭제 하시겠습니까?</p>',
+            type: 'confirm',
+            clickConfirm: function() {
+              //삭제 처리
+              $.ajax({
+                url: postURL,
+                type: "POST",
+                data: (function() {
+                  var queryString = $('#form1').serialize() +
+                    "&infoRwayVehcMceHisId=" + rowData.RwayVehcMceHisId +
+                    "&delete.x=0";
+                  return decodeURIComponent(queryString).replace(/\+/g, '');
+                })(),
+                dataType: "text",
+                success: function(result, status, xhr) {
+                  var jsonResult = $.parseJSON(result);
+                  if (jsonResult.ajaxErrorMessage != undefined) {
+                    message.modal({
+                      title: '에러',
+                      text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                      type: 'alert'
+                    });
+                    return;
+                  }
+
+                  //조회
+                  doFind();
+                },
+                error: function(xhr, status, error) {
+                  message.modal({
+                    title: '에러',
+                    text: '<p>' + xhr.status + "\n" + error + '</p>',
+                    type: 'alert'
+                  });
+                }
+              });
+            },
+            clickCancel: function() {
+              return;
+            }
+          });
+        } else {
+          message.modal({
+            title: '알림',
+            text: '<p>계획상태일 경우에만 삭제 가능합니다.</p>',
+            type: 'alert'
+          });
+        }
+      });
+
+      //예방정비등록/수정
+      $('#form1 #btPreMceSave').click(function() {
+
+        var rowData = tblMainApi.row({
+          selected: true
+        }).data();
+        if (rowData == null) {
+          openModal({
+            url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop01?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop01_f001',
+            data: {
+              'infoSaveMode': 'I',
+              'WorksCode': $('#form1 input[name="WorksCode"]').val()
+            },
+            callback: function() {
+              doFind();
+            }
+          });
+        } else {
+          if (rowData.RwayVehcMcePrgStatTp === 'P') {
+            openModal({
+              url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop01?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop01_f001',
+              data: {
+                'infoSaveMode': 'U',
+                'WorksCode': $('#form1 input[name="WorksCode"]').val(),
+                'RwayVehcMceHisId': rowData.RwayVehcMceHisId,
+                'RwayVehcTpTp': rowData.RwayVehcTpTp
+              },
+              callback: function() {
+                doFind();
+              }
+            });
+          } else {
+            message.modal({
+              title: '에러',
+              text: '<p>계획 상태에서만 등록 가능합니다</p>',
+              type: 'alert'
+            });
+          }
+        }
+      });
+
+      //변동작업 의뢰 등록/수정
+      $('#form1 #btVarAccMceReq').click(function() {
+        if (FUNC_KEY != 'm510200602_f002' && FUNC_KEY != 'm510200602_f006') return;
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data != null && data.ItrsRwayEqpMceTp === 'A') { //사후정비를 선택한 경우
+          if (data.RwayVehcMcePrgStatTp != 'D') { //정비의뢰
+            message.modal({
+              title: '알림',
+              text: '<p>정비의뢰 상태만 수정 가능합니다</p>',
+              type: 'alert'
+            });
+            return;
+          }
+          //변동작업의뢰 수정
+          openModalNewly({
+            url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&varpage.x=1&infoMode=D&infoSaveMode=U',
+            data: {
+              infoMode: 'D',
+              infoSaveMode: 'U', //수정
+              infoRwayVehcMceHisId: data.RwayVehcMceHisId,
+              infoRwayVehcTpTp: data.RwayVehcTpTp,
+              infoItrsRwayEqpTp: data.ItrsRwayEqpTp,
+              WorksCode: $('#form1 input[name="WorksCode"]').val()
+            },
+            callback: function() {
+              doFind();
+            }
+          });
+        } else {
+
+          var sRwayVehcMceHisId = "";
+          var sRwayVehcTpTp = "";
+          var sItrsRwayEqpTp = "";
+          if (data != null) {
+            sRwayVehcMceHisId = data.RwayVehcMceHisId;
+            sRwayVehcTpTp = data.RwayVehcTpTp;
+            sItrsRwayEqpTp = data.ItrsRwayEqpTp;
+          }
+
+          //변동작업의뢰 등록
+          openModalNewly({
+            url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&varpage.x=1&infoMode=D&infoSaveMode=I',
+            data: {
+              infoMode: 'D',
+              infoSaveMode: 'I', //등록
+              infoRwayVehcMceHisId: sRwayVehcMceHisId,
+              infoRwayVehcTpTp: sRwayVehcTpTp,
+              infoItrsRwayEqpTp: sItrsRwayEqpTp,
+              WorksCode: $('#form1 input[name="WorksCode"]').val()
+            },
+            callback: function() {
+              doFind();
+            }
+          });
+        }
+      });
+
+      //사후정비등록 (고정비)
+      $('#form1 #btFixAccMceReq').click(function() {
+        if (FUNC_KEY === 'm510200602_f001') return;
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data != null && data.ItrsRwayEqpMceTp === 'A') { //사후정비를 선택한 경우
+          if (data.RwayVehcMcePrgStatTp !== 'D') {
+            message.modal({
+              title: '알림',
+              text: '<p>정비의뢰 상태만 수정 가능합니다</p>',
+              type: 'alert'
+            });
+            return;
+          }
+          openModalNewly({
+            url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&fixpage.x=1&infoMode=A&infoSaveMode=U',
+            data: {
+              infoMode: 'A',
+              infoSaveMode: 'U', //수정
+              infoRwayVehcMceHisId: data.RwayVehcMceHisId,
+              infoRwayVehcTpTp: data.RwayVehcTpTp,
+              infoItrsRwayEqpTp: data.ItrsRwayEqpTp,
+              WorksCode: $('#form1 input[name="WorksCode"]').val()
+            },
+            callback: function() {
+              doFind();
+            }
+          });
+        } else {
+          //사후정비의뢰(고정비) 등록
+          openModalNewly({
+            url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&infoMode=A&infoSaveMode=I',
+            data: {
+              infoMode: 'A',
+              infoSaveMode: 'I', //등록
+              WorksCode: $('#form1 input[name="WorksCode"]').val()
+            },
+            callback: function() {
+              doFind();
+            }
+          });
+        }
+      });
+
+
+      //담당자확인
+      $('#form1 #btAccMceReqConfirm').click(function() {
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>' + $(this).text() + ' 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+        }
+
+        var sRwayVehcMceHisId = data.RwayVehcMceHisId; //철도차량정비이력ID
+        var sRwayVehcMcePrgStatTp = data.RwayVehcMcePrgStatTp; //진행상태
+        var sItrsRwayEqpMceTp = data.ItrsRwayEqpMceTp; //예방사후구분
+        var sItrsRwayMceFcmtRprTp = data.ItrsRwayMceFcmtRprTp; //노재수리구분
+        var sItrsRwayEqpTp = data.ItrsRwayEqpTp; //설비유형구분
+        var sLocoMceCylTp = data.LocoMceCylTp; //기관차정비주기구분
+        var sRwayVehcTpTp = data.RwayVehcTpTp; //철도차량유형구분
+        var sRwayMoveVehcNo = data.RwayMoveVehcNo;
+        var sItrsRwayMceJobIndNo = data.ItrsRwayMceJobIndNo;
+        var sItrsRwayEqpDapMceTp = data.ItrsRwayEqpDapMceTp;
+        var sWorksCode = $('#form1 input[name="WorksCode"]').val();
+
+        if (FUNC_KEY === 'm510200602_f003' || FUNC_KEY === 'm510200602_f006') {
+          if (sItrsRwayMceJobIndNo != '' || sItrsRwayEqpDapMceTp != '') {
+            //사후고정비
+            openModalNewly({
+              url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&fixpage.x=1&infoMode=B&infoSaveMode=U',
+              data: {
+                infoMode: 'B',
+                infoSaveMode: 'U',
+                infoRwayVehcMceHisId: sRwayVehcMceHisId,
+                infoRwayVehcTpTp: sRwayVehcTpTp,
+                infoItrsRwayEqpTp: sItrsRwayEqpTp,
+                WorksCode: sWorksCode
+              },
+              callback: function() {
+                doFind();
+              }
+            });
+          } else {
+            //사후변동비
+            openModalNewly({
+              url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&varpage.x=1&infoMode=E&infoSaveMode=U',
+              data: {
+                infoMode: 'E',
+                infoSaveMode: 'U',
+                infoRwayVehcMceHisId: sRwayVehcMceHisId,
+                infoRwayVehcTpTp: sRwayVehcTpTp,
+                infoItrsRwayEqpTp: sItrsRwayEqpTp,
+                WorksCode: sWorksCode
+              },
+              callback: function() {
+                doFind();
+              }
+            });
+          }
+        }
+      });
+
+
+      //사후정비승인(철도운전-운전관리자)
+      $('#form1 #btAccMceReqPartConfirm').click(function() {
+
+        if (FUNC_KEY != 'm510200602_f004' && FUNC_KEY != 'm510200602_f006') return;
+
+        //선택한 row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>' + $(this).text() + ' 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+        }
+
+        var sRwayVehcMceHisId = data.RwayVehcMceHisId; //철도차량정비이력
+        var sRwayVehcMcePrgStatTp = data.RwayVehcMcePrgStatTp; //진행상태
+        var sItrsRwayEqpMceTp = data.ItrsRwayEqpMceTp; //예방사후구분
+        var sItrsRwayMceFcmtRprTp = data.ItrsRwayMceFcmtRprTp; //노재수리구분
+        var sItrsRwayEqpTp = data.ItrsRwayEqpTp;
+        var sLocoMceCylTp = data.LocoMceCylTp;
+        var sRwayVehcTpTp = data.RwayVehcTpTp;
+        var sRwayMoveVehcNo = data.RwayMoveVehcNo;
+        var sItrsRwayMceJobIndNo = data.ItrsRwayMceJobIndNo;
+        var sItrsRwayEqpDapMceTp = data.ItrsRwayEqpDapMceTp;
+        var sWorksCode = $('#form1 input[name="WorksCode"]').val();
+
+        openModalNewly({
+          url: 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop02_f004&fixpage.x=1&infoMode=C&infoSaveMode=U',
+          data: {
+            infoMode: 'C',
+            infoSaveMode: 'U',
+            infoRwayVehcMceHisId: sRwayVehcMceHisId,
+            infoRwayVehcTpTp: sRwayVehcTpTp,
+            infoItrsRwayEqpTp: sItrsRwayEqpTp,
+            WorksCode: sWorksCode
+          },
+          callback: function() {
+            doFind();
+          }
+        });
+      });
+
+      //정비대기, 정비개시
+      $('#form1 #btMceDelay,#btMceStart').click(function() {
+
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>' + $(this).text() + ' 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+        }
+
+        var sRwayVehcMceHisId = data.RwayVehcMceHisId; //철도차량정비이력ID
+        var sRwayVehcTpTp = data.RwayVehcTpTp; //철도차량유형구분
+        var sItrsRwayEqpMceTp = data.ItrsRwayEqpMceTp; //예방사후구분
+        var sInfoChangeRwayVehcMcePrgStatTp = (this.id === 'btMceDelay') ? 'F' : 'G';
+
+        $.ajax({
+          url: postURL,
+          type: "POST",
+          data: (function() {
+            var queryString = [
+              $('#form1').serialize().replace(/\+/g, ''),
+              'infoRwayVehcMceHisId=' + sRwayVehcMceHisId,
+              'infoSelRwayVehcTpTp=' + sRwayVehcTpTp,
+              'infoSelItrsRwayEqpMceTp=' + sItrsRwayEqpMceTp,
+              'infoChangeRwayVehcMcePrgStatTp=' + sInfoChangeRwayVehcMcePrgStatTp,
+              'change.x=0'
+            ].join('&');
+            return queryString;
+          })(),
+          dataType: "text",
+          success: function(result, status, xhr) {
+            var jsonResult = $.parseJSON(result);
+            if (jsonResult.ajaxErrorMessage != undefined) {
+              message.modal({
+                title: '에러',
+                text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                type: 'alert'
+              });
+              return;
+            }
+            message.modal({
+              title: '알림',
+              text: '<p>정상 처리되었습니다.</p>',
+              type: 'alert'
+            });
+            //조회
+//            doFind();
+          },
+          error: function(xhr, status, error) {
+            message.modal({
+              title: '에러',
+              text: '<p>' + xhr.status + "\n" + error + '</p>',
+              type: 'alert'
+            });
+          }
+        });
+
+      });
+
+
+      //정비결과등록 (m510200605pop04)
+      //정비결과수정 (m510200605pop04)
+      $('#form1 #btMceReSave, #form1 #btMceReModify').click(function() {
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>' + $(this).text() + ' 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+        }
+
+        var infoBtnId = $(this).attr("id") == "btMceReSave" ? "Save" : "Modify";
+        var infoMode = "R";
+        var infoSaveMode = "U";
+        var rwayVehcTpTp = data.RwayVehcTpTp;
+        var rwayVehcMceHisId = data.RwayVehcMceHisId;
+        var locoMceCylTp = data.LocoMceCylTp;
+        var itrsRwayEqpTp = data.ItrsRwayEqpTp;
+        var worksCode = $('#form1 input[name="WorksCode"]').val();
+        var rwayVehcMcePrgStatTp = data.RwayVehcMcePrgStatTp; //진행상태
+        var itrsRwayEqpMceTp = data.ItrsRwayEqpMceTp; //예방사후구분
+
+        if (FUNC_KEY === 'm510200602_f002' || FUNC_KEY === 'm510200602_f006') { //외주사(코렘), 시스템담당자
+          if (infoBtnId === 'Save' && rwayVehcMcePrgStatTp === 'C') { //정비완료된상태(등록)
+            infoMode = "R";
+            infoSaveMode = "U";
+          } else if (infoBtnId === 'Modify' && (rwayVehcMcePrgStatTp === 'C' || rwayVehcMcePrgStatTp === 'J')) { //정비완료된상태(수정)
+            infoMode = "R";
+            infoSaveMode = "U";
+          } else {
+            infoMode = "R";
+            infoSaveMode = "I";
+          }
+        } else if (FUNC_KEY === 'm510200602_f007') { //노재수리과
+          infoMode = "R";
+          infoSaveMode = "I";
+          itrsRwayEqpTp = "";
+          worksCode = "";
+        }
+
+        //console.log(FUNC_KEY, infoBtnId,rwayVehcMceHisId, infoMode, infoSaveMode);
+
+        openModal({
+          url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop04?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop04_f002",
+          data: {
+            'infoMode': infoMode, // 정비결과수정 : R R R
+            'infoSaveMode': infoSaveMode, // 정비결과수정 : U I I
+            'infoRwayVehcTpTp': rwayVehcTpTp,
+            'infoRwayVehcMceHisId': rwayVehcMceHisId,
+            'infoLocoMceCylTp': locoMceCylTp,
+            'infoItrsRwayEqpTp': itrsRwayEqpTp,
+            'WorksCode': worksCode
+          },
+          callback: function() {
+            doFind();
+          }
+        });
+      });
+
+      //철도선로예방사후정비결과등록 Modal 창 열기 (m510200604pop02)
+      //정비결과 담당자확인 Modal 창 열기 (m510200605pop05)
+      //정비상세정보 Modal 창 열기 (m510200605pop05)
+      $('#form1 #btMceReSaveConfirm, #form1 #btMceReDetailInfo').click(function() {
+        //row data 추출
+        var data = tblMainApi.row({
+          selected: true
+        }).data();
+        if (data == null) {
+          message.modal({
+            title: '알림',
+            text: '<p>' + $(this).text() + ' 대상을 선택하세요.</p>',
+            type: 'alert'
+          });
+          return;
+        }
+
+        var infoSaveMode = $(this).attr("id") == "btMceReSaveConfirm" ? "RC" : "U";
+        var rwayVehcTpTp = data.RwayVehcTpTp;
+        var rwayVehcMceHisId = data.RwayVehcMceHisId;
+        var locoMceCylTp = data.LocoMceCylTp;
+        var itrsRwayEqpTp = data.ItrsRwayEqpTp;
+
+        //m501200706에서는 Row가 선로(R)일 경우 m501200604pop02에 연결
+        //        var itrsRwayEqpMceTp     = data.ItrsRwayEqpMceTp;
+        //        var itrsRwayEqpPrtoMceId = data.ItrsRwayEqpPrtoMceId;
+        //        var itrsRwayEqpJobTp     = data.ItrsRwayEqpJobTp;
+        //        var itrsRwayPigTp        = data.ItrsRwayPigTp;
+        //
+        //        if(rwayVehcTpTp == 'R'){ //선로
+        //            openModalNewly({
+        //                url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200604pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200604pop02_f005"
+        //                + "&infoItrsRwayEqpMceTp="    +itrsRwayEqpMceTp
+        //                + "&infoRwayVehcMceHisId="    +rwayVehcMceHisId
+        //                + "&infoItrsRwayEqpPrtoMceId="+itrsRwayEqpPrtoMceId
+        //                + "&infoMode=RD"
+        //                + "&infoItrsRwayEqpJobTp="    +itrsRwayEqpJobTp
+        //                + "&infoItrsRwayPigTp="       +itrsRwayPigTp
+        //            });
+        //        } else {
+        openModal({
+          url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop05?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop05_f002",
+          data: {
+            'infoSaveMode': infoSaveMode,
+            'infoRwayVehcTpTp': rwayVehcTpTp,
+            'infoRwayVehcMceHisId': rwayVehcMceHisId,
+            'infoLocoMceCylTp': locoMceCylTp,
+            'infoItrsRwayEqpTp': itrsRwayEqpTp
+          },
+          callback: function() {
+            doFind();
+          }
+        });
+        //        }
+
+      });
+
+      //장설비구분 변경 이벤트 핸들러
+      $('#form1 select[name="infoRwayVehcTpTp"]').change(function() {
+        //기존 설비유형구분 options 삭제
+        var $infoItrsRwayEqpTp = $('#form1 select[name="infoItrsRwayEqpTp"]');
+        $infoItrsRwayEqpTp.find('option:gt(0)').remove();
+        $infoItrsRwayEqpTp.selectpicker('refresh');
+
+        //기존 장설비작업장 options 삭제
+        var $infoLocoMceWkYrdTp = $('#form1 select[name="infoLocoMceWkYrdTp"]');
+        $infoLocoMceWkYrdTp.find('option:gt(0)').remove();
+        $infoLocoMceWkYrdTp.selectpicker('refresh');
+
+        //장설비구분 선택값
+        var sRwayVehcTpTp = $(this).find(':selected').val();
+
+        $.ajax({
+          url: postURL,
+          type: "POST",
+          data: (function() {
+            var queryString = $('#form1').serialize().replace(/\+/g, '') + "&signal.x=0";
+            return queryString;
+          })(),
+          dataType: "text",
+          success: function(result, status, xhr) {
+            var jsonResult = $.parseJSON(result);
+            if (jsonResult.ajaxErrorMessage != undefined) {
+              message.modal({
+                title: '에러',
+                text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                type: 'alert'
+              });
+              return;
+            }
+
+            //선택한 장설비구분에 따른 정비유형구분 LOV 생성
+            if ('X,E'.indexOf(sRwayVehcTpTp) != -1) {
+              createOptions($infoItrsRwayEqpTp, jsonResult.GetRwayEqpAccTrsEqpTpResult);
+            }
+
+            //정비작업장구분 LOV 생성
+            if ('D,T,C,O'.indexOf(sRwayVehcTpTp) != -1) {
+              createOptions($infoLocoMceWkYrdTp, jsonResult.GetRwayEqpAccMceLocoMceWkYrdTpResult);
+            }
+
+//            doFind();
+          },
+          error: function(xhr, status, error) {
+            message.modal({
+              title: '에러',
+              text: '<p>' + xhr.status + "\n" + error + '</p>',
+              type: 'alert'
+            });
+          }
+        });
+      });
+
+
+      //철도운행차량정보 Modal 창 열기
+      $("#form1 input[name='infoRwayMoveVehcNo'] + span").click(function() {
+        openModal({
+          url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200104pop04?NS_RKEY=m51a_r001&NS_FKEY=m510200104pop04_f001",
+          data: {
+            RwayVehcTpTp: $('#form1 select[name="infoRwayVehcTpTp"] option:selected').val(),
+            ItrsRwayEqpTp: $('#form1 select[name="infoItrsRwayEqpTp"] option:selected').val()
+          },
+          callback: function(d) {
+            $("#form1 input[name='infoRwayMoveVehcNo']").val(d.RwayMoveVehcNo);
+          }
+        });
+      });
+
+      //예방사후구분 선택
+      $('#form1 input[name="infoItrsRwayEqpMceTp"]').change(function() {
+        var $target = $('#form1 input[name="infoOopClrFcVcstTp"]');
+        $target.attr('checked', false).closest('label').removeClass('active').show();
+        /* var checkedValue = $('#form1 input[name="infoItrsRwayEqpMceTp"]:checked').val();
+        if (checkedValue === 'A') {
+            $target.attr('checked', false).closest('label').removeClass('active').show();
+        } else {
+            $target.attr('checked', false).closest('label').removeClass('active').hide();
+        } */
+//        doFind();
+      });
+
+      //변동비 선택
+      $('#form1 input[name="infoOopClrFcVcstTp"]').change(function() {
+//        doFind();
+      });
+
+      //조회
+//      doFind();
+    });
+  </script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0" class="modal-open">
+  <form name="form1" id="form1" method="post" action="/M51/M51A10/m510200602" class="form-horizontal" role="form">
+
+
+    <script language="JavaScript">
+      var arrSerial = Array("7E588991DC48565FD9BDB7ABB75D82E5");
+    </script>
+
+    <input type="hidden" name="NS_RKEY" value="m51a_r001">
+    <input type="hidden" name="NS_FKEY" value="m510200602_f006">
+    <input type="hidden" name="NS_MKEY" value="2829162">
+    <input type="hidden" name="NS_MKEY" value="2829164">
+
+
+    <input type="hidden" name="WorksCode" value="P">
+
+
+
+
+
+
+
+
+
+
+    <div id="mes-header" data-menu="{&quot;menuData&quot;:[{&quot;MenuName&quot;:&quot;포-철도관제-시스템관리자&quot;,&quot;MenuLevel&quot;:&quot;0&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;기관차운행진행관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;기관차운행지시진행정보조회&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200101?NS_FKEY=m510200101_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차주유실적등록\/수정&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200102?NS_FKEY=m510200102_f003&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차운행진행지시관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;철도차량실시간Tracking&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510100201?NS_FKEY=m510100201_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차PDA기능BackUp처리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200201?NS_FKEY=m510200201_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차운행승인요청정보수정&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200203?NS_FKEY=m510200203_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도차량Tracking맵관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510100202?NS_FKEY=m510100202_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비기준관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;장설비제원기준관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200501?NS_FKEY=m510200501_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도차량정비예측정보관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200502?NS_FKEY=m510200502_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;장설비자재\/서비스ITEM관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200503?NS_FKEY=m510200503_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비실적관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;철도장설비별정비실적조회&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200706?NS_FKEY=m510200706_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비정비이력조회&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200701?NS_FKEY=m510200701_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비정비비용결과이력&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200703?NS_FKEY=m510200703_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;일반관리비조회및등록&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200704?NS_FKEY=m510200704_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비정비진행관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;기관차\/TLC\/OLC\/신호\/부대설비 예방정비편성관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200601?NS_FKEY=m510200601_f004&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도장설비정비진행관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200602?NS_FKEY=m510200602_f006&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도휠관리관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200603?NS_FKEY=m510200603_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도선로정비진행관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200604?NS_FKEY=m510200604_f006&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;TLC 설비관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200605?NS_FKEY=m510200605_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도차량운행정보&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;철도운행차량모니터링관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200301?NS_FKEY=m510200301_f005&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차운행기록관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200302?NS_FKEY=m510200302_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차승무원배차관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200303?NS_FKEY=m510200303_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;기관차탑승승무원관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200304?NS_FKEY=m510200304_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도운행차량진행이력조회&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200305?NS_FKEY=m510200305_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도운행차량교대위치모니터링&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510200306?NS_FKEY=m510200306_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도관제 지표&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;&quot;},{&quot;MenuName&quot;:&quot;철도관제일일속보관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510300107?NS_FKEY=m510300107_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도관제지표조회&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510300104?NS_FKEY=m510300104_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도관제지표계획관리&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510300106?NS_FKEY=m510300106_f002&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;철도선로정비지표&quot;,&quot;MenuLevel&quot;:&quot;2&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m510300101?NS_FKEY=m510300101_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;TLC적정운영대수 점검&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m511000101?NS_FKEY=m511000101_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;수리공장 차량 위치 관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m511000201?NS_FKEY=m511000201_f001&amp;NS_RKEY=m51a_r001&quot;},{&quot;MenuName&quot;:&quot;TLC 종합이력 관리&quot;,&quot;MenuLevel&quot;:&quot;1&quot;,&quot;MenuURL&quot;:&quot;\/M51\/M51A10\/m511000301?NS_FKEY=m511000301_f001&amp;NS_RKEY=m51a_r001&quot;}]}" workscode="P">
+      <div class="wrap">
+        <div class="mes-header-wrap">
+          <div class="mes-header">
+            <div class="mes-header-left">
+              <nav class="mes_menu vcon-menu"></nav>
+              <div class="pospiaLogo">
+                <div class="vcon-pospia"></div>
+              </div>
+              <div class="mes-location">포항</div>
+            </div>
+            <div class="mes-header-tit">
+              <div class="mes-tit"><i class="vcon-security" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="사외A비"></i>철도장설비정비진행관리</div>
+            </div>
+            <div class="mes-header-right">
+              <div class="icon-date">
+                <div class="icon-date">8일(화)<br>05:26</div>
+              </div>
+              <div class="icon auto-refresh dropdown">
+                <div class="vcon-auto-refresh dropdown-toggle" id="ARTimeMenu1" data-toggle="dropdown"><span class="auto-refresh-text">A</span></div>
+                <ul class="dropdown-menu">
+                  <li><a href="#" data-value="off">Off</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#" data-value="30">30초</a></li>
+                  <li><a href="#" data-value="60">1분</a></li>
+                  <li><a href="#" data-value="600">10분</a></li>
+                  <li><a href="#" data-value="1800">30분</a></li>
+                  <li><a href="#" data-value="3600">60분</a></li>
+                </ul>
+              </div>
+              <div class="icon icon-print vcon-print" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="프린트"></div>
+              <div class="icon icon-help vcon-help" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="도움말"></div>
+              <div class="icon icon-close vcon-close" data-toggle="tooltip" data-placement="bottom" title="" onclick="window.close()" data-original-title="닫기"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="mes-condition-wrap">
+      <!--conditionArea 시작(조회영역)-->
+      <div class="well mes-condition">
+        <!-- 조회 조건 -->
+        <table>
+          <colgroup>
+            <col width="14%">
+            <col width="30%">
+            <col width="12%">
+            <col width="16%">
+            <col width="12%">
+            <col width="16%">
+          </colgroup>
+          <tbody>
+            <tr>
+              <th>예방사후구분</th>
+              <td>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-check active"><input type="radio" name="infoItrsRwayEqpMceTp" value="" checked="">전체</label>
+                  <label class="btn btn-check "><input type="radio" name="infoItrsRwayEqpMceTp" value="P">예방</label>
+                  <label class="btn btn-check "><input type="radio" name="infoItrsRwayEqpMceTp" value="A">사후</label>
+                </div>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-check" style="margin-left: 10px; display: none;"><input type="checkbox" name="infoOopClrFcVcstTp" value="B">변동비</label>
+                </div>
+              </td>
+              <th>장설비구분</th>
+              <td>
+                <select name="infoRwayVehcTpTp" class="selectpicker" data-live-search="false">
+                  <option value=" ">전체</option>
+                  <option value="C">[C]OLC</option>
+                  <option value="D">[D]기관차</option>
+                  <option value="E">[E]부대설비</option>
+                  <option value="O">[O]래들</option>
+                  <option value="R">[R]철도선로</option>
+                  <option value="T">[T]TLC</option>
+                  <option value="X">[X]철도신호</option>
+                </select>
+              </td>
+              <th>설비유형</th>
+              <td>
+                <select name="infoItrsRwayEqpTp" class="selectpicker" data-live-search="false" style="display: none;">
+                  <option value=" ">전체</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>조회일자</th>
+              <td>
+                <div class="input-group input-group-sm date" data-calendar="daylinkedfrom" style="float: left; width: 130px; margin-right: 2px;">
+                  <input type="text" class="form-control input-sm" name="infoFromDt" value="2017-08-08">
+                  <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+                </div>
+                <div style="width: 30px; text-align: center; float: left;">~</div>
+                <div class="input-group input-group-sm date" data-calendar="daylinkedto" style="float: left; width: 130px; margin-right: 2px;">
+                  <input type="text" class="form-control input-sm" name="infoToDt" value="2017-08-08">
+                  <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+                </div>
+              </td>
+              <th>장설비번호</th>
+              <td>
+                <div class="input-group input-group-sm date" style="width: 100px;">
+                  <input type="text" class="form-control input-sm upper-case" name="infoRwayMoveVehcNo" value="" maxlength="5">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                </div>
+              </td>
+              <th>WorkOrder번호</th>
+              <td>
+                <input type="text" class="form-control input-sm upper-case" style="width: 120px;" name="infoItrsRwayMceJobIndNo" maxlength="10">
+              </td>
+            </tr>
+            <tr>
+              <th>정비진행상태구분</th>
+              <td>
+
+                <select name="infoRwayVehcMcePrgStatTp" class="selectpicker" data-live-search="false" style="display: none;">
+                  <option value=" ">전체</option>
+                  <option value="A">[A]입고완료</option>
+                  <option value="B">[B]출고완료</option>
+                  <option value="C">[C]정비완료</option>
+                  <option value="D">[D]정비의뢰</option>
+                  <option value="E">[E]입고요청</option>
+                  <option value="F">[F]정비대기</option>
+                  <option value="G">[G]정비중</option>
+                  <option value="H">[H]담당자확인</option>
+                  <option value="I">[I]파트장확인</option>
+                  <option value="J">[J]정비결과담당자확인</option>
+                  <option value="K">[K]출고요청</option>
+                  <option value="P">[P]계획</option>
+                </select>
+              </td>
+              <th>정비작업장구분</th>
+              <td>
+                <select name="infoLocoMceWkYrdTp" class="selectpicker" data-live-search="false" style="display: none;">
+                  <option value=" ">전체</option>
+                </select>
+              </td>
+              <th>사후구분</th>
+              <td>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-check active"><input type="radio" name="infoItrsRwayEqpDapMceTp" value="" checked="">전체</label>
+                  <label class="btn btn-check"><input type="radio" name="infoItrsRwayEqpDapMceTp" value="A">사고</label>
+                  <label class="btn btn-check"><input type="radio" name="infoItrsRwayEqpDapMceTp" value="S">돌발</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 조회버튼 -->
+        <button class="btn btn-search-big" type="button" id="btn_find">
+          <div class="btn-search-big-inner">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">조회</span>
+          </div>
+        </button>
+      </div>
+      <!-- conditionArea 끝 -->
+      <div class="mes-condition-hide-btn">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </div>
+    </div>
+
+    <!--버튼영역-->
+    <div class="mes-btn-area">
+      <button type="button" id="btn_delete" class="btn btn-common btn-mes btn_hide" style="display: inline-block;">삭제</button>
+      <button type="button" id="btn_export" class="btn btn-common btn-mes">Export</button>
+
+      <button type="button" id="btPreMceSave" class="btn btn-link btn-mes">예방정비등록/수정</button>
+
+      <button type="button" id="btVarAccMceReq" class="btn btn-link btn-mes">변동작업등록/수정</button>
+
+      <button type="button" id="btFixAccMceReq" class="btn btn-link btn-mes">사후정비등록/수정</button>
+
+      <button type="button" id="btAccMceReqConfirm" class="btn btn-link btn-mes btn_hide" style="display: none;">담당자확인</button>
+      <button type="button" id="btAccMceReqPartConfirm" class="btn btn-link btn-mes btn_hide" style="display: none;">사후정비승인</button>
+      <button type="button" id="btMceDelay" class="btn btn-link btn-mes btn_hide" style="display: none;">정비대기</button>
+      <button type="button" id="btMceStart" class="btn btn-link btn-mes btn_hide" style="display: none;">정비개시</button>
+      <button type="button" id="btMceReSave" class="btn btn-link btn-mes btn_hide" style="display: none;">정비결과등록</button>
+      <button type="button" id="btMceReModify" class="btn btn-link btn-mes btn_hide" style="display: inline-block;">정비결과수정</button>
+      <button type="button" id="btMceReSaveConfirm" class="btn btn-link btn-mes btn_hide" style="display: none;">정비결과담당자확인</button>
+      <button type="button" id="btMceReDetailInfo" class="btn btn-link btn-mes">정비상세정보</button>
+    </div>
+    <!--버튼영역끝-->
+
+    <div class="mes-wrap">
+      <div class="panel panel-transparent">
+        <!--테이블 titLine
+        <div class="panel-heading">
+          <span class="mtit">조회목록</span>
+          <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+        </div>
+         -->
+        <!--테이블 contentLine-->
+        <div class="panel-body">
+          <div id="tblMain_wrapper" class="dataTables_wrapper no-footer">
+            <div class="dataTables_length" id="tblMain_length">
+              <label>
+                <select name="tblMain_length" aria-controls="tblMain" class="form-control input-sm-table">
+                  <option value="15">15</option><option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+            </div>
+            <div id="tblMain_filter" class="dataTables_filter">
+              <label>
+                <div style="position: relative;" class="clear_input_div">
+                  <input id="clearable" type="search" class="" placeholder="" aria-controls="tblMain">
+                  <a class="clear_input" style="display: none;">×</a>
+                </div>
+              </label>
+            </div>
+            <div class="dataTables_scroll">
+              <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 2561px; padding-right: 0px;">
+                  <table class="table display dataTable no-footer" style="width: 2561px; margin-left: 0px;" role="grid">
+                    <thead>
+                      <tr class="blue3 center middle" role="row">
+                        <th nowrap="" rowspan="2" class="sorting_asc" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 60px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">SEQ</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="W/O번호: activate to sort column ascending">W/O번호</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="차량유형구분: activate to sort column ascending">차량유형<br>구분</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 150px;" aria-label="장치별: activate to sort column ascending">장치별</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 150px;" aria-label="장설비번호: activate to sort column ascending">장설비번호</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 200px;" aria-label="진행상태: activate to sort column ascending">진행상태</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="정비주기구분: activate to sort column ascending">정비주기<br>구분</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="예방/사후구분: activate to sort column ascending">예방/사후<br>구분</th>
+                        <th nowrap="" rowspan="2" class="dt-body-center sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="사후구분: activate to sort column ascending">사후<br>구분</th>
+                        <th nowrap="" rowspan="2" class="sorting" tabindex="0" aria-controls="tblMain" colspan="1" style="width: 100px;" aria-label="변동비구분: activate to sort column ascending">변동비<br>구분</th>
+                        <th colspan="4" rowspan="1" style="width: 450px;">예방사후정비</th>
+                        <th colspan="2" rowspan="1" style="width: 300px;">정비작업장입고</th>
+                        <th colspan="5" rowspan="1" style="width: 650px;">정비작업결과</th>
+                      </tr>
+                      <tr class="blue5 center middle" role="row">
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px;" aria-label="의뢰(계획)일: activate to sort column ascending">의뢰(계획)일</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="의뢰자(편성자): activate to sort column ascending">의뢰자<br>(편성자)</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="노재수리구분: activate to sort column ascending">노재수리<br>구분</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="운행가능여부: activate to sort column ascending">운행가능<br>여부</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="요청일: activate to sort column ascending">요청일</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 200px;" aria-label="정비작업장: activate to sort column ascending">정비작업장</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px;" aria-label="개시일시: activate to sort column ascending">개시일시</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px;" aria-label="완료일시: activate to sort column ascending">완료일시</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="작업시간: activate to sort column ascending">작업시간</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px;" aria-label="특이사항: activate to sort column ascending">특이사항</th>
+                        <th nowrap="" class="sorting" tabindex="0" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px;" aria-label="결과등록자: activate to sort column ascending">결과<br>등록자</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+              <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 365px;">
+                <table id="tblMain" class="table display dataTable no-footer" style="width: 2200px;" role="grid" aria-describedby="tblMain_info">
+                  <thead>
+                    <tr class="blue3 center middle" role="row" style="height: 0px;">
+                      <th nowrap="" rowspan="2" class="sorting_asc" aria-controls="tblMain" colspan="1" style="width: 60px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">SEQ</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="W/O번호: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">W/O번호</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="차량유형구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">차량유형<br>구분</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="장치별: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">장치별</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="장설비번호: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">장설비번호</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 200px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="진행상태: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">진행상태</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정비주기구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비주기<br>구분</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="예방/사후구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">예방/사후<br>구분</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="dt-body-center sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="사후구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">사후<br>구분</div>
+                      </th>
+                      <th nowrap="" rowspan="2" class="sorting" aria-controls="tblMain" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="변동비구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">변동비<br>구분</div>
+                      </th>
+                      <th colspan="4" rowspan="1" style="width: 450px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">예방사후정비</div>
+                      </th>
+                      <th colspan="2" rowspan="1" style="width: 300px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비작업장입고</div>
+                      </th>
+                      <th colspan="5" rowspan="1" style="width: 650px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비작업결과</div>
+                      </th>
+                    </tr>
+                    <tr class="blue5 center middle" role="row" style="height: 0px;">
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="의뢰(계획)일: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">의뢰(계획)일</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="의뢰자(편성자): activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">의뢰자<br>(편성자)</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="노재수리구분: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">노재수리<br>구분</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="운행가능여부: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">운행가능<br>여부</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="요청일: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">요청일</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 200px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정비작업장: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비작업장</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="개시일시: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">개시일시</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="완료일시: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">완료일시</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="작업시간: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">작업시간</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 150px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="특이사항: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">특이사항</div>
+                      </th>
+                      <th nowrap="" class="sorting" aria-controls="tblMain" rowspan="1" colspan="1" style="width: 100px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="결과등록자: activate to sort column ascending">
+                        <div class="dataTables_sizing" style="height:0;overflow:hidden;">결과<br>등록자</div>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="center">
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">46</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>차량번호검지(AVI)</td>
+                      <td>141T</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-31 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">47</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>정위치검지(PSD)</td>
+                      <td>34BF-S1.S2.S3.S4</td>
+                      <td>계획</td>
+                      <td>1M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-31 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">48</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>정위치검지(PSD)</td>
+                      <td>71BF-S1.S2</td>
+                      <td>계획</td>
+                      <td>1M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-31 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">49</td>
+                      <td>P7956745</td>
+                      <td>OLC</td>
+                      <td></td>
+                      <td>C34</td>
+                      <td>계획</td>
+                      <td>3M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-30 00:00</td>
+                      <td>황영석</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-30</td>
+                      <td>남측 1번</td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">50</td>
+                      <td>P7956745</td>
+                      <td>TLC</td>
+                      <td></td>
+                      <td>T71</td>
+                      <td>정비완료</td>
+                      <td>3M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-30 00:00</td>
+                      <td>유재인</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-30</td>
+                      <td>혼선차 수리공장 7번선</td>
+                      <td>2017-08-07 00:00</td>
+                      <td>2017-08-16 00:00</td>
+                      <td>216 : 00</td>
+                      <td></td>
+                      <td>이영우</td>
+                    </tr>
+                    <tr role="row" class="even selected">
+                      <td class="sorting_1">51</td>
+                      <td>P7956745</td>
+                      <td>OLC</td>
+                      <td></td>
+                      <td>C28</td>
+                      <td>정비결과담당자확인</td>
+                      <td>3M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-29 00:00</td>
+                      <td>황영석</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-29</td>
+                      <td>남측 1번</td>
+                      <td>2017-07-07 09:44</td>
+                      <td>2017-07-07 17:44</td>
+                      <td>8 : 00</td>
+                      <td>전후방 연</td>
+                      <td>황영석</td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">52</td>
+                      <td>P7956745</td>
+                      <td>TLC</td>
+                      <td></td>
+                      <td>T66</td>
+                      <td>정비결과담당자확인</td>
+                      <td>3M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-29 00:00</td>
+                      <td>유재인</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-29</td>
+                      <td>혼선차 수리공장 7번선</td>
+                      <td>2017-08-07 13:52</td>
+                      <td>2017-08-15 00:00</td>
+                      <td>178 : 08</td>
+                      <td></td>
+                      <td>이영우</td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">53</td>
+                      <td>P7956745</td>
+                      <td>기관차</td>
+                      <td></td>
+                      <td>D14</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>송재은</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-28</td>
+                      <td>북측 1번</td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">54</td>
+                      <td>P7956745</td>
+                      <td>기관차</td>
+                      <td></td>
+                      <td>D34</td>
+                      <td>계획</td>
+                      <td>1M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>송재은</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-28</td>
+                      <td>북측 2번</td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">55</td>
+                      <td>P7956745</td>
+                      <td>TLC</td>
+                      <td></td>
+                      <td>T60</td>
+                      <td>계획</td>
+                      <td>3M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>유재인</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td>2017-07-28</td>
+                      <td>혼선차 수리공장 7번선</td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">56</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>함류장치</td>
+                      <td>AP59</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">57</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>함류장치</td>
+                      <td>AP259</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">58</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>신호기(입환,반응,유도)</td>
+                      <td>261R</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="even">
+                      <td class="sorting_1">59</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>신호기(입환,반응,유도)</td>
+                      <td>262R</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1">60</td>
+                      <td>P7956745</td>
+                      <td>철도신호</td>
+                      <td>신호기(입환,반응,유도)</td>
+                      <td>263L</td>
+                      <td>계획</td>
+                      <td>2M</td>
+                      <td>예방</td>
+                      <td class=" dt-body-center" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title=""></td>
+                      <td>고정비</td>
+                      <td>2017-07-28 00:00</td>
+                      <td>이준영</td>
+                      <td></td>
+                      <td>Y</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> :</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="dataTables_info" id="tblMain_info" role="status" aria-live="polite">46-60/5,433<span class="select-info"><span class="select-item">1 row selected</span><span class="select-item"></span><span class="select-item"></span></span>
+            </div>
+            <div class="dataTables_paginate paging_full_numbers" id="tblMain_paginate"><a class="paginate_button first" aria-controls="tblMain" data-dt-idx="0" tabindex="0" id="tblMain_first">first</a>
+              <a class="paginate_button previous" aria-controls="tblMain" data-dt-idx="1" tabindex="0" id="tblMain_previous"> </a><span><a class="paginate_button " aria-controls="tblMain" data-dt-idx="2" tabindex="0">1</a><a class="paginate_button " aria-controls="tblMain" data-dt-idx="3" tabindex="0">2</a><a class="paginate_button " aria-controls="tblMain" data-dt-idx="4" tabindex="0">3</a><a class="paginate_button current" aria-controls="tblMain" data-dt-idx="5" tabindex="0">4</a><a class="paginate_button " aria-controls="tblMain" data-dt-idx="6" tabindex="0">5</a><span class="ellipsis">…</span><a class="paginate_button " aria-controls="tblMain" data-dt-idx="7" tabindex="0">363</a></span>
+              <a class="paginate_button next" aria-controls="tblMain" data-dt-idx="8" tabindex="0" id="tblMain_next"> </a><a class="paginate_button last" aria-controls="tblMain" data-dt-idx="9" tabindex="0" id="tblMain_last">last</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- mes-wrap -->
+  </form>
+
+
+  <div id="SL_balloon_obj" alt="0" style="display: block;">
+    <div id="SL_button" class="SL_ImTranslatorLogo" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/imtranslator-s.png&quot;); display: none;"></div>
+    <div id="SL_shadow_translation_result2" style="display: none;"></div>
+    <div id="SL_shadow_translator" style="display: none;">
+      <div id="SL_planshet">
+        <div id="SL_arrow_up" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/up.png&quot;);"></div>
+        <div id="SL_Bproviders">
+          <div class="SL_BL_LABLE_ON" title="Google" id="SL_P0">G</div>
+          <div class="SL_BL_LABLE_ON" title="Microsoft" id="SL_P1">M</div>
+          <div class="SL_BL_LABLE_ON" title="Translator" id="SL_P2">T</div>
+        </div>
+        <div id="SL_alert_bbl" style="display: none;">
+          <div id="SLHKclose" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/delete.png&quot;);"></div>
+          <div id="SL_alert_cont"></div>
+        </div>
+        <div id="SL_TB">
+          <table id="SL_tables" cellspacing="1">
+            <tr>
+              <td class="SL_td" width="10%" align="right"><input id="SL_locer" type="checkbox" title="언어 잠금"></td>
+              <td class="SL_td" width="20%" align="left"><select id="SL_lng_from" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/select.png&quot;) 100% 0px no-repeat rgb(255, 255, 255);"><option value="auto">언어를 감지</option><option value="gl">갈리시아어</option><option value="gu">구자라트어</option><option value="ka">그루지야어</option><option value="el">그리스어</option><option value="nl">네덜란드어</option><option value="ne">네팔어</option><option value="no">노르웨이어</option><option value="da">덴마크어</option><option value="de">독일어</option><option value="lo">라오어</option><option value="lv">라트비아어</option><option value="la">라틴어</option><option value="ru">러시아어</option><option value="ro">루마니아어</option><option value="lt">리투아니아어</option><option value="mr">마라티어</option><option value="mi">마오리어</option><option value="mk">마케도니아어</option><option value="ms">말레이어</option><option value="mg">말라가시어</option><option value="ml">말라얄람어</option><option value="mt">몰타어</option><option value="mn">몽골어</option><option value="hmn">몽어</option><option value="eu">바스크어</option><option value="my">버마어</option><option value="vi">베트남어</option><option value="be">벨로루시어</option><option value="bn">벵골의</option><option value="bs">보스니아어</option><option value="bg">불가리아어</option><option value="sr">세르비아어</option><option value="ceb">세부아노</option><option value="st">세소토어</option><option value="so">소말리아어</option><option value="su">순다어</option><option value="sw">스와힐리어</option><option value="sv">스웨덴어</option><option value="es">스페인어</option><option value="sk">슬로바키아어</option><option value="sl">슬로베니아어</option><option value="si">신할라어</option><option value="ar">아랍어</option><option value="hy">아르메니아어</option><option value="is">아이슬란드어</option><option value="ht">아이티프랑스말</option><option value="ga">아일랜드어</option><option value="az">아제르바이잔어</option><option value="af">아프리칸스어</option><option value="sq">알바니아어</option><option value="et">에스토니아어</option><option value="eo">에스페란토말</option><option value="en">영어</option><option value="yo">요루바어</option><option value="ur">우르두어</option><option value="uz">우즈베크어</option><option value="uk">우크라이나어</option><option value="cy">웨일즈어</option><option value="ig">이그보어</option><option value="yi">이디시어</option><option value="it">이탈리아어</option><option value="id">인도네시아어</option><option value="ja">일본어</option><option value="jw">자바어</option><option value="zu">줄루어</option><option value="zh-CN">중국어(간체)</option><option value="zh-TW">중국어(번체)</option><option value="ny">체와어</option><option value="cs">체코어</option><option value="kk">카자흐어</option><option value="ca">카탈로니아어</option><option value="kn">칸나다어</option><option value="km">칸나다어</option><option value="hr">크로아티아어</option><option value="tl">타갈로그어</option><option value="ta">타밀어</option><option value="tg">타직어</option><option value="th">태국어</option><option value="tr">터키어</option><option value="te">텔루구어</option><option value="pa">펀자브어</option><option value="fa">페르시아어</option><option value="pt">포르투갈어</option><option value="pl">폴란드어</option><option value="fr">프랑스어</option><option value="fi">핀란드어</option><option value="ha">하우사어</option><option value="ko">한국어</option><option value="hu">헝가리어</option><option value="iw">히브리어</option><option value="hi">힌디어</option></select></td>
+              <td class="SL_td" width="3" align="center">
+                <div id="SL_switch_b" title="언어 전환" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/switchb.png&quot;);"></div>
+              </td>
+              <td class="SL_td" width="20%" align="left"><select id="SL_lng_to" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/select.png&quot;) 100% 0px no-repeat rgb(255, 255, 255);"><option value="gl">갈리시아어</option><option value="gu">구자라트어</option><option value="ka">그루지야어</option><option value="el">그리스어</option><option value="nl">네덜란드어</option><option value="ne">네팔어</option><option value="no">노르웨이어</option><option value="da">덴마크어</option><option value="de">독일어</option><option value="lo">라오어</option><option value="lv">라트비아어</option><option value="la">라틴어</option><option value="ru">러시아어</option><option value="ro">루마니아어</option><option value="lt">리투아니아어</option><option value="mr">마라티어</option><option value="mi">마오리어</option><option value="mk">마케도니아어</option><option value="ms">말레이어</option><option value="mg">말라가시어</option><option value="ml">말라얄람어</option><option value="mt">몰타어</option><option value="mn">몽골어</option><option value="hmn">몽어</option><option value="eu">바스크어</option><option value="my">버마어</option><option value="vi">베트남어</option><option value="be">벨로루시어</option><option value="bn">벵골의</option><option value="bs">보스니아어</option><option value="bg">불가리아어</option><option value="sr">세르비아어</option><option value="ceb">세부아노</option><option value="st">세소토어</option><option value="so">소말리아어</option><option value="su">순다어</option><option value="sw">스와힐리어</option><option value="sv">스웨덴어</option><option value="es">스페인어</option><option value="sk">슬로바키아어</option><option value="sl">슬로베니아어</option><option value="si">신할라어</option><option value="ar">아랍어</option><option value="hy">아르메니아어</option><option value="is">아이슬란드어</option><option value="ht">아이티프랑스말</option><option value="ga">아일랜드어</option><option value="az">아제르바이잔어</option><option value="af">아프리칸스어</option><option value="sq">알바니아어</option><option value="et">에스토니아어</option><option value="eo">에스페란토말</option><option value="en">영어</option><option value="yo">요루바어</option><option value="ur">우르두어</option><option value="uz">우즈베크어</option><option value="uk">우크라이나어</option><option value="cy">웨일즈어</option><option value="ig">이그보어</option><option value="yi">이디시어</option><option value="it">이탈리아어</option><option value="id">인도네시아어</option><option value="ja">일본어</option><option value="jw">자바어</option><option value="zu">줄루어</option><option value="zh-CN">중국어(간체)</option><option value="zh-TW">중국어(번체)</option><option value="ny">체와어</option><option value="cs">체코어</option><option value="kk">카자흐어</option><option value="ca">카탈로니아어</option><option value="kn">칸나다어</option><option value="km">칸나다어</option><option value="hr">크로아티아어</option><option value="tl">타갈로그어</option><option value="ta">타밀어</option><option value="tg">타직어</option><option value="th">태국어</option><option value="tr">터키어</option><option value="te">텔루구어</option><option value="pa">펀자브어</option><option value="fa">페르시아어</option><option value="pt">포르투갈어</option><option value="pl">폴란드어</option><option value="fr">프랑스어</option><option value="fi">핀란드어</option><option value="ha">하우사어</option><option selected="selected" value="ko">한국어</option><option value="hu">헝가리어</option><option value="iw">히브리어</option><option value="hi">힌디어</option></select></td>
+              <td class="SL_td" width="5%" align="center"> </td>
+              <td class="SL_td" width="8%" align="center">
+                <div id="SL_TTS_voice" title="듣기" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/ttsvoice.png&quot;);"></div>
+              </td>
+              <td class="SL_td" width="8%" align="center">
+                <div id="SL_copy" title="번역 복사" class="SL_copy" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/copy.png&quot;);"></div>
+              </td>
+              <td class="SL_td" width="8%" align="center">
+                <div id="SL_bbl_font_patch"></div>
+                <div id="SL_bbl_font" title="폰트 크기" class="SL_bbl_font" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/font.png&quot;);"></div>
+              </td>
+              <td class="SL_td" width="8%" align="center">
+                <div id="SL_bbl_help" title="도와주세요" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/bhelp.png&quot;);"></div>
+              </td>
+              <td class="SL_td" width="15%" align="right">
+                <div id="SL_pin" class="SL_pin_off" title="팝업 창 고정" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/pin-on.png&quot;);"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="SL_shadow_translation_result" style="visibility: visible;"></div>
+      <div id="SL_loading" class="SL_loading" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/loading.gif&quot;);"></div>
+      <div id="SL_player2"></div>
+      <div id="SL_alert100">음성 기능은 200자로 제한됨</div>
+      <div id="SL_Balloon_options" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/bg3.png&quot;) rgb(255, 255, 255);">
+        <div id="SL_arrow_down" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/down.png&quot;);"></div>
+        <table id="SL_tbl_opt" width="100%">
+          <tr>
+            <td width="5%" align="center"><input id="SL_BBL_locer" type="checkbox" checked="1" title="번역가 버튼 표시 3 초"></td>
+            <td width="5%" align="left">
+              <div id="SL_BBL_IMG" title="번역가 버튼 표시 3 초" style="background: url(&quot;chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/img/util/bbl-logo.png&quot;);"></div>
+            </td>
+            <td width="70%" align="center"><a href="chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/html/options/options.html?bbl" target="_blank" class="SL_options" title="옵션 보기">옵션</a> : <a href="chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/html/options/options.html?hist" target="_blank" class="SL_options" title="번역 이력">역사</a> : <a href="chrome-extension://noaijdpnepcgjemiklgfkcfbkokogabh/content/html/options/options.html?feed" target="_blank" class="SL_options" title="피드백">피드백</a> : <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GD9D8CPW8HFA2" target="_blank" class="SL_options" title="작은 기여하기">Donate</a></td>
+            <td width="15%" align="right"><span id="SL_Balloon_Close" title="닫기">닫기</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="m510200602pop04_f002_html">
+
+
+
+
+
+
+
+
+
+
+    <style>
+      .ellipsis2 {
+        max-width: 160px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    </style>
+    <!-- 철도장설비정비정보상세 || 정비결과등록/수정 -->
+    <div class="modal fade in" id="m510200602pop04" role="dialog" style="z-index: 1051; display: block; padding-left: 17px;" aria-hidden="false">
+      <div class="modal-backdrop fade in" style="height: 793px;"></div>
+      <div class="modal-dialog modal-lg ui-draggable">
+        <div class="modal-content">
+          <div class="modal-header ui-draggable-handle">
+            <div class="header">
+              <span class="modal-title" id="m510200602pop04-label">정비결과수정</span>
+              <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+            </div>
+          </div>
+          <div class="modal-body" id="m510200602pop04-body">
+            <!--버튼영역-->
+            <div class="mes-btn-area">
+              <button id="btn_save" class="btn btn-common btn-mes" type="button">저장</button>
+            </div>
+            <!--버튼영역끝-->
+            <div class="panel panel-transparent">
+              <form id="m510200602pop04_form" name="m510200602pop04_form">
+                <!-- Table 1 Start -->
+                <div id="tbl1-panel" class="panel panel-transparent">
+                  <!--테이블 titLine ->
+                <div class="panel-heading">
+                    <span class="mtit">차량 정보</span>
+                    <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+                </div>
+                <!--테이블 contentLine-->
+                  <div class="panel-body">
+                    <table id="tbl1" class="table">
+                      <tbody class="center">
+                      </tbody>
+                      <colgroup>
+                        <col class="center" width="14%">
+                        <col class="center" width="20%">
+                        <col class="center" width="14%">
+                        <col class="center" width="19%">
+                        <col class="center" width="14%">
+                        <col class="center" width="19%">
+                      </colgroup>
+                      <tbody>
+                        <tr class="white center">
+                          <th class="blue3 center middle">WorkOrder</th>
+                          <td>
+                            <span id="infoItrsRwayMceJobIndNo" class="data">P7956745</span>
+                            <input name="infoItrsRwayMceJobIndNo" type="hidden" value="P7956745">
+                          </td>
+                          <td colspan="2">
+                            <span id="infoDescription" class="data">구내운송 철도 장설비 고정작업_201707</span>
+                            <input name="infoDescription" type="hidden" value="구내운송 철도 장설비 고정작업_201707">
+                          </td>
+                          <th class="blue3 center middle">현장대리인</th>
+                          <td><span id="infoItrsRwayMceRstRegrNm" class="data">황영석</span></td>
+                        </tr>
+                        <tr class="white center">
+                          <th class="blue3 center middle">장설비번호</th>
+                          <td id="infoRwayMoveVehcNmTd" class="data" data-toggle="tooltip" data-placement="bottom" data-container="body" data-original-title="C28">
+                            <div class="ellipsis2">
+                              <span id="infoRwayMoveVehcNm" class="data">C28</span>
+                            </div>
+                          </td>
+                          <th class="blue3 center middle">정비작업장구분</th>
+                          <td><span id="infoLocoMceWkYrdTpNm" class="data">남측 1번</span></td>
+                          <th class="blue3 center middle">개시일시</th>
+                          <td>
+                            <div class="input-group input-group-sm date" data-calendar="daylinkedfrom" style="float : left;">
+                              <input type="text" class="form-control input-sm" name="infoLocoMceSatTm">
+                              <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr class="white center">
+                          <th class="blue3 center middle">정비주기구분</th>
+                          <td><span id="infoLocoMceCylTpNm" class="data">3개월예방정비</span></td>
+                          <th class="blue3 center middle">투입인원수</th>
+                          <td>
+                            <div class="input-group input-group-sm">
+                              <input name="infoItrsRwayEqpMceJobHeadCnt" type="text" class="form-control input-sm right number" value="">
+                              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            </div>
+                          </td>
+                          <th class="blue3 center middle">완료일시</th>
+                          <td>
+                            <div class="input-group input-group-sm date" data-calendar="daylinkedto" style="float : left;">
+                              <input type="text" class="form-control input-sm" name="infoLocoMceDnTm">
+                              <span class="input-group-addon"><span class="vcon-calendar"></span></span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr class="white center">
+                          <th rowspan="3" class="blue3 center middle">특이사항</th>
+                          <td colspan="3" rowspan="3">
+                            <textarea class="form-control input-sm" onkeyup="checkLenKeyPress(this,'특이사항',0,300);" style="ime-mode: active; resize: none;" rows="4" cols="200" name="infoMessageExplain2"></textarea>
+                          </td>
+                          <th class="blue3 center middle">
+                            <div class="engine" style="display: none;">엔진가동시간</div>
+                          </th>
+                          <td>
+                            <div class="input-group input-group-sm engine" style="display: none;">
+                              <input name="infoItrsRwayDlEngnOpTm" type="text" class="form-control input-sm right number" value="">
+                              <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr class="white">
+                          <th rowspan="2" class="blue3 center middle">
+                            <div class="infoModeR">송신선택</div>
+                          </th>
+                          <td class="left">
+                            <div class="infoModeR">
+                              <input type="checkbox" class="checkbox" id="CheckSendSms" name="CheckSendSms" value="Y">
+                              <label for="CheckSendSms"><span></span>SMS</label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr class="white">
+                          <td class="left">
+                            <div class="infoModeR">
+                              <input type="checkbox" class="checkbox" id="CheckSendMail" name="CheckSendMail" value="Y">
+                              <label for="CheckSendMail"><span></span>출고요청Mail</label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr class="white">
+                          <th class="blue3 center middle">첨부파일</th>
+                          <td colspan="5">
+                            <a href="#" id="downDoc1" downlink=""><span id="infoFileNmSh1"></span></a>
+                          </td>
+                        </tr>
+                        <tr class="white">
+                          <th class="blue3 center middle">
+                            <button id="btn_upload" class="btn btn-common btn-xs" type="button">파일첨부</button>
+                          </th>
+                          <td colspan="5">
+                            <input type="text" class="form-control input-sm" name="infoFileNm" size="65" value="" readonly="">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Table 1 End -->
+                <!-- Table 2 Start -->
+                <div id="tbl2-panel" class="panel panel-transparent" style="display: none;">
+                  <!--테이블 titLine -->
+                  <div class="panel-heading">
+                    <span class="mtit">변동비 서비스item정보</span>
+                    <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+                    <!--버튼영역-->
+                    <div class="mes-btn-area">
+                      <div class="btn-group" role="group">
+                        <button id="ChkT" class="btn btn-common btn-mes" type="button" data-table="#tbl2">전체선택</button>
+                        <button id="ChkF" class="btn btn-common btn-mes" type="button" data-table="#tbl2">전체취소</button>
+                      </div>
+                      <div class="btn-group" role="group">
+                        <button id="addTR" class="btn btn-common btn-mes addTR" type="button" data-table="#tbl2">행추가</button>
+                        <button id="delTR" class="btn btn-common btn-mes delTR" type="button" data-table="#tbl2">행삭제</button>
+                      </div>
+                    </div>
+                    <!--버튼영역끝-->
+                  </div>
+                  <!--테이블 contentLine-->
+                  <div class="panel-body">
+                    <div id="tbl2_wrapper" class="dataTables_wrapper no-footer">
+                      <div class="dataTables_scroll">
+                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                          <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 870px; padding-right: 0px;">
+                            <table class="table display dataTable no-footer" role="grid" style="margin-left: 0px; width: 870px;">
+                              <thead>
+                                <tr class="blue3 center middle" role="row">
+                                  <th class="dt-body-center sorting_asc" tabindex="0" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 79px;" aria-sort="ascending" aria-label="SEQ: activate to sort column descending">SEQ</th>
+                                  <th class="dt-body-center sorting" tabindex="0" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 131px;" aria-label="서비스ITEM: activate to sort column ascending">서비스ITEM</th>
+                                  <th class="dt-body-left sorting" tabindex="0" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 382px;" aria-label="서비스ITEM명: activate to sort column ascending">서비스ITEM명</th>
+                                  <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 104px;" aria-label="수량">수량</th>
+                                  <th class="dt-body-center sorting" tabindex="0" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 69px;" aria-label="단위: activate to sort column ascending">단위</th>
+                                  <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 104px;" aria-label="정비자">정비자</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 116px; width: 100%;">
+                          <table id="tbl2" class="table display dataTable no-footer" role="grid" style="width: 100%;">
+                            <thead>
+                              <tr class="blue3 center middle" role="row" style="height: 0px;">
+                                <th class="dt-body-center sorting_asc" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 79px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-sort="ascending" aria-label="SEQ: activate to sort column descending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">SEQ</div>
+                                </th>
+                                <th class="dt-body-center sorting" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 131px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="서비스ITEM: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">서비스ITEM</div>
+                                </th>
+                                <th class="dt-body-left sorting" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 382px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="서비스ITEM명: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">서비스ITEM명</div>
+                                </th>
+                                <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 104px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="수량">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">수량</div>
+                                </th>
+                                <th class="dt-body-center sorting" aria-controls="tbl2" rowspan="1" colspan="1" style="width: 69px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="단위: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">단위</div>
+                                </th>
+                                <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 104px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정비자">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비자</div>
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody class="center">
+                              <tr class="odd">
+                                <td valign="top" colspan="6" class="dataTables_empty">No data available in table</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Table 2 End -->
+                <!-- Table 3 Start -->
+                <div id="tbl3-panel" class="panel panel-transparent">
+                  <!--테이블 titLine -->
+                  <div class="panel-heading">
+                    <span class="mtit">정비 작업 대상 내역</span>
+                    <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+                    <!--버튼영역-->
+                    <div class="mes-btn-area">
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button id="ChkT" class="btn btn-common btn-mes" type="button" data-table="#tbl3">전체선택</button>
+                        <button id="ChkF" class="btn btn-common btn-mes" type="button" data-table="#tbl3">전체취소</button>
+                      </div>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button id="addTR" class="btn btn-common btn-mes addTR" type="button" data-table="#tbl3">행추가</button>
+                        <button id="delTR" class="btn btn-common btn-mes delTR" type="button" data-table="#tbl3">행삭제</button>
+                      </div>
+                    </div>
+                    <!--버튼영역끝-->
+                  </div>
+                  <!--테이블 contentLine-->
+                  <div class="panel-body">
+                    <div id="tbl3_wrapper" class="dataTables_wrapper no-footer">
+                      <div class="dataTables_scroll">
+                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                          <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 853px; padding-right: 17px;">
+                            <table class="table display dataTable no-footer" role="grid" style="margin-left: 0px; width: 853px;">
+                              <thead>
+                                <tr class="blue3 center middle" role="row">
+                                  <th class="dt-body-center sorting_asc" tabindex="0" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 77px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">SEQ</th>
+                                  <th class="dt-body-center sorting" tabindex="0" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 128px;" aria-label="정비아이템: activate to sort column ascending">정비아이템</th>
+                                  <th class="dt-body-left sorting" tabindex="0" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 545px;" aria-label="정 비 대 상 내 역: activate to sort column ascending">정 비 대 상 내 역</th>
+                                  <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 102px;" aria-label="정비자">정비자</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 116px; width: 100%;">
+                          <table id="tbl3" class="table display dataTable no-footer" role="grid" style="width: 100%;">
+                            <thead>
+                              <tr class="blue3 center middle" role="row" style="height: 0px;">
+                                <th class="dt-body-center sorting_asc" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 77px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">SEQ</div>
+                                </th>
+                                <th class="dt-body-center sorting" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 128px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정비아이템: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비아이템</div>
+                                </th>
+                                <th class="dt-body-left sorting" aria-controls="tbl3" rowspan="1" colspan="1" style="width: 545px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정 비 대 상 내 역: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">정 비 대 상 내 역</div>
+                                </th>
+                                <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 102px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="정비자">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">정비자</div>
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody class="center">
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">1</td>
+                                <td class=" dt-body-center">C301</td>
+                                <td class=" dt-body-left">승강단 파손 여부(우측,좌측,전방,후방)</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">2</td>
+                                <td class=" dt-body-center">C302</td>
+                                <td class=" dt-body-left">100Ton Trunion Bearing 마모 육안 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">3</td>
+                                <td class=" dt-body-center">C303</td>
+                                <td class=" dt-body-left">Hand Rail 절손 여부(우측小,좌측小,전면大)</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">4</td>
+                                <td class=" dt-body-center">C304</td>
+                                <td class=" dt-body-left">보조 승강단 파손 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">5</td>
+                                <td class=" dt-body-center">C305</td>
+                                <td class=" dt-body-left">보조운전실 점검 및 변형점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">6</td>
+                                <td class=" dt-body-center">C306</td>
+                                <td class=" dt-body-left">연결기 본체 균열 및 충격 상태 육안 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">7</td>
+                                <td class=" dt-body-center">C307</td>
+                                <td class=" dt-body-left">연결기 높이 점검, 측정(890mm)</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">8</td>
+                                <td class=" dt-body-center">C308</td>
+                                <td class=" dt-body-left">Knucpkle 간격 측정(120mm~135mm)</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">9</td>
+                                <td class=" dt-body-center">C309</td>
+                                <td class=" dt-body-left">Knucpkle Pin Hole 간격 측정 및 굴곡 여부 확인(40mm~43mm)</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">10</td>
+                                <td class=" dt-body-center">C310</td>
+                                <td class=" dt-body-left">로크 마모 및 절손, 굴곡 여부 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">11</td>
+                                <td class=" dt-body-center">C311</td>
+                                <td class=" dt-body-left">Opener 굴곡 및 절손 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">12</td>
+                                <td class=" dt-body-center">C312</td>
+                                <td class=" dt-body-left">Shank Guide 마모, 굴곡, 절손, 고정Bolt 이완 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">13</td>
+                                <td class=" dt-body-center">C313</td>
+                                <td class=" dt-body-left">연결기 Lever 굴곡 및 절손 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">14</td>
+                                <td class=" dt-body-center">C314</td>
+                                <td class=" dt-body-left">완충기 고무 Rubber 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">15</td>
+                                <td class=" dt-body-center">C315</td>
+                                <td class=" dt-body-left">완충기 좌,우 보강 Liner 굴곡 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">16</td>
+                                <td class=" dt-body-center">C316</td>
+                                <td class=" dt-body-left">Yoke 및 Yoke Pin 마모 및 절손, 굴곡 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">17</td>
+                                <td class=" dt-body-center">C317</td>
+                                <td class=" dt-body-left">Yoke Plate 마모 절손 굴곡 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">18</td>
+                                <td class=" dt-body-center">C318</td>
+                                <td class=" dt-body-left">Yoke Plate 고정 Bolt 이완 탈락 여부</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">19</td>
+                                <td class=" dt-body-center">C319</td>
+                                <td class=" dt-body-left">Wheel 마모 상태 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">20</td>
+                                <td class=" dt-body-center">C320</td>
+                                <td class=" dt-body-left">Shaft 균열 상태 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">21</td>
+                                <td class=" dt-body-center">C321</td>
+                                <td class=" dt-body-left">Axle Box 육안 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">22</td>
+                                <td class=" dt-body-center">C322</td>
+                                <td class=" dt-body-left">Axle Box Grease 급지</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">23</td>
+                                <td class=" dt-body-center">C323</td>
+                                <td class=" dt-body-left">Coil Spring 절손 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">24</td>
+                                <td class=" dt-body-center">C324</td>
+                                <td class=" dt-body-left">Axle 보호 Cover 탈락 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">25</td>
+                                <td class=" dt-body-center">C325</td>
+                                <td class=" dt-body-left">Axle과 Bogie간의 간극 상태</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="even">
+                                <td class="dt-body-center sorting_1">26</td>
+                                <td class=" dt-body-center">C326</td>
+                                <td class=" dt-body-left">Bar Bolt 이완 및 탈락 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">27</td>
+                                <td class=" dt-body-center">C327</td>
+                                <td class=" dt-body-left">Coil Spring 보호 Cover 탈락 점검</td>
+                                <td class=" dt-body-center">
+                                  <select name="infoMceMan" class="form-control input-sm" data-container="#m510200602pop04" data-live-search="false">
+                                    <option value="곽무영" selected="">곽무영</option>
+                                    <option value="유재인">유재인</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Table 3 End -->
+                <!-- Table 4 Start -->
+                <div id="tbl4-panel" class="panel panel-transparent">
+                  <!--테이블 titLine -->
+                  <div class="panel-heading">
+                    <span class="mtit">정비 작업 자재 사용 내역</span>
+                    <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+                    <!--버튼영역-->
+                    <div class="mes-btn-area">
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button id="ChkT" class="btn btn-common btn-mes" type="button" data-table="#tbl4">전체선택</button>
+                        <button id="ChkF" class="btn btn-common btn-mes" type="button" data-table="#tbl4">전체취소</button>
+                      </div>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button id="addTR" class="btn btn-common btn-mes addTR" type="button" data-table="#tbl4">행추가</button>
+                        <button id="delTR" class="btn btn-common btn-mes delTR" type="button" data-table="#tbl4">행삭제</button>
+                      </div>
+                    </div>
+                    <!--버튼영역끝-->
+                  </div>
+                  <!--테이블 contentLine-->
+                  <div class="panel-body">
+                    <div id="tbl4_wrapper" class="dataTables_wrapper no-footer">
+                      <div class="dataTables_scroll">
+                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                          <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 870px; padding-right: 0px;">
+                            <table class="table display dataTable no-footer" role="grid" style="margin-left: 0px; width: 870px;">
+                              <thead>
+                                <tr class="blue3 center middle" role="row">
+                                  <th class="dt-body-center sorting_asc" tabindex="0" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 73px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">SEQ</th>
+                                  <th class="dt-body-center sorting" tabindex="0" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 124px;" aria-label="품명코드: activate to sort column ascending">품명코드</th>
+                                  <th class="dt-body-left sorting" tabindex="0" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 355px;" aria-label="품명: activate to sort column ascending">품명</th>
+                                  <th class="dt-body-right sorting" tabindex="0" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 96px;" aria-label="재고량: activate to sort column ascending">재고량</th>
+                                  <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 163px;" aria-label="사용량">사용량</th>
+                                  <th class="dt-body-center sorting" tabindex="0" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 58px;" aria-label="단위: activate to sort column ascending">단위</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 116px; width: 100%;">
+                          <table id="tbl4" class="table display dataTable no-footer" role="grid" style="width: 100%;">
+                            <thead>
+                              <tr class="blue3 center middle" role="row" style="height: 0px;">
+                                <th class="dt-body-center sorting_asc" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 73px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="SEQ: activate to sort column descending" aria-sort="ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">SEQ</div>
+                                </th>
+                                <th class="dt-body-center sorting" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 124px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="품명코드: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">품명코드</div>
+                                </th>
+                                <th class="dt-body-left sorting" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 355px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="품명: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">품명</div>
+                                </th>
+                                <th class="dt-body-right sorting" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 96px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="재고량: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">재고량</div>
+                                </th>
+                                <th class="dt-body-center sorting_disabled" rowspan="1" colspan="1" style="width: 163px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="사용량">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">사용량</div>
+                                </th>
+                                <th class="dt-body-center sorting" aria-controls="tbl4" rowspan="1" colspan="1" style="width: 58px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="단위: activate to sort column ascending">
+                                  <div class="dataTables_sizing" style="height:0;overflow:hidden;">단위</div>
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody class="center">
+                              <tr role="row" class="odd">
+                                <td class="dt-body-center sorting_1">1</td>
+                                <td class=" dt-body-center">KPC00002</td>
+                                <td class=" dt-body-left" data-toggle="tooltip" data-placement="bottom" data-container="body" data-original-title="T-1D라2">OLC 레버 연결고리</td>
+                                <td class=" dt-body-right">3</td>
+                                <td class=" dt-body-center">
+                                  <input type="text" class="form-control input-sm" name="infoMceAcItemQty2" maxlength="3" style="ime-mode: disabled;" value="1.2">
+                                </td>
+                                <td class=" dt-body-center">EA</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Table 4 End -->
+                <!-- hidden data -->
+                <input type="hidden" name="infoMode" value="R">
+                <input type="hidden" name="infoSaveMode" value="U">
+                <input type="hidden" name="infoRwayVehcTpTp" value="C">
+                <input type="hidden" name="infoRwayVehcMceHisId" value="1000332270">
+                <input type="hidden" name="infoLocoMceCylTp" value="3M">
+                <input type="hidden" name="infoItrsRwayEqpTp" value="">
+                <input type="hidden" name="infoSelItrsRwayEqpMceTp" value="P">
+                <input type="hidden" name="infoRwayMoveVehcNo" value="C28">
+                <input type="hidden" name="WorksCode" value="P">
+              </form>
+            </div>
+          </div>
+          <!--
+        <div class="modal-footer">
+          <button type="button" id="btn_close" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+         -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var m510200602pop04 = new VenusModal('m510200602pop04');
+      var $makeMceManList = null;
+
+      (function(m) {
+
+        m.$('input[name="infoMceAcItemQty2"]').keyup(function() {
+          $this = $(this);
+          val = $this.val();
+          console.log(val);
+
+          if (val != '') {
+            if (!$.isNumeric(val) || (val < 0 || val > 10)) {
+              alert('입력 오류: 0 ~ 9.9 입력');
+            }
+          }
+
+          var _pattern2 = /^(\d{1})[.](\d{2})$/; // 현재 value값이 소수점 첫째짜리 숫자이면 더이상 입력 불가
+          if (_pattern2.test(val)) {
+            alert("소수점 첫째자리까지만 입력가능합니다.");
+            return false;
+          }
+        });
+
+        m.$("#downDoc1").on("click", function() {
+          var downLink = $(this).attr("downLink");
+          if (downLink != null && downLink != "" && downLink != "&nbsp;") {
+            downLink = "http://tpmts.posco.co.kr:8043" + downLink;
+            window.open(downLink);
+          } else {
+            return;
+          }
+        });
+
+        // ** 정비개시일시 달력 **
+        //정비개시일자 FROM 달력 설정
+        m.$('[data-calendar="daylinkedfrom"]').datetimepicker({
+          locale: 'ko',
+          dayViewHeaderFormat: 'YYYY MMMM',
+          format: 'YYYY-MM-DD HH:mm',
+          defaultDate: new Date()
+        });
+
+        //정비개시일자 TO 달력 설정
+        m.$('[data-calendar="daylinkedto"]').datetimepicker({
+          useCurrent: false, //Important! See issue #1075
+          locale: 'ko',
+          dayViewHeaderFormat: 'YYYY MMMM',
+          format: 'YYYY-MM-DD HH:mm'
+        });
+
+        m.$('[data-calendar="daylinkedfrom"]').on("dp.change", function(e) {
+          m.$('[data-calendar="daylinkedto"]').data("DateTimePicker").minDate(e.date);
+        });
+
+        m.$('[data-calendar="daylinkedto"]').on("dp.change", function(e) {
+          m.$('[data-calendar="daylinkedfrom"]').data("DateTimePicker").maxDate(e.date);
+        });
+
+
+        // ** 전체선택 전체삭제 **
+        m.$("#ChkT,#ChkF").click(function() {
+
+          var tblApi = $($(this).attr("data-table")).DataTable();
+
+          if ($(this).attr("id") == "ChkT") {
+            tblApi.rows().select();
+          } else {
+            tblApi.rows().deselect();
+          }
+          //        tblApi.$('tr.selected').removeClass('selected');
+          //        tblApi.$('tr').addClass('selected');
+          //        tblApi.$('tr.selected').removeClass('selected');
+
+        });
+
+
+        // ** Remove 변동비 서비스item정보, 정비 작업 대상 내역, 정비 작업 자재 사용 내역's row **
+        m.$(".delTR").click(function() {
+
+          var tblApi = $($(this).attr("data-table")).DataTable();
+
+          var selRowArr = tblApi.rows({
+            selected: true
+          }).indexes();
+
+          //check selected row
+          if (selRowArr == null || selRowArr.length === 0) {
+            message.modal({
+              title: '알림',
+              text: '<div class="center"><B>선택된 행이 없습니다.<BR>삭제할 행을 선택해 주세요.</B></div>',
+              type: 'alert'
+            });
+            return;
+          }
+          //delete row
+          tblApi.rows({
+            selected: true
+          }).remove().draw(false);
+        });
+
+
+        // ** Link and Add Row **
+        //1.변동비 서비스item정보
+        m.$(".addTR").click(function() {
+
+          var tbl = $(this).attr("data-table");
+          var tblApi = $($(this).attr("data-table")).DataTable();
+
+
+          if (tbl === "#tbl2") {
+            urlValue = 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200503pop03?NS_RKEY=m51a_r001&NS_FKEY=m510200503pop03_f001&infoFlag=S&infoComFlag=KO&infoFVFlag=B&infoOpenUrl=m510200602pop04';
+
+            openModalNewly({
+              url: urlValue,
+              callback: function(code, codeNm, uom) {
+
+                var data = {
+                  "ServiceItemCd": code,
+                  "ItrsRwayEqpMatItds": codeNm,
+                  "MceAcItemQty1": null,
+                  "UomCode": uom,
+                  "LocoMceWorkerNm": null
+                };
+                tblApi.row.add(data).draw();
+                tblApi.columns.adjust();
+              }
+            });
+          }
+          //2.정비 작업 대상 내역
+          else if (tbl === "#tbl3") {
+            openModal({
+              url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200401pop02?NS_RKEY=m51a_r001&NS_FKEY=m510200401pop02_f001",
+              data: {
+                "LastRwayVehcMceHisId": m.getParam('infoRwayVehcMceHisId'),
+                "LastRwayMoveVehcNo": m.$("input[name='infoRwayMoveVehcNo']").val(),
+                "LastLocoMceCylTp": m.getParam('infoLocoMceCylTp'),
+                "infoRwayVehcTpTp": m.getParam('infoRwayVehcTpTp'),
+                "infoOpenUrl": "m510200602pop04"
+              },
+              callback: function(rows) {
+
+                $.each(rows, function(index, row) {
+                  row.LocoMceWorkerNm = null;
+                });
+
+                tblApi.rows.add(rows).draw();
+                tblApi.columns.adjust();
+              }
+
+            });
+          }
+          //3.정비 작업 자재 사용 내역
+          else if (tbl === "#tbl4") {
+            urlValue = 'http://tpmts.posco.co.kr:8043/M51/M51A10/m510200503pop03?NS_RKEY=m51a_r001&NS_FKEY=m510200503pop03_f001&infoFlag=M&infoComFlag=KO&infoFVFlag=B&infoOpenUrl=m510200602pop04' +
+              '&infoRwayVehcTpTp=' + m.getParam('infoRwayVehcTpTp') +
+              '&infoItrsRwayEqpTp=' + m.getParam('infoItrsRwayEqpTp');
+
+            openModal({
+              url: urlValue,
+              callback: function(code, codeNm, qty, uom, spec) {
+
+                var data = {
+                  "ItemCode": code,
+                  "ItrsRwayEqpMatItds": codeNm,
+                  "ItrsRwayEqpMatInvQt": qty,
+                  "MceAcItemQty1": null,
+                  "UomCode": uom,
+                  "ItrsRwayEqpMatSpec": spec,
+                };
+                tblApi.row.add(data).draw();
+                tblApi.columns.adjust();
+              }
+            });
+          } else {
+            return;
+          }
+        });
+
+
+        // ** Upload File **
+        m.$('#btn_upload').click(function() {
+          /*
+          openModal({
+              url: "http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop06?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop06_f001",
+              data: {
+              },
+              callback: function(fileName, fileFullName) {
+                m.$("#infoFileNmSh2").html(fileName);
+              }
+          });
+          */
+
+          showPopup('http://tpmts.posco.co.kr:8043/M51/M51A10/m510200602pop06?NS_RKEY=m51a_r001&NS_FKEY=m510200602pop06_f001&resultObj=m510200602pop04_form.infoFileNm', 'm510200602pop06', 420, 200);
+
+        });
+
+
+        // ** Save Status **
+        m.$('#btn_save').click(function() {
+
+          //서버로 넘길 파라미터를 JSON으로 생성
+          var rowsIndex2 = m.tableApi2.rows().indexes();
+          var rowsIndex3 = m.tableApi3.rows().indexes();
+          var rowsIndex4 = m.tableApi4.rows().indexes();
+
+          if (m.$('input[name="infoLocoMceSatTm"]').val() == "") {
+            message.modal({
+              title: '알림',
+              text: '<div class="center"><B>정비개시일시를 입력하세요.</B></div>',
+              type: 'alert'
+            });
+            m.$('input[name="infoLocoMceSatTm"]').focus();
+            return;
+          }
+
+          if (m.$('input[name="infoLocoMceDnTm"]').val() == "") {
+            message.modal({
+              title: '알림',
+              text: '<div class="center"><B>정비완료일시를 입력하세요.</B></div>',
+              type: 'alert'
+            });
+            m.$('input[name="infoLocoMceDnTm"]').focus();
+            return;
+          }
+
+          //Check 변동비 서비스item정보's Value
+          if (m.$('#tbl2-panel').is(':visible') == true) {
+            var errChk = false;
+
+            $.each(m.$('input[name="infoMceAcItemQty"]'), function(i, o) {
+              var target = $(o);
+              if (target.val() == null || target.val() == "" || target.val() <= 0) {
+                message.modal({
+                  title: '알림',
+                  text: '<div class="center"><B>0이상의 수량을 입력하세요</B></div>',
+                  type: 'alert'
+                });
+
+                m.$('input[name="infoMceAcItemQty"]')[i].focus();
+                target.focus();
+                errChk = true;
+                return;
+              }
+            });
+            if (errChk) return;
+          }
+
+          //Check 정비 작업 대상 내역's Value
+          if (m.$('#tbl3-panel').is(':visible') == true) {
+            var errChk = false;
+
+            if (rowsIndex3 == null || rowsIndex3.length <= 0) {
+              message.modal({
+                title: '알림',
+                text: '<div class="center"><B>정비 작업 대상 내역을 추가하세요</B><div>',
+                type: 'alert'
+              });
+              return;
+            }
+
+            $.each(m.$('input[name="infoMceAcItemQty2"]'), function(i, o) {
+              var target = $(o);
+              if (target.val() == null || target.val() == "" || target.val() <= 0) {
+
+                message.modal({
+                  title: '알림',
+                  text: '<div class="center"><B>0이상의 사용량을 입력하세요</B><div>',
+                  type: 'alert'
+                });
+
+                target.focus();
+                errChk = true;
+                return;
+              }
+            });
+            if (errChk) return;
+          }
+
+          //Check 정비 작업 자재 사용 내역's Value
+          if (m.$('#tbl4-panel').is(':visible') == true) {
+            var errChk = false;
+
+            $.each(m.$('input[name="infoMceAcItemQty2"]'), function(i, o) {
+              var target = $(o);
+              if (target.val() == null || target.val() == "" || target.val() <= 0) {
+
+                message.modal({
+                  title: '알림',
+                  text: '<div class="center"><B>0이상의 사용량을 입력하세요</B><div>',
+                  type: 'alert'
+                });
+
+                target.focus();
+                errChk = true;
+                return;
+              }
+            });
+            if (errChk) return;
+          }
+
+
+          //서버로 넘길 파라미터 데이터 편집
+          //TB_M50_SCHEC52 자재사용내역
+          var arrItemCode = [];
+          // var arrMceAcItemQty2        = [];
+          //TB_M50_SCHEC53 서비스아이템
+          var arrServiceItemCd = [];
+          // var arrMceAcItemQty         = [];
+          //TB_M50_SCHEC51 정비작업상세내역
+          var arrRwayVehcMceDdyDescNo = [];
+          // var arrOldMceAcItemQty2     = [];
+
+          var pushIdx = 0;
+          for (var idx = 0; idx < rowsIndex2.length; idx++) {
+            var selRowIndex = rowsIndex2[idx];
+            var selData = m.tableApi2.row(selRowIndex).data();
+
+            //데이터 저장
+            arrServiceItemCd.push(selData.ServiceItemCd); //t2
+
+          }
+          pushIdx = 0;
+          for (var idx = 0; idx < rowsIndex3.length; idx++) {
+            var selRowIndex = rowsIndex3[idx];
+            var selData = m.tableApi3.row(selRowIndex).data();
+
+            //데이터 저장
+            arrRwayVehcMceDdyDescNo.push(selData.RwayVehcMceDdyDescNo); //t3
+
+          }
+          pushIdx = 0;
+          for (var idx = 0; idx < rowsIndex4.length; idx++) {
+            var selRowIndex = rowsIndex4[idx];
+            var selData = m.tableApi4.row(selRowIndex).data();
+
+            //데이터 저장
+            arrItemCode.push(selData.ItemCode); //t4
+
+          }
+
+          //서버로 넘길 파라미터를 JSON으로 생성
+          var ajaxParams = {
+            "infoItemCode": arrItemCode,
+            "infoServiceItemCd": arrServiceItemCd,
+            "infoRwayVehcMceDdyDescNo": arrRwayVehcMceDdyDescNo,
+            //          "infoMceAcItemQty2": arrMceAcItemQty2,
+            //          "infoMceAcItemQty": arrMceAcItemQty,
+            //          "infoOldMceAcItemQty2": arrOldMceAcItemQty2,
+          };
+
+          message.modal({
+            title: '확인',
+            text: '<div class="center"><b>저장하시겠습니까?</b></div>',
+            type: 'confirm',
+            clickConfirm: function() {
+
+              $.ajax({
+                url: m.url,
+                type: "POST",
+                data: (function() {
+                  var queryString = m.$('#m510200602pop04_form').serialize() +
+                    '&save.x=0' + '&' +
+                    decodeURI($.param(ajaxParams, true));
+                  return queryString;
+                })(),
+                dataType: "text",
+                success: function(result, status, xhr) {
+                  var jsonResult = $.parseJSON(result);
+                  if (jsonResult.ajaxErrorMessage != undefined) {
+                    message.modal({
+                      title: '에러',
+                      text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                      type: 'alert'
+                    });
+                    return;
+                  }
+
+                  message.modal({
+                    title: '확인',
+                    text: '<div class="center"><B><p>정상처리되었습니다.</p><p>이 창을 닫으시겠습니까?</p></B></div>',
+                    type: 'confirm',
+                    clickConfirm: function() {
+                      if (m.callback) {
+                        m.callback();
+                      }
+                      m.close();
+                    },
+                    clickCancel: function() {
+                      return;
+                    }
+                  });
+                },
+                error: function(xhr, status, error) {
+                  message.modal({
+                    title: '에러',
+                    text: '<p>' + xhr.status + "\n" + error + '</p>',
+                    type: 'alert'
+                  });
+                }
+              });
+
+            },
+            clickCancel: function() {
+              return;
+            }
+          });
+        });
+
+
+        //초기 1회 실행
+        m.initDataTable = function() {
+          //변동비 서비스item정보
+          m.tableApi2 = m.tableApi2 || m.$('#tbl2').DataTable({
+            paging: false,
+            searching: false,
+            ordering: true,
+            scrollY: "116px",
+            scrollCollapse: true,
+            info: false,
+            select: {
+              style: "multi"
+            },
+            data: [],
+            columnDefs: [{
+                targets: "_all",
+                className: "dt-body-center"
+              },
+              {
+                targets: 0,
+                render: Formatter.sequence(),
+                type: "number"
+              },
+              {
+                targets: 3,
+                sortable: false,
+                render: function(data, type, row, meta) {
+                  var $newDiv = $("<div></div>");
+                  var $input = $('<input type="text" class="form-control input-sm right " name="infoMceAcItemQty" style="ime-mode: disabled;" value=' + ((data == null) ? "" : data) + '>');
+
+                  $newDiv.append($input);
+                  return $newDiv.html();
+                }
+              },
+              {
+                targets: 5,
+                sortable: false,
+                render: function(data, type, row, meta) {
+                  var $newDiv = $("<div></div>");
+                  var optionData = makeMceManList;
+                  var $select = $("<select name='infoMceMan' class='selectpicker' data-container='#m510200602pop04' data-live-search='false'></select>");
+
+                  $.each(optionData, function(index, val) {
+                    $select.append('<option value="' + val.Name + '" ' + (val.Name === data ? 'selected' : '') + '>' + val.Name + '</option>');
+                  })
+                  $newDiv.append($select);
+                  return $newDiv.html();
+                }
+              }
+            ],
+            columns: [{
+                data: null,
+                width: "9%"
+              },
+              {
+                data: "ServiceItemCd",
+                width: "15%"
+              },
+              {
+                data: "ItrsRwayEqpMatItds",
+                width: "44%",
+                className: "dt-body-left"
+              },
+              {
+                data: "MceAcItemQty1",
+                width: "12%"
+              },
+              {
+                data: "UomCode",
+                width: "8%"
+              },
+              {
+                data: "LocoMceWorkerNm",
+                width: "12%"
+              } // selRwayEqpMceManResult에서 Select로 생성, infoSaveMode=U경우 선택 가능
+            ],
+            rowCallback: function(row, data, index) {
+              //작업지역 컬럼 rowspan 설정
+              var $cell = $('td:eq(0)', row);
+              $cell.html(index + 1);
+            },
+            drawCallback: function(settings) {
+              m.$('.selectpicker').selectpicker();
+              m.$('.number').number(true);
+              var api = this.api();
+              api.columns.adjust();
+            }
+          });
+
+
+          //정비 작업 대상 내역
+          m.tableApi3 = m.tableApi3 || m.$('#tbl3').DataTable({
+            paging: false,
+            searching: false,
+            ordering: true,
+            scrollY: "116px",
+            scrollCollapse: true,
+            info: false,
+            select: {
+              style: "multi"
+            },
+            data: [],
+            columnDefs: [{
+                targets: "_all",
+                className: "dt-body-center"
+              },
+              {
+                targets: 0,
+                render: Formatter.sequence(),
+                type: "number"
+              },
+              {
+                targets: 1,
+                className: "dt-body-left"
+              },
+              {
+                targets: 3,
+                sortable: false,
+                render: function(data, type, row, meta) {
+                  var $newDiv = $("<div></div>");
+                  var optionData = makeMceManList;
+                  var $select = $("<select name='infoMceMan' class='selectpicker' data-container='#m510200602pop04' data-live-search='false'></select>");
+
+                  $.each(optionData, function(index, val) {
+                    $select.append('<option value="' + val.Name + '" ' + (val.Name === data ? 'selected' : '') + '>' + val.Name + '</option>');
+                  })
+                  $newDiv.append($select);
+                  return $newDiv.html();
+                }
+              },
+            ],
+            columns: [{
+                data: null,
+                width: "9%"
+              },
+              {
+                data: "RwayVehcMceDdyDescNo",
+                width: "15%"
+              },
+              {
+                data: "MessageExplain",
+                width: "64%",
+                className: "dt-body-left"
+              },
+              {
+                data: "LocoMceWorkerNm",
+                width: "12%"
+              }, // selRwayEqpMceManResult에서 Select로 생성, infoSaveMode=U경우 선택 가능
+            ],
+            rowCallback: function(row, data, index) {
+              //작업지역 컬럼 rowspan 설정
+              var $cell = $('td:eq(0)', row);
+              $cell.html(index + 1);
+            },
+            drawCallback: function(settings) {
+              var api = this.api();
+              api.columns.adjust();
+              m.$('.selectpicker').selectpicker();
+            },
+          });
+
+
+          //정비 작업 자재 사용 내역
+          m.tableApi4 = m.tableApi4 || m.$('#tbl4').DataTable({
+            paging: false,
+            searching: false,
+            ordering: true,
+            scrollY: "116px",
+            scrollCollapse: true,
+            info: false,
+            select: {
+              style: "multi"
+            },
+            data: [],
+            columnDefs: [{
+                targets: "_all",
+                className: "dt-body-center"
+              },
+              {
+                targets: 0,
+                render: Formatter.sequence(),
+                type: "number"
+              },
+              {
+                targets: 2,
+                createdCell: function(td, cellData, rowData, rowIndex, colIndex) {
+                  $(td).attr({
+                    'data-toggle': 'tooltip',
+                    'data-placement': 'bottom',
+                    'data-container': 'body',
+                    'data-original-title': rowData.ItrsRwayEqpMatSpec
+                  });
+                }
+              },
+              {
+                targets: 3,
+                render: Formatter.number(',', '', 0, '', '')
+              },
+              {
+                targets: 4,
+                sortable: false,
+                render: function(data, type, row, meta) {
+                  var $newDiv = $("<div></div>");
+                  var $input = $('<input type="text" class=="form-control input-sm" name="infoMceAcItemQty2" maxlength="6" style="ime-mode: disabled;" value=' + data + '>');
+
+
+
+
+
+                  $newDiv.append($input);
+                  return $newDiv.html();
+                }
+              },
+              //Hidden Data
+              {
+                targets: -1,
+                visible: false
+              },
+            ],
+            columns: [{
+                data: null,
+                width: "9%"
+              },
+              {
+                data: "ItemCode",
+                width: "15%"
+              },
+              {
+                data: "ItrsRwayEqpMatItds",
+                width: "45%",
+                className: "dt-body-left"
+              }, // index i-1
+              {
+                data: "ItrsRwayEqpMatInvQt",
+                width: "12%",
+                className: "dt-body-right"
+              }, // index i-1
+              {
+                data: "MceAcItemQty1",
+                width: "12%"
+              },
+              {
+                data: "UomCode",
+                width: "8%"
+              },
+              //Hidden Data
+              {
+                data: "ItrsRwayEqpMatSpec",
+                name: "infoSpec"
+              }
+            ],
+            rowCallback: function(row, data, index) {
+              //작업지역 컬럼 rowspan 설정
+              var $cell = $('td:eq(0)', row);
+              $cell.html(index + 1);
+            },
+            drawCallback: function(settings) {
+              var api = this.api();
+              api.columns.adjust();
+              m.$('.number').number(true);
+              m.$('[data-toggle="tooltip"]').tooltip();
+            }
+          });
+        };
+
+
+        m.find = function() {
+          $.ajax({
+            url: m.url,
+            type: "POST",
+            data: (function() {
+              var queryString = $.param({
+                'find.x': '0',
+                'infoMode': m.getParam('infoMode'),
+                'infoSaveMode': m.getParam('infoSaveMode'),
+                'infoRwayVehcTpTp': m.getParam('infoRwayVehcTpTp'),
+                'infoRwayVehcMceHisId': m.getParam('infoRwayVehcMceHisId'),
+                'infoLocoMceCylTp': m.getParam('infoLocoMceCylTp'),
+                'infoItrsRwayEqpTp': m.getParam('infoItrsRwayEqpTp'),
+                'WorksCode': m.getParam('WorksCode')
+              });
+              return queryString;
+            })(),
+            dataType: "text",
+            success: function(result, status, xhr) {
+              var jsonResult = $.parseJSON(result);
+
+              if (jsonResult.ajaxErrorMessage != undefined) {
+                message.modal({
+                  title: '에러',
+                  text: '<p>' + jsonResult.ajaxErrorMessage + '</p>',
+                  type: 'alert'
+                });
+                return;
+              }
+
+              var SignalMceProgress = jsonResult.SelSignalMceProgressResult; // selSignalRwayEqpMceCnt ?? 미사용
+              var EqpMceProgress = jsonResult.SelRwayEqpMceProgressResult; //info
+              var EqpMceServiceItem = jsonResult.SelRwayEqpMceServiceItemResult; //tbl2 변동비 서비스item정보
+              var EqpMceItem = jsonResult.SelRwayEqpMceItemResult; //tbl3 정비 작업 대상 내역
+              var EqpMceMaterial = jsonResult.SelRwayEqpMceMaterialResult; //tbl4 정비 작업 자재 사용 내역
+              var EqpMceMan = jsonResult.SelRwayEqpMceManResult; //SelectList
+
+              //Datatable refresh
+              m.tableApi2.clear();
+              m.tableApi3.clear();
+              m.tableApi4.clear();
+
+              if (EqpMceMan.length !== 0) {
+                makeMceManList = EqpMceMan;
+              }
+
+              if (EqpMceServiceItem.length === 0) {
+                m.$('#tbl2-panel').hide();
+                m.$('#tbl3-panel').show();
+                m.tableApi3.rows.add(EqpMceItem).draw();
+              } else {
+                m.$('#tbl2-panel').show();
+                m.$('#tbl3-panel').hide();
+                m.tableApi2.rows.add(EqpMceServiceItem).draw();
+              }
+
+              m.tableApi4.rows.add(EqpMceMaterial).draw();
+
+              //tbl1 Data Setup
+              if (EqpMceProgress != null) {
+                m.$("#infoRwayMoveVehcNm").text(EqpMceProgress.RwayMoveVehcNm);
+                m.$("#infoRwayMoveVehcNmTd").attr("data-original-title", EqpMceProgress.RwayMoveVehcNm);
+                m.$("#infoLocoMceCylTpNm").text(EqpMceProgress.LocoMceCylTpNm);
+                m.$("#infoLocoMceCylTp").text(EqpMceProgress.LocoMceCylTp);
+                m.$("#infoLocoMceWkYrdTpNm").text(EqpMceProgress.LocoMceWkYrdTpNm);
+                m.$("#infoItrsRwayMceRstRegrNm").text(EqpMceProgress.ItrsRwayMceRstRegrNm);
+
+                m.$("#infoItrsRwayMceJobIndNo").text(EqpMceProgress.ItrsRwayMceJobIndNo);
+                m.$("#infoDescription").text(EqpMceProgress.Description);
+                m.$("input[name='infoItrsRwayMceJobIndNo']").val(EqpMceProgress.ItrsRwayMceJobIndNo);
+                m.$("input[name='infoDescription']").val(EqpMceProgress.Description);
+
+                m.$("input[name='infoItrsRwayEqpMceJobHeadCnt']").val(EqpMceProgress.ItrsRwayEqpMceJobHeadCnt);
+                //                  m.$("#infoLocoMceSatTm").text(EqpMceProgress.LocoMceSatTm);
+                //                  m.$("#infoLocoMceDnTm").text(EqpMceProgress.LocoMceDnTm);
+                m.$("input[name='infoLocoMceSatTm']").val(EqpMceProgress.LocoMceSatTm);
+                m.$("input[name='infoLocoMceDnTm']").val(EqpMceProgress.LocoMceDnTm);
+                m.$("input[name='infoItrsRwayDlEngnOpTm']").val(EqpMceProgress.ItrsRwayDlEngnOpTm);
+                m.$("textarea[name='infoMessageExplain2']").val(EqpMceProgress.MessageExplain2);
+                //                  m.$("#infoRwayVehcTpTp").text(EqpMceProgress.RwayVehcTpTp);
+
+                //input Hidden Data
+                m.$("input[name='infoMode']").val(m.getParam('infoMode'));
+                m.$("input[name='infoSaveMode']").val(m.getParam('infoSaveMode'));
+                m.$("input[name='infoRwayVehcTpTp']").val(m.getParam('infoRwayVehcTpTp'));
+                m.$("input[name='infoRwayVehcMceHisId']").val(m.getParam('infoRwayVehcMceHisId'));
+                m.$("input[name='infoLocoMceCylTp']").val(m.getParam('infoLocoMceCylTp'));
+                m.$("input[name='infoItrsRwayEqpTp']").val(m.getParam('infoItrsRwayEqpTp'));
+                m.$("input[name='infoSelItrsRwayEqpMceTp']").val(EqpMceProgress.ItrsRwayEqpMceTp);
+                m.$("input[name='infoRwayMoveVehcNo']").val(EqpMceProgress.RwayMoveVehcNo);
+
+                //첨부파일 처리
+                var fullFilePath1 = EqpMceProgress.AppendingFileLocation;
+                var fullFilePath2 = EqpMceProgress.AppendingFileLocation2;
+
+                m.$("#downDoc1").attr("downLink", fullFilePath1);
+                m.$("#infoFileNmSh1").html(fullFilePath1.substring(fullFilePath1.lastIndexOf('/') + 1));
+                m.$("input[name='infoFileNm']").val(fullFilePath2.substring(fullFilePath2.lastIndexOf('/') + 1));
+
+                m.$("#infoItrsRwayEqpTp").text(EqpMceProgress.ItrsRwayEqpTp);
+                m.$("#infoSelItrsRwayEqpMceTp").text(EqpMceProgress.ItrsRwayEqpMceTp);
+              }
+
+              jsonResult = null;
+              xhr = null;
+            },
+            error: function(xhr, status, error) {
+              message.modal({
+                title: '에러',
+                text: '<p>' + xhr.status + "\n" + error + '</p>',
+                type: 'alert'
+              });
+            }
+          });
+        };
+
+
+        m.load(function() {
+          dataMode();
+
+          //DataTable 초기화
+          m.initDataTable();
+        });
+
+        //모달 창이 열릴 때마다
+        m.shown(function() {
+          m.find();
+
+          dataMode();
+
+          m.tableApi2.columns.adjust();
+          m.tableApi3.columns.adjust();
+          m.tableApi4.columns.adjust();
+
+        });
+
+        //모달 창이 닫힐 때마다
+        m.hidden(function() {
+          //initiallize Data
+          m.$("span.data").html("");
+          m.$("td.data").attr("data-original-title", "");
+          m.$("input").val("");
+          m.$("select").val("");
+          m.$("textarea").val("");
+
+        });
+
+        function dataMode() {
+
+          var infoMode = m.getParam('infoMode'); //infoMode : 정비결과등록(R),정비결과등록담당자확인(RC)
+          var infoSaveMode = m.getParam('infoSaveMode'); //infoSaveMode : 등록(I), 수정(U)
+          var infoRwayVehcTpTp = m.getParam('infoRwayVehcTpTp');
+
+          //Title & Send SMS/Mail
+          if (infoSaveMode == "I") {
+            m.$("span.modal-title").html("정비결과등록" + ((infoMode == 'RC') ? "(담당자)" : ""));
+
+            //SMS, Mail
+            if (infoMode == "R") m.$('.infoModeR').show();
+            else m.$('.infoModeR').hide();
+
+          } else {
+            m.$("span.modal-title").html("정비결과수정" + ((infoMode == 'RC') ? "(담당자)" : ""));
+          }
+
+          //저장Button
+          if (infoMode == "R") m.$("#btn_save").html("저장");
+          else if (infoMode == "RC") m.$("#btn_save").html("담당자확인");
+
+          //infoRwayVehcTpTp 선로(X)이고 infoSaveMode 등록(I) 인경우 matDisFlag=False (default true)
+          if (infoRwayVehcTpTp == "X" && infoSaveMode == "I") {
+            m.$('#tbl4-panel').hide();
+          } else {
+            m.$('#tbl4-panel').show();
+          }
+
+          //infoRwayVehcTpTp 기관차(D) engine
+          if (infoRwayVehcTpTp == "D") m.$('.engine').show();
+          else m.$('.engine').hide();
+
+        }
+      })(m510200602pop04);
+    </script>
+  </div>
+</body></html>

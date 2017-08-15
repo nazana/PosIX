@@ -11,7 +11,7 @@
 }(this, function() { 
 	'use strict';
  
-	// Whatâ€™s in parameters ? JS file name,  log level, msg, object or string
+	// What¡¯s in parameters ? JS file name,  log level, msg, object or string
 	function _info(plugInName, msg)
 	{
 		console.log("[%s] - %s: %s",plugInName, "INFO", msg);
@@ -45,7 +45,7 @@
 }));
 /*
  * - jQuery Self-Invoking function
- * - Twitter bootstrap ì‚¬ìš© íŒ¨í„´
+ * - Twitter bootstrap »ç¿ë ÆĞÅÏ
  * - function($) { ...} (window.jQuery)
  **/
 +function ($) { 
@@ -62,14 +62,14 @@
   
   /**
    * dismiss variable
-   * - ì´ ì…€ë ‰í„°ì™€ ë™ì¼í•œ DOM elementë¡œë¶€í„° click ì´ë²¤íŠ¸ë¥¼ ì—°ê²°í•˜ê¸° ìœ„í•˜ì—¬ 
-   *   ìƒì„±ìì—ì„œ ì‚¬ìš©í•˜ëŠ” jQuery Selector
+   * - ÀÌ ¼¿·ºÅÍ¿Í µ¿ÀÏÇÑ DOM element·ÎºÎÅÍ click ÀÌº¥Æ®¸¦ ¿¬°áÇÏ±â À§ÇÏ¿© 
+   *   »ı¼ºÀÚ¿¡¼­ »ç¿ëÇÏ´Â jQuery Selector
    */
   var dismiss = '[data-dismiss="alert"]' 
 
   // Alert class 
   // el: DOM element
-  // DOM el í˜¹ì€ descendant of elì´ data-dismiss ì†ì„±ì„ alert valueë¡œ ê°–ê³  ìˆìœ¼ë©´ click ì´ë²¤íŠ¸ë¥¼ this.closeì— ì˜í•´ì„œ ì¢…ë£Œ ì‹œí‚¨ë‹¤. 
+  // DOM el È¤Àº descendant of elÀÌ data-dismiss ¼Ó¼ºÀ» alert value·Î °®°í ÀÖÀ¸¸é click ÀÌº¥Æ®¸¦ this.close¿¡ ÀÇÇØ¼­ Á¾·á ½ÃÅ²´Ù. 
   var Alert   = function (el) {
     $(el).on('click', dismiss, this.close)
   }
@@ -78,36 +78,36 @@
 
   Alert.TRANSITION_DURATION = 150
 
-  Alert.prototype.close = function (e) { // Constructorì—ëŠ” return valueê°€ ì—†ë‹¤.
-    var $this    = $(this) // thisëŠ” click ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ëŠ” elementë¥¼ ì°¸ì¡°í•œë‹¤.
-    // 'First Option': data-target ì†ì„±ì´ ìˆëŠ”ì§€ í™•ì¸
+  Alert.prototype.close = function (e) { // Constructor¿¡´Â return value°¡ ¾ø´Ù.
+    var $this    = $(this) // this´Â click ÀÌº¥Æ®°¡ ¹ß»ıÇÏ´Â element¸¦ ÂüÁ¶ÇÑ´Ù.
+    // 'First Option': data-target ¼Ó¼ºÀÌ ÀÖ´ÂÁö È®ÀÎ
     var selector = $this.attr('data-target') // get the data-target attr's value
 
     // 'Second Option'
-    // data-targetì´ ì—†ëŠ” ê²½ìš°
-    // href ì†ì„±ì´ ìˆëŠ”ì§€ í™•ì¸
+    // data-targetÀÌ ¾ø´Â °æ¿ì
+    // href ¼Ó¼ºÀÌ ÀÖ´ÂÁö È®ÀÎ
     if (!selector) {
       selector = $this.attr('href')
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
     }
     
     // 'Third Option'
-    // data-target ì´ë‚˜ hrefì˜ ì†ì„±ì´ close buttonì— ì—†ê±°ë‚˜, match ë˜ëŠ”ê²Œ ì—†ìœ¼ë©´
-    // $parent ì˜ lengthëŠ” 0ì´ ë  ê²ƒì´ë‹¤. 
+    // data-target ÀÌ³ª hrefÀÇ ¼Ó¼ºÀÌ close button¿¡ ¾ø°Å³ª, match µÇ´Â°Ô ¾øÀ¸¸é
+    // $parent ÀÇ length´Â 0ÀÌ µÉ °ÍÀÌ´Ù. 
     var $parent = $(selector)
 
-    if (e) e.preventDefault() // ëª¨ë“  ë™ì‚¬ì›í˜• ì´ë²¤íŠ¸ëŠ” ê¸°ëŠ¥ì ìœ¼ë¡œ preventDefaultë¥¼ ì œê³µí•œë‹¤. 
-                              // ì´ë²¤íŠ¸ ì‹¤í–‰ì „ ì‹¤í–‰ì„ ì¤‘ì§€í•˜ê¸° ìœ„í•œ êµ¬ë¬¸
-    					      // --> hrefì— link ëœ URLë¡œ ë„˜ì–´ê°€ëŠ” ê²ƒì„ ë°©ì§€í•œë‹¤ëŠ” ì˜ë¯¸
+    if (e) e.preventDefault() // ¸ğµç µ¿»ç¿øÇü ÀÌº¥Æ®´Â ±â´ÉÀûÀ¸·Î preventDefault¸¦ Á¦°øÇÑ´Ù. 
+                              // ÀÌº¥Æ® ½ÇÇàÀü ½ÇÇàÀ» ÁßÁöÇÏ±â À§ÇÑ ±¸¹®
+    					      // --> href¿¡ link µÈ URL·Î ³Ñ¾î°¡´Â °ÍÀ» ¹æÁöÇÑ´Ù´Â ÀÇ¹Ì
 
-    // $parentì˜ lengthê°€ 0ì´ë©´ .alertë¡œì¨ alert classê°€ ìˆëŠ”ì§€ í™•ì¸í•œë‹¤. 
-    // .alert í´ë˜ìŠ¤ë¥¼ ê°€ì§€ê³  ìˆìœ¼ë©´ ì´ elê°ì²´ê°€ faded í˜¹ì€ removeë˜ì–´ì•¼ í•  ê°ì²´ì´ë‹¤.
+    // $parentÀÇ length°¡ 0ÀÌ¸é .alert·Î½á alert class°¡ ÀÖ´ÂÁö È®ÀÎÇÑ´Ù. 
+    // .alert Å¬·¡½º¸¦ °¡Áö°í ÀÖÀ¸¸é ÀÌ el°´Ã¼°¡ faded È¤Àº removeµÇ¾î¾ß ÇÒ °´Ã¼ÀÌ´Ù.
     if (!$parent.length) {
-      $parent = $this.closest('.alert') // .alert classì™€ ì²«ë²ˆì§¸ë¡œ matchí•˜ëŠ” DOM elementë¥¼ ì°¾ì•„ì˜¤ê³ , DOM treeì˜ ancestor elementë¥¼ return
+      $parent = $this.closest('.alert') // .alert class¿Í Ã¹¹øÂ°·Î matchÇÏ´Â DOM element¸¦ Ã£¾Æ¿À°í, DOM treeÀÇ ancestor element¸¦ return
     }
     
-    // alertë¥¼ closeí•˜ê¸° ì „ì—, close dispatches a "close.bs.alert" ì´ë²¤íŠ¸ë¥¼ $parent elementì— ë°œìƒì‹œí‚¨ë‹¤. 
-    $parent.trigger(e = $.Event('close.bs.alert')) //create Custom event using jQuery's $.Event, and variable eì— setí•œë‹¤.
+    // alert¸¦ closeÇÏ±â Àü¿¡, close dispatches a "close.bs.alert" ÀÌº¥Æ®¸¦ $parent element¿¡ ¹ß»ı½ÃÅ²´Ù. 
+    $parent.trigger(e = $.Event('close.bs.alert')) //create Custom event using jQuery's $.Event, and variable e¿¡ setÇÑ´Ù.
     // This just makes it possible to listen for the close event just from Bootstrap's Alert plugin by binding to the close.bs.alert event
     // It also makes it easier in Bootstrap to remove event handlers. 
     // For example, all of the following would work to remove an event handler bound to close.bs.alert:
@@ -119,25 +119,25 @@
     // We'll look at how the Alert is faded out and removed from the DOM.
     
     // 1. remove in class
-    // opacity 1ë¶€í„° ì‹œì‘í•´ì„œ 0ìœ¼ë¡œ 0.15secë™ì•ˆ transitionì„ í†µí•´ ë³€í•œë‹¤.
+    // opacity 1ºÎÅÍ ½ÃÀÛÇØ¼­ 0À¸·Î 0.15secµ¿¾È transitionÀ» ÅëÇØ º¯ÇÑ´Ù.
     $parent.removeClass('in') 
     
     // 2. define function
-    // ì´ í•¨ìˆ˜ëŠ” removeClass transitionì´ ëë‚˜ê³  ì‹¤í–‰ëœë‹¤. 
-    // ì´ í•¨ìˆ˜ì˜ ì‹¤í–‰ì´ removeClass ì´í›„ê°€ ë˜ë„ë¡ ë°”ì¸ë”©ì„ í•  ê²ƒì´ë‹¤. 
+    // ÀÌ ÇÔ¼ö´Â removeClass transitionÀÌ ³¡³ª°í ½ÇÇàµÈ´Ù. 
+    // ÀÌ ÇÔ¼öÀÇ ½ÇÇàÀÌ removeClass ÀÌÈÄ°¡ µÇµµ·Ï ¹ÙÀÎµùÀ» ÇÒ °ÍÀÌ´Ù. 
     function removeElement() {
 
-      // removeElement ëŠ” closed.bs.alert ì´ë²¤íŠ¸ë¥¼ triggerí•œë‹¤. 
-      // ì´ í•¨ìˆ˜ë¥¼ í†µí•´ì„œ DOMì˜ Alert ì—˜ë¦¬ë¨¼íŠ¸ê°€ ì‚­ì œë  ê²ƒì´ë‹¤. 	
+      // removeElement ´Â closed.bs.alert ÀÌº¥Æ®¸¦ triggerÇÑ´Ù. 
+      // ÀÌ ÇÔ¼ö¸¦ ÅëÇØ¼­ DOMÀÇ Alert ¿¤¸®¸ÕÆ®°¡ »èÁ¦µÉ °ÍÀÌ´Ù. 	
       $parent.detach().trigger('closed.bs.alert').remove()
       // .detach(): Remove the set of matched elements from the DOM.
       // .remove(): Remove the set of matched elements from the DOM.
     }
 
-    $.support.transition && $parent.hasClass('fade') ? // browserê°€ transitionì„ ì§€ì›í•˜ëŠ”ì§€ ? parent ê°€ fade classë¥¼ ê°–ê³  ìˆëŠ”ì§€ ?
+    $.support.transition && $parent.hasClass('fade') ? // browser°¡ transitionÀ» Áö¿øÇÏ´ÂÁö ? parent °¡ fade class¸¦ °®°í ÀÖ´ÂÁö ?
       $parent
         .one('bsTransitionEnd', removeElement) // bind removeElement to the transition end event exactly once
-        .emulateTransitionEnd(Alert.TRANSITION_DURATION) : // emulateTransitionEnd: Transitionì˜ ì§€ì†ì‹œê°„ ì„¤ì •
+        .emulateTransitionEnd(Alert.TRANSITION_DURATION) : // emulateTransitionEnd: TransitionÀÇ Áö¼Ó½Ã°£ ¼³Á¤
       removeElement()
   }
 
@@ -150,21 +150,21 @@
 	                        // 
 	// Also, as a jQuery plugin best practice, the result of calling this.each is returned to enable chaining of jQuery function calls.
     return this.each(function () { // this: result of jQuery Selector(Array of DOM element, each: for looping with DOM element
-    	                           // .each(function): jQuery Objectì— ëŒ€í•´ì„œ iterationì„ í•˜ê³  iteration í•˜ë©´ì„œ ê° elementë³„ë¡œ functionì‹¤í–‰
+    	                           // .each(function): jQuery Object¿¡ ´ëÇØ¼­ iterationÀ» ÇÏ°í iteration ÇÏ¸é¼­ °¢ elementº°·Î function½ÇÇà
     	
-      // $(this): jQuery functionì— ì ‘ê·¼, this: javascript functionì— ì ‘ê·¼
-      // jQuery() = $() --> ê´„í˜¸ì•ˆì— ìˆ selectorëŠ”ë‘ matchë˜ëŠ” DOM elementë¥¼ ì°¾ì•„ì„œ jQuery objectë¥¼ ë§Œë“¤ì–´ ì¤€ë‹¤.
+      // $(this): jQuery function¿¡ Á¢±Ù, this: javascript function¿¡ Á¢±Ù
+      // jQuery() = $() --> °ıÈ£¾È¿¡ ÀÖ selector´Â¶û matchµÇ´Â DOM element¸¦ Ã£¾Æ¼­ jQuery object¸¦ ¸¸µé¾î ÁØ´Ù.
       var $this = $(this)
       var data  = $this.data('vs.alert') // checking if we've already created an Alert instance for this DOM element
       // .data() in jQuery
       // 1) .data(key): Return the value at the named data store for the first element
       // 2) .data(key,value): Store arbitrary data associated with the matched elements
       
-      // data ê°€ nullì´ë©´ Alert instanceê°€ ìƒì„± ì „ì´ë‹¤. 
+      // data °¡ nullÀÌ¸é Alert instance°¡ »ı¼º ÀüÀÌ´Ù. 
       if (!data) $this.data('vs.alert', (data = new Alert(this))) // creates the Alert instance, and it will be saved bs.alert key
       if (typeof option == 'string') data[option].call($this) // but options can also be a string with the name of a method that you want to invoke on the Alert instance
-      // dataëŠ” Alert Instanceì— ëŒ€í•œ ì°¸ì¡°ì´ê³ , ê·¸ëŸ¬ë¯€ë¡œ data[option]ì€ Alert instanceì˜ functionì— ëŒ€í•œ ì°¸ì¡°ì´ë‹¤.
-      // ë©”ì†Œë“œê°€ .call ëœë‹¤.  
+      // data´Â Alert Instance¿¡ ´ëÇÑ ÂüÁ¶ÀÌ°í, ±×·¯¹Ç·Î data[option]Àº Alert instanceÀÇ function¿¡ ´ëÇÑ ÂüÁ¶ÀÌ´Ù.
+      // ¸Ş¼Òµå°¡ .call µÈ´Ù.  
     })
   }
   // fn: to hook your own functionality into jQuery($.fn.myextension)
@@ -174,7 +174,7 @@
   $.fn.alert             = Plugin
   $.fn.alert.Constructor = Alert // By creating the Constructor reference, 
                                  // other code can directly instantiate an Alert instance without needing to invoke it indirectly through the jQuery API.
-                                 // ì´ êµ¬ë¬¸ì„ ì¶”ê°€í•˜ì§€ ì•Šìœ¼ë©´, Alert ConstructorëŠ” privateìœ¼ë¡œ ë‚¨ì•„ ìˆëŠ”ë‹¤.
+                                 // ÀÌ ±¸¹®À» Ãß°¡ÇÏÁö ¾ÊÀ¸¸é, Alert Constructor´Â privateÀ¸·Î ³²¾Æ ÀÖ´Â´Ù.
   								 // 
 
   // 2. ALERT NO CONFLICT
@@ -187,7 +187,7 @@
     return this // return function defined above.
   }
 
-  // 3. ALERT DATA-API --> ì—†ìœ¼ë©´ ì™¸ë¶€ì—ì„œ javascriptë¥¼ í†µí•´, Pluginì„ í˜¸ì¶œí•´ì•¼ì§€ë§Œ private close ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
+  // 3. ALERT DATA-API --> ¾øÀ¸¸é ¿ÜºÎ¿¡¼­ javascript¸¦ ÅëÇØ, PluginÀ» È£ÃâÇØ¾ßÁö¸¸ private close ¸Ş¼Òµå¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.
   // ==============
   // This allows for purely declarative use of the Alert plugin, no JavaScript calls necessary.
   // .on( events [, selector ] [, data ], handler ) Method
@@ -222,13 +222,13 @@
     loadingText: 'loading...'
   }
   
-  // Button classëŠ” setState, toggleì˜ ë‘ê°€ì§€ ë©”ì†Œë“œë¥¼ ì •ì˜í•˜ê³  ìˆìŒ
+  // Button class´Â setState, toggleÀÇ µÎ°¡Áö ¸Ş¼Òµå¸¦ Á¤ÀÇÇÏ°í ÀÖÀ½
   
   // setState Method
   Button.prototype.setState = function (state) {
     var d    = 'disabled'
     var $el  = this.$element
-    // jQuery:  .is(element) - ì—˜ë¦¬ë¨¼íŠ¸ê°€ ì…€ë ‰í„°ë‘ ë™ì¼í•œì§€ ì²´í¬í•˜ëŠ” êµ¬ë¬¸    
+    // jQuery:  .is(element) - ¿¤¸®¸ÕÆ®°¡ ¼¿·ºÅÍ¶û µ¿ÀÏÇÑÁö Ã¼Å©ÇÏ´Â ±¸¹®    
     var val  = $el.is('input') ? 'val' : 'html'
     var data = $el.data() // allows us to attach data of any type to DOM elements in a way 
                           // that is safe from circular references and therefore from memory leaks 
@@ -266,7 +266,7 @@
       }
       if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
     } else {
-      // data-toggle="buttons" ê°€ ì•„ë‹Œ el
+      // data-toggle="buttons" °¡ ¾Æ´Ñ el
       this.$element.attr('aria-pressed', !this.$element.hasClass('active'))
     }
 
@@ -281,7 +281,7 @@
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.button')
-      var options = typeof option == 'object' && option //  typeof ì—°ì‚°ìëŠ” í˜•ì‹ ì •ë³´ë¥¼ ë¬¸ìì—´ë¡œ ë°˜í™˜í•©ë‹ˆë‹¤. typeof ëŠ” "number", "string", "boolean", "object", "function" ë° "undefined"ì˜ 6ê°€ì§€ ê°’ì„ ë°˜í™˜í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+      var options = typeof option == 'object' && option //  typeof ¿¬»êÀÚ´Â Çü½Ä Á¤º¸¸¦ ¹®ÀÚ¿­·Î ¹İÈ¯ÇÕ´Ï´Ù. typeof ´Â "number", "string", "boolean", "object", "function" ¹× "undefined"ÀÇ 6°¡Áö °ªÀ» ¹İÈ¯ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
 
       if (!data) $this.data('bs.button', (data = new Button(this, options)))
 
@@ -603,7 +603,7 @@
   
   Dropdown.prototype.fixTableScroll = function (e) {
 //	  if($(this).parents("table").attr("data-dropup")=="true"){
-	  if($(this).parents('.table-responsive')){ //table ë‚´ table-responsive ì¶”ê°€
+	  if($(this).parents('.table-responsive')){ //table ³» table-responsive Ãß°¡
 	  
 	  $('.dropdown-menu').parent().on('show.bs.dropdown', function () {
  	        var parentResponsiveTable = $(this).parents('.table-responsive');
@@ -699,8 +699,8 @@
 
       if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)
-      // call method: ë‹¤ë¥¸ ê°œì²´ ëŒ€ì‹  ë©”ì„œë“œë¥¼ í˜¸ì¶œ
-      // option methodë¥¼ í˜¸ì¶œ
+      // call method: ´Ù¸¥ °³Ã¼ ´ë½Å ¸Ş¼­µå¸¦ È£Ãâ
+      // option method¸¦ È£Ãâ
     })
   }
 
@@ -751,8 +751,8 @@
 		
 	Progress.prototype.changeProgress = function() {
     	$(progress).each(function () {
- 	       var progress = setInterval(function() { // ì‹œê°„ì´ ì§€ë‚¨ì— ë”°ë¼ progressë¥¼ ì§„í–‰
- 	           var $bar = $('.progress-bar'); // progress bar ê°ì²´ë¥¼ ê°€ì ¸ì˜´
+ 	       var progress = setInterval(function() { // ½Ã°£ÀÌ Áö³²¿¡ µû¶ó progress¸¦ ÁøÇà
+ 	           var $bar = $('.progress-bar'); // progress bar °´Ã¼¸¦ °¡Á®¿È
 
  	           if ($bar.width()>=800) { //
  	               clearInterval(progress);
@@ -791,9 +791,9 @@
 	
 	// 3. Progress Bar DATA-API
 	//==========================
-    // progress-bar element loadì‹œ progress-bar ì§„í–‰ ì§„í–‰ ì‹œí‚´
+    // progress-bar element load½Ã progress-bar ÁøÇà ÁøÇà ½ÃÅ´
     $(window).on('load', Progress.prototype.changeProgress)
-    // htmlíŒŒì¼ì—ì„œ ì§ì ‘ scriptë¥¼ í†µí•´ í˜¸ì¶œí•˜ëŠ” êµ¬ë¬¸
+    // htmlÆÄÀÏ¿¡¼­ Á÷Á¢ script¸¦ ÅëÇØ È£ÃâÇÏ´Â ±¸¹®
     //$(window).on('load', $('div').progress('changeProgress'));
 }(jQuery);
 +function ($) {
@@ -4386,7 +4386,7 @@
                 (b === 3) ? 'rd' : 'th';
             
             if(this._abbr != null && this._abbr === 'ko'){
-            	output = 'ì¼';
+            	output = 'ÀÏ';
             }
             return number + output;
         }
@@ -4784,51 +4784,51 @@
     //! - Kyungwook, Park : https://github.com/kyungw00k
     //! - Jeeeyul Lee <jeeeyul@gmail.com>
     var ko = _moment__default.defineLocale('ko', {
-        months : '1ì›”_2ì›”_3ì›”_4ì›”_5ì›”_6ì›”_7ì›”_8ì›”_9ì›”_10ì›”_11ì›”_12ì›”'.split('_'),
-        monthsShort : '1ì›”_2ì›”_3ì›”_4ì›”_5ì›”_6ì›”_7ì›”_8ì›”_9ì›”_10ì›”_11ì›”_12ì›”'.split('_'),
-        weekdays : 'ì¼ìš”ì¼_ì›”ìš”ì¼_í™”ìš”ì¼_ìˆ˜ìš”ì¼_ëª©ìš”ì¼_ê¸ˆìš”ì¼_í† ìš”ì¼'.split('_'),
-        weekdaysShort : 'ì¼_ì›”_í™”_ìˆ˜_ëª©_ê¸ˆ_í† '.split('_'),
-        weekdaysMin : 'ì¼_ì›”_í™”_ìˆ˜_ëª©_ê¸ˆ_í† '.split('_'),
+        months : '1¿ù_2¿ù_3¿ù_4¿ù_5¿ù_6¿ù_7¿ù_8¿ù_9¿ù_10¿ù_11¿ù_12¿ù'.split('_'),
+        monthsShort : '1¿ù_2¿ù_3¿ù_4¿ù_5¿ù_6¿ù_7¿ù_8¿ù_9¿ù_10¿ù_11¿ù_12¿ù'.split('_'),
+        weekdays : 'ÀÏ¿äÀÏ_¿ù¿äÀÏ_È­¿äÀÏ_¼ö¿äÀÏ_¸ñ¿äÀÏ_±İ¿äÀÏ_Åä¿äÀÏ'.split('_'),
+        weekdaysShort : 'ÀÏ_¿ù_È­_¼ö_¸ñ_±İ_Åä'.split('_'),
+        weekdaysMin : 'ÀÏ_¿ù_È­_¼ö_¸ñ_±İ_Åä'.split('_'),
         longDateFormat : {
-            LT : 'A hì‹œ më¶„',
-            LTS : 'A hì‹œ më¶„ sì´ˆ',
+            LT : 'A h½Ã mºĞ',
+            LTS : 'A h½Ã mºĞ sÃÊ',
             L : 'YYYY.MM.DD',
-            LL : 'YYYYë…„ MMMM Dì¼',
-            LLL : 'YYYYë…„ MMMM Dì¼ A hì‹œ më¶„',
-            LLLL : 'YYYYë…„ MMMM Dì¼ dddd A hì‹œ më¶„'
+            LL : 'YYYY³â MMMM DÀÏ',
+            LLL : 'YYYY³â MMMM DÀÏ A h½Ã mºĞ',
+            LLLL : 'YYYY³â MMMM DÀÏ dddd A h½Ã mºĞ'
         },
         calendar : {
-            sameDay : 'ì˜¤ëŠ˜ LT',
-            nextDay : 'ë‚´ì¼ LT',
+            sameDay : '¿À´Ã LT',
+            nextDay : '³»ÀÏ LT',
             nextWeek : 'dddd LT',
-            lastDay : 'ì–´ì œ LT',
-            lastWeek : 'ì§€ë‚œì£¼ dddd LT',
+            lastDay : '¾îÁ¦ LT',
+            lastWeek : 'Áö³­ÁÖ dddd LT',
             sameElse : 'L'
         },
         relativeTime : {
-            future : '%s í›„',
-            past : '%s ì „',
-            s : 'ëª‡ì´ˆ',
-            ss : '%dì´ˆ',
-            m : 'ì¼ë¶„',
-            mm : '%dë¶„',
-            h : 'í•œì‹œê°„',
-            hh : '%dì‹œê°„',
-            d : 'í•˜ë£¨',
-            dd : '%dì¼',
-            M : 'í•œë‹¬',
-            MM : '%dë‹¬',
-            y : 'ì¼ë…„',
-            yy : '%dë…„'
+            future : '%s ÈÄ',
+            past : '%s Àü',
+            s : '¸îÃÊ',
+            ss : '%dÃÊ',
+            m : 'ÀÏºĞ',
+            mm : '%dºĞ',
+            h : 'ÇÑ½Ã°£',
+            hh : '%d½Ã°£',
+            d : 'ÇÏ·ç',
+            dd : '%dÀÏ',
+            M : 'ÇÑ´Ş',
+            MM : '%d´Ş',
+            y : 'ÀÏ³â',
+            yy : '%d³â'
         },
-        ordinalParse : /\d{1,2}ì¼/,
-        ordinal : '%dì¼',
-        meridiemParse : /ì˜¤ì „|ì˜¤í›„/,
+        ordinalParse : /\d{1,2}ÀÏ/,
+        ordinal : '%dÀÏ',
+        meridiemParse : /¿ÀÀü|¿ÀÈÄ/,
         isPM : function (token) {
-            return token === 'ì˜¤í›„';
+            return token === '¿ÀÈÄ';
         },
         meridiem : function (hour, minute, isUpper) {
-            return hour < 12 ? 'ì˜¤ì „' : 'ì˜¤í›„';
+            return hour < 12 ? '¿ÀÀü' : '¿ÀÈÄ';
         }
     });
     
@@ -4875,8 +4875,8 @@
 /*global moment:false */
 /*
  * revision history
- * - close tooltip message ë³€ê²½
- * - header íŒŒíŠ¸ì— koì¸ ê²½ìš° ë…„ ë¶™ì—¬ì£¼ê²Œ ë³€ê²½
+ * - close tooltip message º¯°æ
+ * - header ÆÄÆ®¿¡ koÀÎ °æ¿ì ³â ºÙ¿©ÁÖ°Ô º¯°æ
  * 
  * */
 
@@ -4897,7 +4897,7 @@
         }
         factory(jQuery, moment);
     }
-}(function ($, moment) { // jQuery, momentë¼ëŠ” ì˜ì¡´ì„± ëª¨ë“ˆì´ datetimepickerì— ìˆœì„œëŒ€ë¡œ ë¡œë“œ ëœë‹¤.
+}(function ($, moment) { // jQuery, moment¶ó´Â ÀÇÁ¸¼º ¸ğµâÀÌ datetimepicker¿¡ ¼ø¼­´ë·Î ·Îµå µÈ´Ù.
     'use strict';
     if (!moment) {
         throw new Error('bootstrap-datetimepicker requires Moment.js to be loaded first');
@@ -5522,10 +5522,10 @@
                 daysView.find('.disabled').removeClass('disabled');
                 daysViewHeader.eq(1).text(viewDate.format(options.dayViewHeaderFormat));
                 
-                // locale is ko, ë…„ë„ì¸ ê²½ìš° ë…„ append
+                // locale is ko, ³âµµÀÎ °æ¿ì ³â append
                 if(options.locale == 'ko')
                 {
-                	daysViewHeader.eq(1).text(daysViewHeader.eq(1).text().replace(' ', 'ë…„ '));
+                	daysViewHeader.eq(1).text(daysViewHeader.eq(1).text().replace(' ', '³â '));
                 }
                 
                 if (!isValid(viewDate.clone().subtract(1, 'M'), 'M')) {
@@ -7245,7 +7245,7 @@
     	return aDatePickerDate;
     };
     
-    // datapicker defaults option ì„¤ì •
+    // datapicker defaults option ¼³Á¤
     $.fn.datetimepicker.defaults = {
         format: false,
         dayViewHeaderFormat: 'YYYY MMMM',
@@ -7431,14 +7431,13 @@
             *
             ********************************************************************************/
     		_expandMenuItem = function() {
-    			if($('#mes-header').hasClass('opened')){		
-    				$(".sidebarm").hide();
-    				$('#mes-header').removeClass('opened');
-    			}else{
-    				$('#mes-header').addClass('opened');
-    			}
+          if($(".sidebarm").hasClass("opened")) {
+            $(".sidebarm").removeClass("opened").hide();
+          } else {
+            $(".sidebarm").addClass("opened").show();
+          }
     		},
-    		// Set MES Header Title - API íƒœê·¸ title load
+    		// Set MES Header Title - API ÅÂ±× title load
     		_setTitle = function() {
     			return $('title').text();	
     		},
@@ -7448,16 +7447,16 @@
     			var server="";
     			switch(server) {
     			case "N":
-    				server = "ì‹ ê·œí…ŒìŠ¤íŠ¸ê³„";
+    				server = "½Å±ÔÅ×½ºÆ®°è";
     				break;
     			case "T":
-    				server = "ìœ ì§€ë³´ìˆ˜ê³„";
+    				server = "À¯Áöº¸¼ö°è";
     				break;
     			case "C":
-    				server = "ê²€ìˆ˜ê³„";
+    				server = "°Ë¼ö°è";
     				break;
     			case "P":
-    				server = "ê°€ë™ê³„";
+    				server = "°¡µ¿°è";
     				break;
     			}
     			return server;
@@ -7467,10 +7466,10 @@
     			
     			switch($this.attr('workscode')) {
     			case "P":
-    				worksCode = "í¬í•­";
+    				worksCode = "Æ÷Ç×";
     				break;
     			case "K":
-    				worksCode = "ê´‘ì–‘";
+    				worksCode = "±¤¾ç";
     				break;
     			}
     			
@@ -7522,15 +7521,15 @@
 	    			var ARTag = "<div class='icon auto-refresh dropdown' "+(!header.useAR() ? "style='display: none;'" : "")+"><div class='vcon-auto-refresh dropdown-toggle' id='ARTimeMenu1' data-toggle='dropdown'>"
                               + "<span class='auto-refresh-text'>A</span></div><ul class='dropdown-menu'>" 
                               + "<li><a href='#' data-value='off'>Off</a></li><li role='separator' class='divider'></li>"
-                              + "<li><a href='#' data-value='10'>30ì´ˆ</a></li>" 
-                              + "<li><a href='#' data-value='60'>1ë¶„</a></li>"
-                              + "<li><a href='#' data-value='600'>10ë¶„</a></li>"
-                              + "<li><a href='#' data-value='1800'>30ë¶„</a></li>" 
-                              + "<li><a href='#' data-value='3600'>60ë¶„</a></li>" 
+                              + "<li><a href='#' data-value='10'>30ÃÊ</a></li>" 
+                              + "<li><a href='#' data-value='60'>1ºĞ</a></li>"
+                              + "<li><a href='#' data-value='600'>10ºĞ</a></li>"
+                              + "<li><a href='#' data-value='1800'>30ºĞ</a></li>" 
+                              + "<li><a href='#' data-value='3600'>60ºĞ</a></li>" 
                               + "</ul></div>";
 	    	    			
-                    var printTag = "<div class='icon icon-print vcon-print' data-toggle='tooltip' data-placement='bottom' title='í”„ë¦°íŠ¸' "+(!header.print() ? "style='display: none;'" : "")+"></div>";
-                    var helpTag = "<div class='icon icon-help vcon-help' data-toggle='tooltip' data-placement='bottom' title='ë„ì›€ë§' "+(!header.help() ? "style='display: none;'" : "")+"></div>";
+                    var printTag = "<div class='icon icon-print vcon-print' data-toggle='tooltip' data-placement='bottom' title='ÇÁ¸°Æ®' "+(!header.print() ? "style='display: none;'" : "")+"></div>";
+                    var helpTag = "<div class='icon icon-help vcon-help' data-toggle='tooltip' data-placement='bottom' title='µµ¿ò¸»' "+(!header.help() ? "style='display: none;'" : "")+"></div>";
 
                     var headerTag = ["<div class='wrap'><div class='mes-header-wrap'><div class='mes-header'><div class='mes-header-left'>",
                                      "<nav class='mes_menu vcon-menu'></nav>",
@@ -7538,7 +7537,7 @@
                                      "<div class='mes-location'>",
                                      _setWorksCode($this),
                                      "</div></div><div class='mes-header-tit'><div class='mes-tit'>",
-                                     "<i class='vcon-security' data-toggle='tooltip' data-placement='bottom' title='ì‚¬ì™¸Aë¹„'></i>",
+                                     "<i class='vcon-security' data-toggle='tooltip' data-placement='bottom' title='»ç¿ÜAºñ'></i>",
                                      "<span id='header-title'>",
                                      _setTitle(),
                                      "</span></div></div>",
@@ -7546,7 +7545,7 @@
                                      ARTag,
                                      printTag,
                                      helpTag,
-                                     "<div class='icon icon-close vcon-close' data-toggle='tooltip' data-placement='bottom' title='ë‹«ê¸°' onclick='window.close()'></div>",
+                                     "<div class='icon icon-close vcon-close' data-toggle='tooltip' data-placement='bottom' title='´İ±â' onclick='window.close()'></div>",
                                      "</div></div></div></div>"
                                      ].join("");
 	    			
@@ -7576,11 +7575,11 @@
 								function(){
 									if(duration.asSeconds() > 60)
 									{
-										$('.auto-refresh-text').text(duration.minutes() + 'ë¶„');
+										$('.auto-refresh-text').text(duration.minutes() + 'ºĞ');
 									}
 									else
 									{
-										$('.auto-refresh-text').text(duration.asSeconds() + 'ì´ˆ');
+										$('.auto-refresh-text').text(duration.asSeconds() + 'ÃÊ');
 									}
 									
 									duration = moment.duration(duration.asSeconds() - 1, 'seconds');
@@ -7610,7 +7609,7 @@
 	    			
 	    			// when ARDuration is set with selected value
 	    			$('.icon.auto-refresh.dropdown > .dropdown-menu > li > a').on('click', function(){
-	    				// off ì„ íƒì´ë©´, countdown í•´ì œ
+	    				// off ¼±ÅÃÀÌ¸é, countdown ÇØÁ¦
 						_clearSetInterval([_autoRefreshOption,_autoRefreshLov]);
 						_autoRefreshOption = null, _autoRefreshLov = null;
     					
@@ -7625,11 +7624,11 @@
     								function(){
     									if(duration.asSeconds() > 60)
     									{
-    										$('.auto-refresh-text').text(duration.minutes() + 'ë¶„');
+    										$('.auto-refresh-text').text(duration.minutes() + 'ºĞ');
     									}
     									else
     									{
-    										$('.auto-refresh-text').text(duration.asSeconds() + 'ì´ˆ');
+    										$('.auto-refresh-text').text(duration.asSeconds() + 'ÃÊ');
     									}
     									
     									duration = moment.duration(duration.asSeconds() - 1, 'seconds');
@@ -7919,7 +7918,7 @@ TableHtmlBuilder.prototype = {
 		var footerContent = null;
 		var bodyContent = null;
 		
-		// data-header Attribute ì¡´ì¬ -> header êµ¬ì„±, ë¯¸ì¡´ì¬ -> headerêµ¬ì„± ì•ˆí•¨
+		// data-header Attribute Á¸Àç -> header ±¸¼º, ¹ÌÁ¸Àç -> header±¸¼º ¾ÈÇÔ
 		if($this.attr('data-header') !== undefined && $this.attr('data-header').length > 0)
 		{
 			headerContent = this._fnBuildDtHeadHtml($this);
@@ -7938,11 +7937,11 @@ TableHtmlBuilder.prototype = {
 					}
 				}
 				catch(err){
-					vlog.info("TableHtmlBuilder","Table Contents Valueë¥¼ JSON Parsing Error");
+					vlog.info("TableHtmlBuilder","Table Contents Value¸¦ JSON Parsing Error");
 					vlog.error("fnBuildTableHtml",err);
 				}
 			}
-			// headerê°€ ìˆëŠ” ê²½ìš°ì—ë§Œ Footerì™€ Data êµ¬ì„±
+			// header°¡ ÀÖ´Â °æ¿ì¿¡¸¸ Footer¿Í Data ±¸¼º
 			if($this.attr('data-footer') === 'true')
 			{
 				footerContent = this._fnBuildDtFootHtml($this);
@@ -7957,13 +7956,13 @@ TableHtmlBuilder.prototype = {
 			var tableContentsId = $this.attr('data-body') !== undefined ? $this.attr('data-body'):"";
 			var jsonText = $('input#'+tableContentsId).val();
 			
-			// replace ë°ì´íƒ€ê°€ ìˆëŠ” ê²½ìš°
+			// replace µ¥ÀÌÅ¸°¡ ÀÖ´Â °æ¿ì
 			if(jsonText.length > 0){
 				var jsonArray = $.parseJSON(jsonText); 
 				bodyContent = this._fnBuildDtBodyHtml($this, jsonArray);
 				$(bodyContent).replaceAll($this.find('tbody'));
 			}
-			// ë°ì´íƒ€ê°€ NULLì¸ ê²½ìš° => tbody tagë¥¼ í¬í•¨í•œ DOMì„ ëª¨ë‘ ì‚­ì œí•œë‹¤.
+			// µ¥ÀÌÅ¸°¡ NULLÀÎ °æ¿ì => tbody tag¸¦ Æ÷ÇÔÇÑ DOMÀ» ¸ğµÎ »èÁ¦ÇÑ´Ù.
 			else if(jsonText.length == 0)
 			{
 				$this.find('tbody').remove();
@@ -7973,7 +7972,7 @@ TableHtmlBuilder.prototype = {
 			$this.DataTable(initOptions).draw(false);
 		}
 		catch(err){
-			vlog.info("TableHtmlBuilder","Table Contents Valueë¥¼ JSON Parsing Error");
+			vlog.info("TableHtmlBuilder","Table Contents Value¸¦ JSON Parsing Error");
 			vlog.error("fnUpdateTableData",err);
 		}
 	},		
@@ -8103,7 +8102,7 @@ TableHtmlBuilder.prototype = {
 					   	});			}
 				else
 				{
-					vlog.error('tableHtmlBuilder','attr ê°¯ìˆ˜: ' + align.length + ', align ê°¯ìˆ˜: ' + attributes.length + ' ë¶ˆì¼ì¹˜');
+					vlog.error('tableHtmlBuilder','attr °¹¼ö: ' + align.length + ', align °¹¼ö: ' + attributes.length + ' ºÒÀÏÄ¡');
 				}				
 			}
 			else
@@ -8131,7 +8130,7 @@ TableHtmlBuilder.prototype = {
 	},
 	"_fnBuildDtFootHtml": function ( $this )
 	{
-		// Single Row Header ì¸ê²½ìš°, Multi Row Header ì¸ ê²½ìš° 
+		// Single Row Header ÀÎ°æ¿ì, Multi Row Header ÀÎ °æ¿ì 
 		var isComplexHeader = ($this.attr('data-header') !== undefined ? $this.attr('data-header'):"").split(";").length > 1 ? true : false;
 		var footerList =[];
 		var footerContent = null;
@@ -8144,7 +8143,7 @@ TableHtmlBuilder.prototype = {
 			var idxOfAddedFooterList = 0;
 			var lastRowFooterList = footerGroup[idxOfCloningHeader].split("|");
 			
-			// footerListë¥¼ ë§Œë“¤ì–´ì¤˜ì•¼ í•œë‹¤.
+			// footerList¸¦ ¸¸µé¾îÁà¾ß ÇÑ´Ù.
 			var thObj = $this.find('thead > tr:first > th');
 			var colSpanLength;
 			
@@ -8159,9 +8158,9 @@ TableHtmlBuilder.prototype = {
 			
 			for(i=0; i < totalColCnt; i++)
 			{
-				// rowspanì˜ í¬ê¸°ê°€ Headerì˜ ë§ˆì§€ë§‰ Rowì™€ ê°™ë‹¤ëŠ” ì˜ë¯¸ëŠ” 
-				// ë§ˆì§€ë§‰ Row Headerê°€ Span ë˜ì—ˆë‹¤ëŠ” ì˜ë¯¸
-				// => Spanëœ Header ë‚´ìš©ì„ footerListì— ì¶”ê°€
+				// rowspanÀÇ Å©±â°¡ HeaderÀÇ ¸¶Áö¸· Row¿Í °°´Ù´Â ÀÇ¹Ì´Â 
+				// ¸¶Áö¸· Row Header°¡ Span µÇ¾ú´Ù´Â ÀÇ¹Ì
+				// => SpanµÈ Header ³»¿ëÀ» footerList¿¡ Ãß°¡
 				if(thObj[j].rowSpan == footerGroupLength)
 				{
 					colSpanLength = thObj[i].colSpan;
@@ -8423,7 +8422,7 @@ else if ( jQuery && !jQuery.fn.TableHtmlBuilder ) {
 	// - kr - Swedish krona, Norwegian krone and Danish krone
 	// - \u2009 is thin space and \u202F is narrow no-break space, both used in many
 	//   standards as thousands separators.
-	var _re_formatted_numeric = /[',$ì§™ï¿½ï¿½ï¿½%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi;
+	var _re_formatted_numeric = /[',$Â£???%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi;
 	
 	
 	var _empty = function ( d ) {
@@ -12176,8 +12175,8 @@ else if ( jQuery && !jQuery.fn.TableHtmlBuilder ) {
 				scrollY && scroll.bCollapse ? 'max-height' : 'height', scrollY
 		);
 		
-		// ie9ì—ì„œ max-heightì˜ ë¹„ì •ìƒì  Actionì„ ì œê±°í•˜ê¸° ìœ„í•œ ì½”ë“œ
-		// ie9 ë¸Œë¼ìš°ì € ì œê±°ì‹œ ì‚­ì œ ì˜ˆì •
+		// ie9¿¡¼­ max-heightÀÇ ºñÁ¤»óÀû ActionÀ» Á¦°ÅÇÏ±â À§ÇÑ ÄÚµå
+		// ie9 ºê¶ó¿ìÀú Á¦°Å½Ã »èÁ¦ ¿¹Á¤
 		////////////////////////////////////////////////
 		var agent = navigator.userAgent.toLowerCase();
 		if(agent.indexOf("msie") != -1)
@@ -25783,7 +25782,7 @@ else if ( jQuery && !jQuery.fn.dataTable.ColReorder ) {
 })(window, document);
 
 /*! FixedColumns 3.2.2
- * Â©2010-2016 SpryMedia Ltd - datatables.net/license
+ * ?2010-2016 SpryMedia Ltd - datatables.net/license
  */
 
 /**
@@ -26630,7 +26629,7 @@ $.extend( FixedColumns.prototype , {
 		};
 
 		// When x scrolling - don't paint the fixed columns over the x scrollbar
-        // In case IE ==> outerHeight returns wrong result (ìˆ˜ì • 2017.07.14 ì •í•´ì„±)
+        // In case IE ==> outerHeight returns wrong result (¼öÁ¤ 2017.07.14 Á¤ÇØ¼º)
         var agent = navigator.userAgent.toLowerCase();
         if((navigator.appName == 'Netscape' && agent.search('trident') != -1) || (agent.indexOf("msie") != -1))
         {
@@ -26986,7 +26985,7 @@ $.extend( FixedColumns.prototype , {
 				oStyle.borderBottomWidth = "0";
 				oStyle.height = 0;
 				//oStyle.width = that.s.aiInnerWidths[iColumn]+"px";
-        oStyle.width = that.s.aiOuterWidths[iColumn]+"px"; //ìˆ˜ì •: FixedColumnì˜ ì›ë³¸ TDì˜ outerWidth ì ìš© (2017.07.11 JHS)
+        oStyle.width = that.s.aiOuterWidths[iColumn]+"px"; //¼öÁ¤: FixedColumnÀÇ ¿øº» TDÀÇ outerWidth Àû¿ë (2017.07.11 JHS)
 
 				nInnerThead.appendChild( nClone );
 			}
@@ -27013,11 +27012,11 @@ $.extend( FixedColumns.prototype , {
 						nClone = $( aTds[iColumn] ).clone(true, true)[0];
 						nClone.setAttribute( 'data-dt-row', i );
 						nClone.setAttribute( 'data-dt-column', iIndex );
-            $(nClone).find(":input").removeAttr("disabled"); //ìˆ˜ì •: ë³µì œí•˜ê¸° ì „ì— ì›ë³¸ Tableì˜ TDì— ì‘ì‹œ ë…¸ë“œ ì¤‘ input ê°œì²´ì˜ disabled í•´ì œ (2017.07.12 ì •í•´ì„±)
+            $(nClone).find(":input").removeAttr("disabled"); //¼öÁ¤: º¹Á¦ÇÏ±â Àü¿¡ ¿øº» TableÀÇ TD¿¡ ÀÛ½Ã ³ëµå Áß input °³Ã¼ÀÇ disabled ÇØÁ¦ (2017.07.12 Á¤ÇØ¼º)
 						n.appendChild( nClone );
                         
-            //ìˆ˜ì • (2017.07.11 ì •í•´ì„±)
-            //ì›ë³¸ Tableì˜ tbodyì—ì„œ FixedColumnìœ¼ë¡œ ì§€ì •ëœ ì»¬ëŸ¼ ìˆ˜ë§Œí¼ tdì˜ ìì‹ ë…¸ë“œ ì¤‘ input ê°ì²´ë¥¼ ëª¨ë‘ ë¹„í™œì„± ì²˜ë¦¬.
+            //¼öÁ¤ (2017.07.11 Á¤ÇØ¼º)
+            //¿øº» TableÀÇ tbody¿¡¼­ FixedColumnÀ¸·Î ÁöÁ¤µÈ ÄÃ·³ ¼ö¸¸Å­ tdÀÇ ÀÚ½Ä ³ëµå Áß input °´Ã¼¸¦ ¸ğµÎ ºñÈ°¼º Ã³¸®.
             if ((leftColumns > 0 && iColumn < leftColumns) || (rightColumns > 0 && iColumn > (aiColumns.length - leftColumns - 1))) {
                 //$(aTds[iColumn]).empty();
                 $(aTds[iColumn]).find(":input").attr("disabled", true);
@@ -27040,7 +27039,7 @@ $.extend( FixedColumns.prototype , {
 		oClone.body.style.width = "100%";
 		oClone.body.style.margin = "0";
 		oClone.body.style.padding = "0";
-    //ìˆ˜ì •: ë°ì´í„°ê°€ ì—†ì„ ê²½ìš° ë³µì œëœ FixedColumn Tableì€ ìˆ¨ê¸´ë‹¤. (2017.07.11 ì •í•´ì„±)
+    //¼öÁ¤: µ¥ÀÌÅÍ°¡ ¾øÀ» °æ¿ì º¹Á¦µÈ FixedColumn TableÀº ¼û±ä´Ù. (2017.07.11 Á¤ÇØ¼º)
     if (dt.fnRecordsTotal() === 0)
     {
         oClone.body.style.display = "none";
@@ -27115,7 +27114,7 @@ $.extend( FixedColumns.prototype , {
 		$(anUnique).each( function (i) {
 			iColumn = aiColumns[i];
 			//this.style.width = that.s.aiInnerWidths[iColumn]+"px";
-      this.style.width = that.s.aiOuterWidths[iColumn]+"px"; //ìˆ˜ì •(2017.07.11 ì •í•´ì„±)
+      this.style.width = that.s.aiOuterWidths[iColumn]+"px"; //¼öÁ¤(2017.07.11 Á¤ÇØ¼º)
 		} );
 
 		if ( that.s.dt.nTFoot !== null )
@@ -27124,7 +27123,7 @@ $.extend( FixedColumns.prototype , {
 			$(anUnique).each( function (i) {
 				iColumn = aiColumns[i];
 				//this.style.width = that.s.aiInnerWidths[iColumn]+"px";
-				this.style.width = that.s.aiOuterWidths[iColumn]+"px"; //ìˆ˜ì •(2017.07.11 ì •í•´ì„±)
+				this.style.width = that.s.aiOuterWidths[iColumn]+"px"; //¼öÁ¤(2017.07.11 Á¤ÇØ¼º)
 			} );
 		}
 	},
@@ -27195,7 +27194,7 @@ $.extend( FixedColumns.prototype , {
 			anOriginal[i].style.height = heights[i]+"px";
 		}
         
-    $(clone).closest('.DTFC_Cloned').outerHeight("100%"); //IEì—ì„œ ë³µì œëœ FixedColumn Tableì˜ ë†’ì´ê°€ ë§ì§€ ì•ŠëŠ” í˜„ìƒ ë³´ì™„. (ìˆ˜ì • 2017.07.14)
+    $(clone).closest('.DTFC_Cloned').outerHeight("100%"); //IE¿¡¼­ º¹Á¦µÈ FixedColumn TableÀÇ ³ôÀÌ°¡ ¸ÂÁö ¾Ê´Â Çö»ó º¸¿Ï. (¼öÁ¤ 2017.07.14)
 	},
 
 	/**
@@ -30268,7 +30267,7 @@ $.extend( DataTable.ext.buttons, {
 
 /*
  * - jQuery Self-Invoking function
- * - Twitter bootstrap ì‚¬ìš© íŒ¨í„´
+ * - Twitter bootstrap »ç¿ë ÆĞÅÏ
  * - function($) { ...} (window.jQuery)
  **/
 +function ($) { 
@@ -30285,14 +30284,14 @@ $.extend( DataTable.ext.buttons, {
   
   /**
    * dismiss variable
-   * - ì´ ì…€ë ‰í„°ì™€ ë™ì¼í•œ DOM elementë¡œë¶€í„° click ì´ë²¤íŠ¸ë¥¼ ì—°ê²°í•˜ê¸° ìœ„í•˜ì—¬ 
-   *   ìƒì„±ìì—ì„œ ì‚¬ìš©í•˜ëŠ” jQuery Selector
+   * - ÀÌ ¼¿·ºÅÍ¿Í µ¿ÀÏÇÑ DOM element·ÎºÎÅÍ click ÀÌº¥Æ®¸¦ ¿¬°áÇÏ±â À§ÇÏ¿© 
+   *   »ı¼ºÀÚ¿¡¼­ »ç¿ëÇÏ´Â jQuery Selector
    */
   var window = '[data-window]' 
 
   // Subwindow class 
   // el: DOM element
-  // DOM el í˜¹ì€ descendant of elì´ data-window ì†ì„±ì„  valueë¡œ ê°–ê³  ìˆìœ¼ë©´ click ì´ë²¤íŠ¸ë¥¼ this.openìœ¼ë¡œ ì—°ê²°. 
+  // DOM el È¤Àº descendant of elÀÌ data-window ¼Ó¼ºÀ»  value·Î °®°í ÀÖÀ¸¸é click ÀÌº¥Æ®¸¦ this.openÀ¸·Î ¿¬°á. 
   var Subwindow   = function (el) {
     $(el).on('click', window, this.open)
   }
@@ -30301,16 +30300,16 @@ $.extend( DataTable.ext.buttons, {
 
   Subwindow.TRANSITION_DURATION = 150
 
-  Subwindow.prototype.open = function () { // Constructorì—ëŠ” return valueê°€ ì—†ë‹¤.
+  Subwindow.prototype.open = function () { // Constructor¿¡´Â return value°¡ ¾ø´Ù.
 
-	var $this    = $(this) // thisëŠ” click ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ëŠ” elementë¥¼ ì°¸ì¡°í•œë‹¤.
-    // 'First Option': data-target ì†ì„±ì´ ìˆëŠ”ì§€ í™•ì¸
+	var $this    = $(this) // this´Â click ÀÌº¥Æ®°¡ ¹ß»ıÇÏ´Â element¸¦ ÂüÁ¶ÇÑ´Ù.
+    // 'First Option': data-target ¼Ó¼ºÀÌ ÀÖ´ÂÁö È®ÀÎ
 
 
     var position = $this.attr('data-window') // get the data-target attr's value
-    //ìœ„ì¹˜ë³„ Classì†ì„± íŒŒì•…
+    //À§Ä¡º° Class¼Ó¼º ÆÄ¾Ç
     var classPosition="."+position+"Window" 
-  	var d = 'opened' //ì—´ê¸° ë‹«ê¸° êµ¬ë¶„ì„ ìœ„í•¨
+  	var d = 'opened' //¿­±â ´İ±â ±¸ºĞÀ» À§ÇÔ
 	   
     var divHeight = $(classPosition).height();  
 	var divWidth = $(classPosition).width();
@@ -30347,7 +30346,7 @@ $.extend( DataTable.ext.buttons, {
 		 $('.leftWindow').animate({marginLeft:"-"+ width +"px"}, 400,
 			function(){
 			 $('.leftWindow').css("display","none");
-		    }	 //animate íš¨ê³¼ ì ìš© ë³´ì™„ í•„ìš”
+		    }	 //animate È¿°ú Àû¿ë º¸¿Ï ÇÊ¿ä
 		 ); 
 		 $('.leftWindow').removeClass(d)
 	  }else  if(element=='right'){
@@ -30377,21 +30376,21 @@ $.extend( DataTable.ext.buttons, {
 	                        // 
 	// Also, as a jQuery plugin best practice, the result of calling this.each is returned to enable chaining of jQuery function calls.
     return this.each(function () { // this: result of jQuery Selector(Array of DOM element, each: for looping with DOM element
-    	                           // .each(function): jQuery Objectì— ëŒ€í•´ì„œ iterationì„ í•˜ê³  iteration í•˜ë©´ì„œ ê° elementë³„ë¡œ functionì‹¤í–‰
+    	                           // .each(function): jQuery Object¿¡ ´ëÇØ¼­ iterationÀ» ÇÏ°í iteration ÇÏ¸é¼­ °¢ elementº°·Î function½ÇÇà
     	
-      // $(this): jQuery functionì— ì ‘ê·¼, this: javascript functionì— ì ‘ê·¼
-      // jQuery() = $() --> ê´„í˜¸ì•ˆì— ìˆ selectorëŠ”ë‘ matchë˜ëŠ” DOM elementë¥¼ ì°¾ì•„ì„œ jQuery objectë¥¼ ë§Œë“¤ì–´ ì¤€ë‹¤.
+      // $(this): jQuery function¿¡ Á¢±Ù, this: javascript function¿¡ Á¢±Ù
+      // jQuery() = $() --> °ıÈ£¾È¿¡ ÀÖ selector´Â¶û matchµÇ´Â DOM element¸¦ Ã£¾Æ¼­ jQuery object¸¦ ¸¸µé¾î ÁØ´Ù.
       var $this = $(this)
       var data  = $this.data('vs.subwindow') // checking if we've already created an Subwindow instance for this DOM element
       // .data() in jQuery
       // 1) .data(key): Return the value at the named data store for the first element
       // 2) .data(key,value): Store arbitrary data associated with the matched elements
       
-      // data ê°€ nullì´ë©´ Alert instanceê°€ ìƒì„± ì „ì´ë‹¤. 
+      // data °¡ nullÀÌ¸é Alert instance°¡ »ı¼º ÀüÀÌ´Ù. 
       if (!data) $this.data('vs.subwindow', (data = new Subwindow(this))) // creates the Subwindow instance, and it will be saved bs.alert key
       if (typeof option == 'string') data[option].call($this) // but options can also be a string with the name of a method that you want to invoke on the Subwindow instance
-      // dataëŠ” Subwindow Instanceì— ëŒ€í•œ ì°¸ì¡°ì´ê³ , ê·¸ëŸ¬ë¯€ë¡œ data[option]ì€ Subwindow instanceì˜ functionì— ëŒ€í•œ ì°¸ì¡°ì´ë‹¤.
-      // ë©”ì†Œë“œê°€ .call ëœë‹¤.  
+      // data´Â Subwindow Instance¿¡ ´ëÇÑ ÂüÁ¶ÀÌ°í, ±×·¯¹Ç·Î data[option]Àº Subwindow instanceÀÇ function¿¡ ´ëÇÑ ÂüÁ¶ÀÌ´Ù.
+      // ¸Ş¼Òµå°¡ .call µÈ´Ù.  
     })
   }
   // fn: to hook your own functionality into jQuery($.fn.myextension)
@@ -30401,7 +30400,7 @@ $.extend( DataTable.ext.buttons, {
   $.fn.subwindow             = Plugin
   $.fn.subwindow.Constructor = Subwindow // By creating the Constructor reference, 
                                  // other code can directly instantiate an Subwindow instance without needing to invoke it indirectly through the jQuery API.
-                                 // ì´ êµ¬ë¬¸ì„ ì¶”ê°€í•˜ì§€ ì•Šìœ¼ë©´, Alert ConstructorëŠ” privateìœ¼ë¡œ ë‚¨ì•„ ìˆëŠ”ë‹¤.
+                                 // ÀÌ ±¸¹®À» Ãß°¡ÇÏÁö ¾ÊÀ¸¸é, Alert Constructor´Â privateÀ¸·Î ³²¾Æ ÀÖ´Â´Ù.
   								 // 
 
   // 2. Subwindow NO CONFLICT
@@ -30414,7 +30413,7 @@ $.extend( DataTable.ext.buttons, {
     return this // return function defined above.
   }
 
-  // 3. Subwindow DATA-API --> ì—†ìœ¼ë©´ ì™¸ë¶€ì—ì„œ javascriptë¥¼ í†µí•´, Pluginì„ í˜¸ì¶œí•´ì•¼ì§€ë§Œ private close ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
+  // 3. Subwindow DATA-API --> ¾øÀ¸¸é ¿ÜºÎ¿¡¼­ javascript¸¦ ÅëÇØ, PluginÀ» È£ÃâÇØ¾ßÁö¸¸ private close ¸Ş¼Òµå¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Ù.
   // ==============
   // This allows for purely declarative use of the Alert plugin, no JavaScript calls necessary.
   // .on( events [, selector ] [, data ], handler ) Method
@@ -30437,7 +30436,7 @@ $.extend( DataTable.ext.buttons, {
 	
 	// Alert class 
 	// el: DOM element
-	// DOM el í˜¹ì€ descendant of elì´ data-dismiss ì†ì„±ì„ alert valueë¡œ ê°–ê³  ìˆìœ¼ë©´ click ì´ë²¤íŠ¸ë¥¼ this.closeì— ì˜í•´ì„œ ì¢…ë£Œ ì‹œí‚¨ë‹¤. 
+	// DOM el È¤Àº descendant of elÀÌ data-dismiss ¼Ó¼ºÀ» alert value·Î °®°í ÀÖÀ¸¸é click ÀÌº¥Æ®¸¦ this.close¿¡ ÀÇÇØ¼­ Á¾·á ½ÃÅ²´Ù. 
 
 	  var ShareButton   = function (element) {
 		$(element).on('click.bs.sharebutton',toggle  ,this.shareButton)
@@ -30446,20 +30445,20 @@ $.extend( DataTable.ext.buttons, {
 	ShareButton.VERSION = '1.0.0'
 
 	ShareButton.prototype.shareButton = function () {
-	//	var $this    = $(this) // thisëŠ” click ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ëŠ” elementë¥¼ ì°¸ì¡°í•œë‹¤.
-	    // 'First Option': data-target ì†ì„±ì´ ìˆëŠ”ì§€ í™•ì¸
+	//	var $this    = $(this) // this´Â click ÀÌº¥Æ®°¡ ¹ß»ıÇÏ´Â element¸¦ ÂüÁ¶ÇÑ´Ù.
+	    // 'First Option': data-target ¼Ó¼ºÀÌ ÀÖ´ÂÁö È®ÀÎ
 		var $shareButtons=$(".share-button")
 		,$toggleButton= $(".share-toggle-button")
 		toggleShareMenu($shareButtons,$toggleButton)
 	}
 
 	var menuOpen=false
-	,spacing=75; //í¼ì§€ëŠ” ê³µê°„	
+	,spacing=75; //ÆÛÁö´Â °ø°£	
 	
 
 	function openShareMenu($shareButtons,$toggleButton,buttonsMid){
 		TweenMax.to($toggleButton,0.1,{
-			scaleX:1.2, //ë²„íŠ¼í´ë¦­ì‹œ ì´ë²¤íŠ¸ íš¨ê³¼ Xì¶•ê³¼ Yì¶•
+			scaleX:1.2, //¹öÆ°Å¬¸¯½Ã ÀÌº¥Æ® È¿°ú XÃà°ú YÃà
 			scaleY:0.6,
 			ease:Quad.easeOut,
 			onComplete:function(){
@@ -30487,7 +30486,7 @@ $.extend( DataTable.ext.buttons, {
 				x:pos*spacing,
 				scaleY:0.6,
 				scaleX:1.1,
-				ease:Elastic.easeOut, //ì´ë²¤íŠ¸ íš¨ê³¼
+				ease:Elastic.easeOut, //ÀÌº¥Æ® È¿°ú
 				easeParams:[1.01,0.5]
 			});
 			TweenMax.to($cur,.8,{
@@ -30555,7 +30554,7 @@ $.extend( DataTable.ext.buttons, {
 			// .data() in jQuery
 			// 1) .data(key): Return the value at the named data store for the first element
 			// 2) .data(key,value): Store arbitrary data associated with the matched elements
-			// data ê°€ nullì´ë©´ Alert instanceê°€ ìƒì„± ì „ì´ë‹¤.
+			// data °¡ nullÀÌ¸é Alert instance°¡ »ı¼º ÀüÀÌ´Ù.
 			if (!data) $this.data('bs.sharebutton', (data = new ShareButton(this))) // creates the Alert instance, and it will be saved bs.alert key
 			if (typeof option == 'string') data[option].call($this) // but options can also be a string with the name of a method that you want to invoke on the Alert instance
 		})
@@ -30602,7 +30601,7 @@ this._target=t,this._tween=o,this._vars=e,_=e.autoRound,i=!1,s=e.suffixMap||a.su
 }},n._kill=function(t,e,i){if("all"===t&&(t=null),null==t&&(null==e||e===this.target))return this._lazy=!1,this._enabled(!1,!1);e="string"!=typeof e?e||this._targets||this.target:D.selector(e)||e;var s,r,n,a,o,h,l,_,u;if((c(e)||M(e))&&"number"!=typeof e[0])for(s=e.length;--s>-1;)this._kill(t,e[s])&&(h=!0);else{if(this._targets){for(s=this._targets.length;--s>-1;)if(e===this._targets[s]){o=this._propLookup[s]||{},this._overwrittenProps=this._overwrittenProps||[],r=this._overwrittenProps[s]=t?this._overwrittenProps[s]||{}:"all";break}}else{if(e!==this.target)return!1;o=this._propLookup,r=this._overwrittenProps=t?this._overwrittenProps||{}:"all"}if(o){if(l=t||o,_=t!==r&&"all"!==r&&t!==o&&("object"!=typeof t||!t._tempKill),i&&(D.onOverwrite||this.vars.onOverwrite)){for(n in l)o[n]&&(u||(u=[]),u.push(n));if(!G(this,i,e,u))return!1}for(n in l)(a=o[n])&&(a.pg&&a.t._kill(l)&&(h=!0),a.pg&&0!==a.t._overwriteProps.length||(a._prev?a._prev._next=a._next:a===this._firstPT&&(this._firstPT=a._next),a._next&&(a._next._prev=a._prev),a._next=a._prev=null),delete o[n]),_&&(r[n]=1);!this._firstPT&&this._initted&&this._enabled(!1,!1)}}return h},n.invalidate=function(){return this._notifyPluginsOfEnabled&&D._onPluginEvent("_onDisable",this),this._firstPT=this._overwrittenProps=this._startAt=this._onUpdate=null,this._notifyPluginsOfEnabled=this._active=this._lazy=!1,this._propLookup=this._targets?{}:[],A.prototype.invalidate.call(this),this.vars.immediateRender&&(this._time=-_,this.render(-this._delay)),this},n._enabled=function(t,e){if(o||a.wake(),t&&this._gc){var i,s=this._targets;if(s)for(i=s.length;--i>-1;)this._siblings[i]=V(s[i],this,!0);else this._siblings=V(this.target,this,!0)}return A.prototype._enabled.call(this,t,e),this._notifyPluginsOfEnabled&&this._firstPT?D._onPluginEvent(t?"_onEnable":"_onDisable",this):!1},D.to=function(t,e,i){return new D(t,e,i)},D.from=function(t,e,i){return i.runBackwards=!0,i.immediateRender=0!=i.immediateRender,new D(t,e,i)},D.fromTo=function(t,e,i,s){return s.startAt=i,s.immediateRender=0!=s.immediateRender&&0!=i.immediateRender,new D(t,e,s)},D.delayedCall=function(t,e,i,s,r){return new D(e,0,{delay:t,onComplete:e,onCompleteParams:i,onCompleteScope:s,onReverseComplete:e,onReverseCompleteParams:i,onReverseCompleteScope:s,immediateRender:!1,lazy:!1,useFrames:r,overwrite:0})},D.set=function(t,e){return new D(t,0,e)},D.getTweensOf=function(t,e){if(null==t)return[];t="string"!=typeof t?t:D.selector(t)||t;var i,s,r,n;if((c(t)||M(t))&&"number"!=typeof t[0]){for(i=t.length,s=[];--i>-1;)s=s.concat(D.getTweensOf(t[i],e));for(i=s.length;--i>-1;)for(n=s[i],r=i;--r>-1;)n===s[r]&&s.splice(i,1)}else for(s=V(t).concat(),i=s.length;--i>-1;)(s[i]._gc||e&&!s[i].isActive())&&s.splice(i,1);return s},D.killTweensOf=D.killDelayedCallsTo=function(t,e,i){"object"==typeof e&&(i=e,e=!1);for(var s=D.getTweensOf(t,e),r=s.length;--r>-1;)s[r]._kill(i,t)};var Q=g("plugins.TweenPlugin",function(t,e){this._overwriteProps=(t||"").split(","),this._propName=this._overwriteProps[0],this._priority=e||0,this._super=Q.prototype},!0);if(n=Q.prototype,Q.version="1.10.1",Q.API=2,n._firstPT=null,n._addTween=function(t,e,i,s,r,n){var a,o;return null!=s&&(a="number"==typeof s||"="!==s.charAt(1)?Number(s)-i:parseInt(s.charAt(0)+"1",10)*Number(s.substr(2)))?(this._firstPT=o={_next:this._firstPT,t:t,p:e,s:i,c:a,f:"function"==typeof t[e],n:r||e,r:n},o._next&&(o._next._prev=o),o):void 0},n.setRatio=function(t){for(var e,i=this._firstPT,s=1e-6;i;)e=i.c*t+i.s,i.r?e=Math.round(e):s>e&&e>-s&&(e=0),i.f?i.t[i.p](e):i.t[i.p]=e,i=i._next},n._kill=function(t){var e,i=this._overwriteProps,s=this._firstPT;if(null!=t[this._propName])this._overwriteProps=[];else for(e=i.length;--e>-1;)null!=t[i[e]]&&i.splice(e,1);for(;s;)null!=t[s.n]&&(s._next&&(s._next._prev=s._prev),s._prev?(s._prev._next=s._next,s._prev=null):this._firstPT===s&&(this._firstPT=s._next)),s=s._next;return!1},n._roundProps=function(t,e){for(var i=this._firstPT;i;)(t[this._propName]||null!=i.n&&t[i.n.split(this._propName+"_").join("")])&&(i.r=e),i=i._next},D._onPluginEvent=function(t,e){var i,s,r,n,a,o=e._firstPT;if("_onInitAllProps"===t){for(;o;){for(a=o._next,s=r;s&&s.pr>o.pr;)s=s._next;(o._prev=s?s._prev:n)?o._prev._next=o:r=o,(o._next=s)?s._prev=o:n=o,o=a}o=e._firstPT=r}for(;o;)o.pg&&"function"==typeof o.t[t]&&o.t[t]()&&(i=!0),o=o._next;return i},Q.activate=function(t){for(var e=t.length;--e>-1;)t[e].API===Q.API&&(N[(new t[e])._propName]=t[e]);return!0},d.plugin=function(t){if(!(t&&t.propName&&t.init&&t.API))throw"illegal plugin definition.";var e,i=t.propName,s=t.priority||0,r=t.overwriteProps,n={init:"_onInitTween",set:"setRatio",kill:"_kill",round:"_roundProps",initAll:"_onInitAllProps"},a=g("plugins."+i.charAt(0).toUpperCase()+i.substr(1)+"Plugin",function(){Q.call(this,i,s),this._overwriteProps=r||[]},t.global===!0),o=a.prototype=new Q(i);o.constructor=a,a.API=t.API;for(e in n)"function"==typeof t[e]&&(o[n[e]]=t[e]);return a.version=t.version,Q.activate([a]),a},s=t._gsQueue){for(r=0;s.length>r;r++)s[r]();for(n in f)f[n].func||t.console.log("GSAP encountered missing dependency: com.greensock."+n)}o=!1}}("undefined"!=typeof module&&module.exports&&"undefined"!=typeof global?global:this||window,"TweenMax");
 /*
  * - jQuery Self-Invoking function
- * - Twitter bootstrap ì‚¬ìš© íŒ¨í„´
+ * - Twitter bootstrap »ç¿ë ÆĞÅÏ
  * - function($) { ...} (window.jQuery)
  **/
 +function($) {
@@ -30615,13 +30614,13 @@ this._target=t,this._tween=o,this._vars=e,_=e.autoRound,i=!1,s=e.suffixMap||a.su
 
 	// Subwindow class 
 	// el: DOM element
-	// DOM el í˜¹ì€ descendant of elì´ data-window ì†ì„±ì„  valueë¡œ ê°–ê³  ìˆìœ¼ë©´ click ì´ë²¤íŠ¸ë¥¼ this.openìœ¼ë¡œ ì—°ê²°. 
+	// DOM el È¤Àº descendant of elÀÌ data-window ¼Ó¼ºÀ»  value·Î °®°í ÀÖÀ¸¸é click ÀÌº¥Æ®¸¦ this.openÀ¸·Î ¿¬°á. 
 	var Dragdrop = function(el) {
 		$(el).on('click.bs.dragdrop', selector, this.creatDragDrop);
 	};
 
 	Dragdrop.VERSION = '1.0.0';
-	Dragdrop.prototype.creatDragDrop = function() { // Constructorì—ëŠ” return valueê°€ ì—†ë‹¤.
+	Dragdrop.prototype.creatDragDrop = function() { // Constructor¿¡´Â return value°¡ ¾ø´Ù.
 		createDrag();
 	};
 
@@ -33317,7 +33316,7 @@ return Draggabilly;
       this.$button = this.$newElement.children('button');
       this.$menu = this.$newElement.children('.dropdown-menu');
       this.$menuInner = this.$menu.children('.inner');
-      this.$searchbox = this.combobox ? this.$newElement.siblings('input.combobox').eq(0) : this.$menu.find('input'); //ì¶”ê°€
+      this.$searchbox = this.combobox ? this.$newElement.siblings('input.combobox').eq(0) : this.$menu.find('input'); //Ãß°¡
       this.$element.removeClass('bs-select-hidden');
 
       if (this.options.dropdownAlignRight === true) this.$menu.addClass('dropdown-menu-right');
@@ -34351,7 +34350,7 @@ return Draggabilly;
       this.$button.on('click.dropdown.data-api', function () {
         that.$menuInner.find('.active').removeClass('active');
         if (!!that.$searchbox.val()) {
-          //ì¶”ê°€ input comboboxì¼ ê²½ìš° searchbox ì…ë ¥ data ìœ ì§€
+          //Ãß°¡ input comboboxÀÏ °æ¿ì searchbox ÀÔ·Â data À¯Áö
           that.combobox ? '' : that.$searchbox.val('');
           that.$lis.not('.is-hidden').removeClass('hidden');
           if (!!$no_results.parent().length) $no_results.remove();
@@ -34367,7 +34366,7 @@ return Draggabilly;
       });
 
       this.$searchbox.on('input propertychange', function () {
-        //ì¶”ê°€ combobox searchbox dataì…ë ¥ì‹œ dropdown-menu open
+        //Ãß°¡ combobox searchbox dataÀÔ·Â½Ã dropdown-menu open
         if (that.combobox && that.options.liveSearch) that.$menu.parent().addClass('open');
         that.$lis.not('.is-hidden').removeClass('hidden');
         that.$lis.filter('.active').removeClass('active');
@@ -34548,10 +34547,10 @@ return Draggabilly;
             105: '9'
           };
 
-      //ì¶”ê°€ comboboxì¼ ê²½ìš° ì²˜ë¦¬
+      //Ãß°¡ comboboxÀÏ °æ¿ì Ã³¸®
       this.combobox = $this.is('input.combobox') ? true : false;
       
-      //combobox ì‚¬ìš©ì‹œ selectpickerê°€ ì•ì— ìˆì„ ê²½ìš° ê³ ë ¤í•´ì„œ ìˆ˜ì • í•„ìš”
+      //combobox »ç¿ë½Ã selectpicker°¡ ¾Õ¿¡ ÀÖÀ» °æ¿ì °í·ÁÇØ¼­ ¼öÁ¤ ÇÊ¿ä
       if ($this.is('input')) {
         $parent = this.combobox ? $this.parent().find(".btn-group.bootstrap-select.input-group-btn") : $this.parent().parent();
       } else {
@@ -35083,7 +35082,7 @@ return Draggabilly;
     return this;
   };
 
-  $(window).on('load',function() { //mainë§Œ ìë™ í˜¸ì¶œ
+  $(window).on('load',function() { //main¸¸ ÀÚµ¿ È£Ãâ
 	  $('#venusMenu').metisMenu(MetisMenu.DEFAULTS)});
 
   
@@ -35093,7 +35092,7 @@ return Draggabilly;
 	
 	var selector = '[data-select]'
 		
-	var firstSelectValue= null //ì´ˆê¸° ë¡œë”©ì‹œ jsonì—ì„œ 2ë²ˆì§¸ selectë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•¨
+	var firstSelectValue= null //ÃÊ±â ·Îµù½Ã json¿¡¼­ 2¹øÂ° select¸¦ °¡Á®¿À±âÀ§ÇÔ
 
 	var VenusRelatedSelect = function(element,options){
 		this.options = $.extend({}, VenusRelatedSelect.DEFAULTS, options)
@@ -35112,13 +35111,13 @@ return Draggabilly;
 				selectContent = createFirstSelect($this)
 				$this.append($.parseHTML(selectContent));
 				selectContent = createSecondSelect($this)
-				$this.after($.parseHTML(selectContent)); //ë’¤ì— ë¶™ì—¬ì•¼í•¨ afterì‚¬ìš©
+				$this.after($.parseHTML(selectContent)); //µÚ¿¡ ºÙ¿©¾ßÇÔ after»ç¿ë
 			}
 		})
 	}
 
 
-	//ì´ˆê¸° ë¡œë”©ì‹œ ìƒì„±ë˜ëŠ” ë©”ì†Œë“œ
+	//ÃÊ±â ·Îµù½Ã »ı¼ºµÇ´Â ¸Ş¼Òµå
 	function createFirstSelect($this)
 	{
 		var selectContent = ""
@@ -35139,10 +35138,10 @@ return Draggabilly;
 					   var tempValue=null
 
 					   $.each(data, function(key, val){
-						   		//ì²«ë²ˆì§¸ LOV ìƒì„± ì¤‘ë³µ LOV ì œê±°
+						   		//Ã¹¹øÂ° LOV »ı¼º Áßº¹ LOV Á¦°Å
 							   	$(val).each(function(i,element){
 							   		
-							   		if(i=='0'){ //Related Creatingì„ ìœ„í•œ ê°’ set
+							   		if(i=='0'){ //Related CreatingÀ» À§ÇÑ °ª set
 							   			firstSelectValue=element[valueList]	
 
 							   		}
@@ -35204,13 +35203,13 @@ return Draggabilly;
 					   var valueList = $this.attr('data-value')
 					   var nameList = $this.attr('data-name')
 					   var tempValue=null
-					   //idì˜ ê²½ìš° 2ê°€ ë¶™ê³  classëŠ” ì†ì„±ì„ ê·¸ë°ë¡œê°€ì ¸ì˜´
+					   //idÀÇ °æ¿ì 2°¡ ºÙ°í class´Â ¼Ó¼ºÀ» ±×µ¥·Î°¡Á®¿È
 					   var makeId= $this.attr('id')!==null ? " id="+ $this.attr('id')+"2":null
 					   var makeClass= $this.attr('class')!==null ? " class='"+ $this.attr('class')+"'":""
 					  selectContent += "<select"+makeId + makeClass+ ">\n"
 
 						   $.each(data, function(key, val){
-						   		//ì²«ë²ˆì§¸ LOV ìƒì„± ì¤‘ë³µ LOV ì œê±°
+						   		//Ã¹¹øÂ° LOV »ı¼º Áßº¹ LOV Á¦°Å
 							   	$(val).each(function(i,element){						   		
 
 							
@@ -35305,9 +35304,9 @@ return Draggabilly;
 
     this.isShown = true;
 
-    // Browserì— scrollbarê°€ ìˆëŠ” ê²½ìš° scrollbar settingì„ skipí•œë‹¤. 
+    // Browser¿¡ scrollbar°¡ ÀÖ´Â °æ¿ì scrollbar settingÀ» skipÇÑ´Ù. 
     this.checkScrollbar();
-    if(!window.innerWidth > document.documentElement.clientWidth) // innerWidth: ë·°í¬íŠ¸í­, clientWidth: ë·°í¬íŠ¸ - scroll width
+    if(!window.innerWidth > document.documentElement.clientWidth) // innerWidth: ºäÆ÷Æ®Æø, clientWidth: ºäÆ÷Æ® - scroll width
     {
     	this.setScrollbar();	
     }
@@ -35601,7 +35600,7 @@ return Draggabilly;
 }(jQuery);
 
 /*
- * Venus ì ìš© í™”ë©´ ë‚´ Serurity ë©”ë‰´ êµ¬ì„± 
+ * Venus Àû¿ë È­¸é ³» Serurity ¸Ş´º ±¸¼º 
  * - jQuery Self-Invoking function
  * - function($) { ...} (window.jQuery)
  **/
@@ -35610,13 +35609,13 @@ return Draggabilly;
 	
 	  /**
 	   * selector variable
-	   * - ì´ ì…€ë ‰í„°ì™€ ë™ì¼í•œ DOM elementë¡œë¶€í„° click ì´ë²¤íŠ¸ë¥¼ ì—°ê²°í•˜ê¸° ìœ„í•˜ì—¬ 
-	   *   ìƒì„±ìì—ì„œ ì‚¬ìš©í•˜ëŠ” jQuery Selector
-	   *   JSON Typeì˜ urlì„ ë‚˜íƒ€ëƒ„
+	   * - ÀÌ ¼¿·ºÅÍ¿Í µ¿ÀÏÇÑ DOM element·ÎºÎÅÍ click ÀÌº¥Æ®¸¦ ¿¬°áÇÏ±â À§ÇÏ¿© 
+	   *   »ı¼ºÀÚ¿¡¼­ »ç¿ëÇÏ´Â jQuery Selector
+	   *   JSON TypeÀÇ urlÀ» ³ªÅ¸³¿
 	   */
 	var selector = '[data-menu]'
 		
-	//VenusMakeMenu Class Method Callë¡œ êµ¬í˜„ ë³„ë„ ì´ë²¤íŠ¸ ì—†ìŒ
+	//VenusMakeMenu Class Method Call·Î ±¸Çö º°µµ ÀÌº¥Æ® ¾øÀ½
 	var VenusMakeMenu = function(element){
 	    this.$element = $(element)	
 	}	
@@ -35627,7 +35626,7 @@ return Draggabilly;
 	VenusMakeMenu.prototype.createMakeMenu = function() {
 		var $this = $(selector)
 			var menuContent = null
-				//JSON Ajaxë¡œ ì ‘ê·¼í•˜ì—¬ ë©”ë‰´ ìƒì„±
+				//JSON Ajax·Î Á¢±ÙÇÏ¿© ¸Ş´º »ı¼º
 				menuContent = createMenu($this)
 				 $this.append(menuContent)
 					$("li").each(function(){
@@ -35639,7 +35638,7 @@ return Draggabilly;
 	}
 
 
-	//url Stringì„ ì…ë ¥ë°›ì•„ ë©”ë‰´ ìƒì„±
+	//url StringÀ» ÀÔ·Â¹Ş¾Æ ¸Ş´º »ı¼º
 	function createMenu($this)
 	{
 		var menuHTML = "";
@@ -35667,7 +35666,7 @@ return Draggabilly;
 							   			}	
 							   			menuHTML+=" <li><a href='";
 							   			menuHTML+=element["MenuURL"];
-							   			//levelë³„ urlì¡´ì¬ì‹œ ë§í¬ ì—°ê²° í•„ìš”
+							   			//levelº° urlÁ¸Àç½Ã ¸µÅ© ¿¬°á ÇÊ¿ä
 							   			if(element["MenuURL"]!=""){
 								   			menuHTML+="'";
 								   			menuHTML+=" onclick=document.location.href='";
@@ -35694,7 +35693,7 @@ return Draggabilly;
 		return menuHTML;
 	}
 	
-	//Plug in ìƒì„±
+	//Plug in »ı¼º
 	function Plugin(option){
 		return this.each(function(){
 			var $this = $(this)
@@ -35818,13 +35817,13 @@ return Draggabilly;
 		    if(type=='confirm'){
 				alertModal+="<div class='modal fade modal-vcenter' id='venus"+ type+ "Modal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>";
 				alertModal+="<div data-toggle='dragdrop' class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-header'>";
-				alertModal+="<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>Ã—</span></button>";
+				alertModal+="<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>¡¿</span></button>";
 				alertModal+="<h4 class='modal-title' id='myModalLabel'>";
 				alertModal+= title;
 			    alertModal+="</h4></div><div class='modal-body'>";
 			    alertModal+= text;
-			    alertModal+="</div><div class='modal-footer'><button type='button' id='alertOk' class='btn btn-primary'>í™•ì¸</button>";
-		    	alertModal+="<button type='button' id='alertCancel' class='btn btn-default' data-dismiss='modal'>ì·¨ì†Œ</button></div></div></div></div>";
+			    alertModal+="</div><div class='modal-footer'><button type='button' id='alertOk' class='btn btn-primary'>È®ÀÎ</button>";
+		    	alertModal+="<button type='button' id='alertCancel' class='btn btn-default' data-dismiss='modal'>Ãë¼Ò</button></div></div></div></div>";
 
 			 	$('#gritter-notice-wrapper').append(alertModal);
 			 	
@@ -35851,12 +35850,12 @@ return Draggabilly;
 		    }if(type=='alert'){
 				alertModal+="<div class='modal fade modal-vcenter' id='venus"+ type+ "Modal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>";
 				alertModal+=  "<div data-toggle='dragdrop' class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-header'>";
-				alertModal+=  "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>Ã—</span></button>";
+				alertModal+=  "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>¡¿</span></button>";
 				alertModal+=  "<h4 class='modal-title' id='myModalLabel'>";
 				alertModal+= title;
 			    alertModal+=   "</h4></div><div class='modal-body'>";
 			    alertModal+= text;
-		    	alertModal+="</div><div class='modal-footer'><button type='button' id='alertCancel2' class='btn btn-primary' data-dismiss='modal'>í™•ì¸</button>";
+		    	alertModal+="</div><div class='modal-footer'><button type='button' id='alertCancel2' class='btn btn-primary' data-dismiss='modal'>È®ÀÎ</button>";
 		    	alertModal+="</div></div></div></div>";
 
 			 	$('#gritter-notice-wrapper').append(alertModal);
@@ -36286,7 +36285,7 @@ return Draggabilly;
 
   
   /**
-	 * ë¡œë”© ì´ë¯¸ì§€ ì ìš© ë° í•´ì œ 
+	 * ·Îµù ÀÌ¹ÌÁö Àû¿ë ¹× ÇØÁ¦ 
 	 *  @param {bool} bVisible 
 	 *  @param {string} sClassName
 	 *  @memberof jQuery#fn
@@ -36335,14 +36334,14 @@ return Draggabilly;
   
   /**
    * circularMenu variable
-   * - ì´ ì…€ë ‰í„°ì™€ ë™ì¼í•œ DOM elementë¡œë¶€í„° click ì´ë²¤íŠ¸ë¥¼ ì—°ê²°í•˜ê¸° ìœ„í•˜ì—¬ 
-   *   ìƒì„±ìì—ì„œ ì‚¬ìš©í•˜ëŠ” jQuery Selector
+   * - ÀÌ ¼¿·ºÅÍ¿Í µ¿ÀÏÇÑ DOM element·ÎºÎÅÍ click ÀÌº¥Æ®¸¦ ¿¬°áÇÏ±â À§ÇÏ¿© 
+   *   »ı¼ºÀÚ¿¡¼­ »ç¿ëÇÏ´Â jQuery Selector
    */
   var circularMenu = '[data-menu=circular]' 
 
   // CircularMenu class 
   // el: DOM element
-  // DOM el í˜¹ì€ descendant of elì´ data-menu ì†ì„±ì„  valueë¡œ ê°–ê³  ìˆìœ¼ë©´ click ì´ë²¤íŠ¸ë¥¼ this.openìœ¼ë¡œ ì—°ê²°. 
+  // DOM el È¤Àº descendant of elÀÌ data-menu ¼Ó¼ºÀ»  value·Î °®°í ÀÖÀ¸¸é click ÀÌº¥Æ®¸¦ this.openÀ¸·Î ¿¬°á. 
   var CircularMenu   = function (el) {
     $(el).on('click', circularMenu, this.open)
   }
@@ -36351,10 +36350,10 @@ return Draggabilly;
 
   CircularMenu.TRANSITION_DURATION = 150
 
-  CircularMenu.prototype.open = function () { // Constructorì—ëŠ” return valueê°€ ì—†ë‹¤.
+  CircularMenu.prototype.open = function () { // Constructor¿¡´Â return value°¡ ¾ø´Ù.
 		$(circularMenu).each(function(){
-			var $this    = $(this) // thisëŠ” click ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ëŠ” elementë¥¼ ì°¸ì¡°í•œë‹¤.
-		  	var open = 'menu--open' //ì—´ê¸° ë‹«ê¸° êµ¬ë¶„ì„ ìœ„í•¨
+			var $this    = $(this) // this´Â click ÀÌº¥Æ®°¡ ¹ß»ıÇÏ´Â element¸¦ ÂüÁ¶ÇÑ´Ù.
+		  	var open = 'menu--open' //¿­±â ´İ±â ±¸ºĞÀ» À§ÇÔ
 		    if($this.hasClass(open)){
 		    	closeMenu($this,open);
 		    }else{

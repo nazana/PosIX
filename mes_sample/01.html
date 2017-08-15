@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><meta http-equiv="X-UA-Compatible" content="IE=9">
+
+<head lang="kr">
+<meta http-equiv="X-UA-Compatible" content="IE=9">
 <title>CHARGE연주지시조회</title>
 <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="css/venus.min.css" type="text/css">
+<link rel="stylesheet" href="css/venus.min.css" type="text/css" />
+<style>
+  select.form-control {
+    box-sizing: inherit;
+  }
+</style>
 
 <script language="javascript" src="js/jquery.min.js"></script>
 <script language="javascript" src="js/jquery-ui.min.js"></script>
@@ -129,7 +136,7 @@ var arrSerial = Array("380338B1952CB64D67716522D672DDE5");
           <tr>
             <th>공장</th>
             <td>
-              <select name="f1" class="selectpicker">
+              <select name="f1" class="form-control">
                 <option value="1" selected>1연주</option>
                 <option value="2">2연주</option>
                 <option value="3">3연주</option>
@@ -138,7 +145,7 @@ var arrSerial = Array("380338B1952CB64D67716522D672DDE5");
             </td>
             <th>M/C</th>
             <td>
-              <select name="f2" class="selectpicker">
+              <select name="f2" class="form-control">
                 <option value="1" selected>PosMC</option>
                 <option value="2">2연주</option>
                 <option value="3">3연주</option>

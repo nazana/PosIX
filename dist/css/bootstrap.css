@@ -1082,7 +1082,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Malgun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nanum Barun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.14285714;
   color: #333;
@@ -6520,7 +6520,7 @@ select.selectpicker {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Malgun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nanum Barun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -6639,7 +6639,7 @@ select.selectpicker {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Malgun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Nanum Barun Gothic", "dotum", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
