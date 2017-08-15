@@ -118,7 +118,8 @@ module.exports = function (grunt) {
           'js/scrollspy.js',
           'js/tab.js',
           'js/affix.js',
-          'js/bootstrap-select.js'
+          'js/bootstrap-select.js',
+          'js/dimmer.js'
         ],
         dest: 'dist/js/<%= pkg.name %>.js'
       }
