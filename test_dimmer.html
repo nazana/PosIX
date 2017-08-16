@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="kr">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title></title>
+
+<!--<link rel="stylesheet" href="dist/css/bootstrap.css">-->
+<link href="dist/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/nanumgothic.css">
+<style>
+  body {
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+
+</style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1>
+      <B>Semantic Dimmer</B>
+    </h1>
+  </div>
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <B>Show/Hide</B>
+        </h3>
+      </div>
+      <div class="panel-body dimmable">
+        <H4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quis, aspernatur pariatur architecto ipsa laborum perferendis rem itaque quisquam ad voluptatibus harum necessitatibus nulla sint quaerat hic earum deserunt mollitia.
+        </H4>
+        <div class="ui dimmer" id="dimmer1">
+<!--            <div class="ui loader text">로딩중</div>-->
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div>
+          <button type='button' class="btn btn-success" id="show1">SHOW</button>
+          <button type='button' class="btn btn-danger" id="hide1">HIDE</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          <B>Toggle</B>
+        </h3>
+      </div>
+      <div class="panel-body dimmable">
+        <H4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quis, aspernatur pariatur architecto ipsa laborum perferendis rem itaque quisquam ad voluptatibus harum necessitatibus nulla sint quaerat hic earum deserunt mollitia.
+        </H4>
+        <div class="ui dimmer" id="dimmer2">
+<!--            <div class="ui loader text">로딩중</div>-->
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div>
+          <button type='button' class="btn btn-success" id="toggle1">Toggle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div>
+      <h1>
+        <B>Bootstrap 4MES</B>
+      </h1>
+    </div>
+    <div>
+      <div class="row rara">
+        <h2><B>Button & Form</B></h2>
+        <h3>Button size</h3>
+        <button type="button" id="btn1" class="btn btn-xs">btn-xs</button>
+        <button type="button" id="btn1" class="btn btn-sm">btn-sm</button>
+        <button type="button" id="btn1" class="btn">btn</button>
+        <button type="button" id="btn1" class="btn btn-lg">btn-lg</button>
+      </div>
+      <div class="row">
+        <h3>Button color</h3>
+        <div>
+          <!-- Standard button -->
+          <button type="button" class="btn" id="dimmer1">btn</button>
+
+          <!-- Indicates a linked action for MES -->
+          <button type="button" class="btn btn-visit ui page button" id="dimmer2">btn-visit</button>
+
+          <!-- Default button -->
+          <button type="button" class="btn btn-default">btn-default</button>
+
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <button type="button" class="btn btn-primary">btn-primary</button>
+
+          <!-- Indicates a successful or positive action -->
+          <button type="button" class="btn btn-success">btn-success</button>
+
+          <!-- Contextual button for informational alert messages -->
+          <button type="button" class="btn btn-info">btn-info</button>
+
+          <!-- Indicates caution should be taken with this action -->
+          <button type="button" class="btn btn-warning">btn-warning</button>
+
+          <!-- Indicates a dangerous or potentially negative action -->
+          <button type="button" class="btn btn-danger">btn-danger</button>
+
+          <!-- Indicates linked action -->
+          <button type="button" class="btn btn-link">btn-link</button>
+
+        </div>
+
+      </div>
+      <div class="row">
+        <h3>Input</h3>
+        <div class="row form-inline">
+          <div class="col-md-3 form-group">
+            <input type="text" id="form1" class="form-control input-xs" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+            <input type="text" id="form1" class="form-control input-sm" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+            <input type="text" id="form1" class="form-control" value="" placeholder="search">
+          </div>
+          <div class="col-md-3 form-group">
+            <input type="text" id="form1" class="form-control input-lg" value="" placeholder="search">
+          </div>
+        </div>
+      </div>
+      <BR/>
+      <div class="row">
+        <h3>Input + input group btn</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-xs">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-xs">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR/>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-sm">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR/>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR/>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group input-group-lg">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+              <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+          <div class="col-md-6">
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div>
+            <!-- /input-group -->
+          </div>
+          <!-- /.col-lg-6 -->
+        </div>
+        <BR/>
+      </div>
+      <!-- /.row -->
+      
+  </div>
+</div>
+<div class="ui demo dimmer">
+  <div class="content">
+    <div class="center">
+      <h2 class="ui inverted icon header">
+        <i class="mail icon"></i>
+        Dimmer Message
+      </h2>
+        <h5>Dimmer sub-header</h5>
+    </div>
+  </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')
+  $(document).ready(function() {
+    $("#show1").on('click', function() {
+      $('#dimmer1').dimmer('hide');
+    });
+    
+    $("#hide1").on('click', function() {
+      $('#dimmer1').dimmer('show');
+    });
+    
+    $("#toggle1").on('click', function() {
+      $('#dimmer2').dimmer('toggle');
+    });
+  });
+
+</script>
+<script src="../dist/js/bootstrap.min.js"></script>
+
+</html>

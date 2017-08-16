@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="kr">
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<title>CHARGE연주지시조회</title>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/venus.min.css" type="text/css" />
+<!--<link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/nanumgothic.css">-->
+
+<script language="javascript" src="js/jquery.min.js"></script>
+<script language="javascript" src="js/jquery-ui.min.js"></script>
+<script language="javascript" src="js/venus.min.js"></script>
+<script language="javascript" src="js/venusUtil.js"></script>
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0">
+  <form name="form1" id="form1" method="post" action="/M51/M51A10/m510200301" role="form">
+  <div class="ui segment">
+  <div class="ui active dimmer">
+    <div id='mes-header' data-menu='' workscode="P"></div>
+
+
+      <div class="condition">
+        <div class="container-condition">
+          <div class="well-condition collapsed">
+            <div class="form-inline">
+
+              <div class="form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_FacOpCd">공장</label>
+                <select name="In_FacOpCd" id="In_FacOpCd" class="selectpicker col-sm-8 col-xs-10">
+                  <option value="1" selected>1연주</option>
+                  <option value="2">2연주</option>
+                  <option value="3">3연주</option>
+                  <option value="4">4연주</option>
+                </select>
+              </div>
+              <div class=" form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_McNo">Machine</label>
+                <select name="In_McNo" id="In_McNo" class="selectpicker col-sm-8 col-xs-10">
+                  <option value="1" selected>1M/C</option>
+                  <option value="2">2M/C</option>
+                  <option value="3">3M/C</option>
+                  <option value="4">4M/C</option>
+                  <option value="5">5M/C</option>
+                </select>
+              </div>
+              <div class=" form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_ChargeNo">강번</label>
+                <div class="input-group col-sm-8 col-xs-10">
+                  <input type="text" name="In_ChargeNo" id="In_ChargeNo" class="form-control combobox"  maxlength="7">
+                  <select name="In_ChargeNo01" class="selectpicker" data-live-search="true" data-dropdown-align-right="true">
+                    <OPTION selected value=SB00671>SB00671</OPTION>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_ChargeNo">입력값</label>
+                <input type="text" name="In_ChargeNo" id="In_ChargeNo" class="form-control col-sm-8 col-xs-10"  maxlength="7">
+              </div>
+              <div class="form-group col-md-4 col-sm-8">
+                <label class="col-md-3 col-sm-2 col-xs-2">Radio</label>
+                <div class="btn-group btn-radio col-md-9 col-sm-10 col-xs-10" data-toggle="buttons">
+                  <button class="btn active">
+                    <input type="radio" name="options" id="option1" checked> 선택1
+                  </button>
+                  <button class="btn">
+                    <input type="radio" name="options" id="option2"> 선택2
+                  </button>
+                  <button class="btn">
+                    <input type="radio" name="options" id="option3"> 선택3
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-inline">
+              <div class=" form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_FacOpCd">공장</label>
+                <select name="In_FacOpCd" id="In_FacOpCd" class="form-control col-sm-8 col-xs-10">
+                  <option value="1" selected>1연주</option>
+                  <option value="2">2연주</option>
+                  <option value="3">3연주</option>
+                  <option value="4">4연주</option>
+                </select>
+              </div>
+              <div class=" form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_McNo">Machine</label>
+                <select name="In_McNo" id="In_McNo" class="selectpicker col-sm-8 col-xs-10">
+                  <option value="1" selected>PosMC</option>
+                  <option value="2">2M/C</option>
+                  <option value="3">3M/C</option>
+                  <option value="4">4M/C</option>
+                  <option value="5">5M/C</option>
+                </select>
+              </div>
+              <div class=" form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_ChargeNo">강번</label>
+                <div class="input-group col-sm-8 col-xs-10">
+                  <input type="text" name="In_ChargeNo" id="In_ChargeNo" class="form-control combobox"  maxlength="7">
+                  <select name="In_ChargeNo01" class="selectpicker" data-live-search="true" data-dropdown-align-right="true">
+                    <OPTION selected value=SB00671>SB00671</OPTION>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-2 col-sm-4">
+                <label class="col-sm-4 col-xs-2" for="In_ChargeNo">입력값</label>
+                <input type="text" name="In_ChargeNo" id="In_ChargeNo" class="form-control col-sm-8 col-xs-10"  maxlength="3" placeholder="0.0~9.9 입력">
+              </div>
+              <div class="form-group col-md-4 col-sm-8">
+                <label class="col-md-3 col-sm-2 col-xs-2">CheckBox</label>
+                <div class="btn-group col-md-9 col-sm-10 col-xs-10" data-toggle="buttons">
+                  <button class="btn btn-check active">
+                    <input type="checkbox" name="options" id="option1" checked>선택1
+                  </button>
+                  <button class="btn btn-check">
+                    <input type="checkbox" name="options" id="option2">선택2
+                  </button>
+                  <button class="btn btn-check">
+                    <input type="checkbox" name="options" id="option3">선택3
+                  </button>
+                </div>
+              </div>
+
+            </div>
+            <div class="condition-btn condition-right btn-group">
+              <button type="submit" class="btn btn-info btn-lg">
+                <span class="icon-down glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mes-btn-area">
+        <span id="TrsF" style="margin-right: 20px; font-weight: bold; color: rgb(255, 0, 0);">사전송되지 않았습니다.</span>
+        <button type="button" id="btn_export" class="btn btn-common btn-mes">Export</button>
+        <button type="button" id="btn_enter" class="btn btn-common btn-mes btn-writable" style="">등록</button>
+        <button type="button" id="btn_add" class="btn btn-common btn-mes btn-writable" style="">추가주편</button>
+        <button type="button" id="btn_srf_oper" class="btn btn-primary btn-mes btn-writable" style="">S/F부여</button>
+        <button type="button" id="btn_srf_cancel" class="btn btn-primary btn-mes btn-writable" style="">S/F부여취소</button>
+      </div>
+
+      <div class="mes-wrap">
+        <div class="panel panel-transparent">
+          <!--테이블 titLine-->
+          <!-- div class="panel-heading">
+            <span class="mtit">조회목록</span>
+            <div class="icon-down glyphicon glyphicon-chevron-down"></div>
+          </div -->
+          <!--테이블 contentLine-->
+          <div class="panel-body">
+            <table id="tblMain" class="table display">
+              <thead>
+                <tr class="blue3 center middle">
+                  <th>Charge번호</th>
+                  <th>예정<BR>Charge번호</th>
+                  <th>MC</th>
+                  <th>수순</th>
+                  <th>출강목표</th>
+                  <th>이강종<BR>LMC</th>
+                  <th>특수<BR>원소</th>
+                  <th>LD</th>
+                  <th>LF</th>
+                  <th>RH</th>
+
+                  <th>래들</th>
+                  <th>출강완료</th>
+                  <th>주조개시</th>
+                  <th>주조완료</th>
+                  <th>행선</th>
+                  <th>두께</th>
+                  <th>X폭</th>
+                  <th>Y폭</th>
+                  <th>폭변경<BR>(X-Y)</th>
+                  <th>품명</th>
+
+                  <th>샘플</th>
+                  <th>HCR</th>
+                  <th>규격약호</th>
+                </tr>
+              </thead>
+              <tbody class="center">
+                <tr>
+                  <td>SA24936</td>
+                  <td>SAVB4975</td>
+                  <td>4</td>
+                  <td>01-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>32</td>
+                  <td>09 04:53</td>
+                  <td>09 06:03</td>
+                  <td>09 06:55</td>
+                  <td>W2</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24937</td>
+                  <td>SAVB4976</td>
+                  <td>4</td>
+                  <td>02-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>40</td>
+                  <td>09 05:42</td>
+                  <td>09 06:55</td>
+                  <td>09 07:46</td>
+                  <td>W2</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24938</td>
+                  <td>SAVB4977</td>
+                  <td>4</td>
+                  <td>03-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>34</td>
+                  <td>09 06:28</td>
+                  <td>09 07:46</td>
+                  <td>09 08:38</td>
+                  <td>W2</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>JS-SWRM10K</td>
+                </tr>
+                <tr>
+                  <td>SA24939</td>
+                  <td>SAVB4978</td>
+                  <td>4</td>
+                  <td>04-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>42</td>
+                  <td>09 07:19</td>
+                  <td>09 08:38</td>
+                  <td>09 09:31</td>
+                  <td>W2</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>JS-S10C</td>
+                </tr>
+                <tr>
+                  <td>SA24940</td>
+                  <td>SAVB4979</td>
+                  <td>4</td>
+                  <td>05-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>32</td>
+                  <td>09 08:22</td>
+                  <td>09 09:31</td>
+                  <td>09 10:23</td>
+                  <td>W2</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>JS-S10C</td>
+                </tr>
+                <tr>
+                  <td>SA24941</td>
+                  <td>SAVA4974</td>
+                  <td>4</td>
+                  <td>06-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>40</td>
+                  <td>09 09:01</td>
+                  <td>09 10:23</td>
+                  <td>09 11:35</td>
+                  <td>W1</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24942</td>
+                  <td>SAVC4980</td>
+                  <td>4</td>
+                  <td>07-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>34</td>
+                  <td>09 09:49</td>
+                  <td>09 11:35</td>
+                  <td>09 12:23</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24943</td>
+                  <td>SAVC4981</td>
+                  <td>4</td>
+                  <td>08-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td>42</td>
+                  <td>09 10:58</td>
+                  <td>09 12:23</td>
+                  <td>09 13:11</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24944</td>
+                  <td>SAVC4982</td>
+                  <td>4</td>
+                  <td>09-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>09 12:43</td>
+                  <td>09 13:11</td>
+                  <td>09 13:59</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24945</td>
+                  <td>SAVC4983</td>
+                  <td>4</td>
+                  <td>10-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>09 13:33</td>
+                  <td>09 13:59</td>
+                  <td>09 14:47</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24946</td>
+                  <td>SAVC4984</td>
+                  <td>4</td>
+                  <td>11-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>09 14:23</td>
+                  <td>09 14:47</td>
+                  <td>09 15:35</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24947</td>
+                  <td>SAVC4985</td>
+                  <td>4</td>
+                  <td>12-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>09 15:13</td>
+                  <td>09 15:35</td>
+                  <td>09 16:23</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24948</td>
+                  <td>SAVC4986</td>
+                  <td>4</td>
+                  <td>13-13</td>
+                  <td>P10050RRXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>09 16:03</td>
+                  <td>09 16:23</td>
+                  <td>09 17:11</td>
+                  <td>W3</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>SAE1010K</td>
+                </tr>
+                <tr>
+                  <td>SA24949</td>
+                  <td>SAVA4950</td>
+                  <td>4</td>
+                  <td>05-01</td>
+                  <td>B04050LLXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>1</td>
+                  <td></td>
+                  <td>09 17:33</td>
+                  <td>09 18:40</td>
+                  <td>09 19:27</td>
+                  <td>W1</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>JS-SWRY11</td>
+                </tr>
+                <tr>
+                  <td>SA24950</td>
+                  <td>SAVA4951</td>
+                  <td>4</td>
+                  <td>05-02</td>
+                  <td>B04050LLXX</td>
+                  <td>_Y_</td>
+                  <td>X</td>
+                  <td>1</td>
+                  <td></td>
+                  <td>1</td>
+                  <td></td>
+                  <td>09 18:23</td>
+                  <td>09 19:27</td>
+                  <td>09 20:14</td>
+                  <td>W1</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td>160</td>
+                  <td></td>
+                  <td>FWA</td>
+                  <td></td>
+                  <td>C</td>
+                  <td>JS-SWRY11</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+<script>
+
+$(document).ready(function() {
+    $('#mes-header').mesheader();
+
+    //작업일자 달력 설정
+    $('[data-calendar]').datetimepicker({
+        locale: 'ko',
+        dayViewHeaderFormat: 'YYYY MMMM',
+        format: 'YYYY-MM-DD',
+        defaultDate: '2017-02-09'
+    });
+
+    var $form = $("form[name=form1]");
+    var postURL = $form.attr("action");
+
+    var tblMainApi = $('#form1 #tblMain').DataTable({
+        info: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        scrollY: "463px",
+        scrollCollapse: true,
+        select: {style: "single"},
+        columnDefs: [
+            {
+                targets: '_all',
+                className: 'dt-body-center',
+            },
+            {
+                targets: 3,
+                type: 'html',
+            }
+        ],
+        columns: [
+            { data: "a1"},
+            { data: "a2"},
+            { data: "a3"},
+            { data: "a4"},
+            { data: "a5"},
+            { data: "a6"},
+            { data: "a7"},
+            { data: "a8"},
+            { data: "a9"},
+            { data: "a10"},
+            
+            { data: "a11"},
+            { data: "a12"},
+            { data: "a13"},
+            { data: "a14"},
+            { data: "a15"},
+            { data: "a16"},
+            { data: "a17"},
+            { data: "a18"},
+            { data: "a19"},
+            { data: "a20"},
+            
+            { data: "a21"},
+            { data: "a22"},
+            { data: "a23"}
+            
+        ]
+    });
+
+    $(window).resize( function () {
+        tblMainApi.columns.adjust();
+    });
+});
+
+</script>
+</body>
+</html>
