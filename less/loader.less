@@ -93,8 +93,8 @@
 @hugeFontSize: @relativeHuge;
 @massiveFontSize: @relativeMassive;
 
-@loaderTextColor: @textColor;
-@invertedTextColor           : rgba(255, 255, 255, 0.9);
+@loaderTextColor         : rgba(0,0,0,.87);;
+@invertedTextColor       : rgba(255, 255, 255, 0.9);
 @invertedLoaderTextColor: @invertedTextColor;
 
 @invertedShapeBorderColor: @invertedLoaderLineColor transparent transparent;
@@ -107,7 +107,7 @@
 @inlineVerticalAlign: middle;
 @inlineMargin: 0em;
 /* Standard Size */
-.ui.loader {
+.loader {
   display: none;
   position: absolute;
   top: @loaderTopOffset;
@@ -119,7 +119,7 @@
 }
 
 /* Static Shape */
-.ui.loader:before {
+.loader:before {
   position: absolute;
   content: '';
   top: 0%;
@@ -132,7 +132,7 @@
 }
 
 /* Active Shape */
-.ui.loader:after {
+.loader:after {
   position: absolute;
   content: '';
   top: 0%;
@@ -163,50 +163,50 @@
 }
 
 /* Sizes */
-.ui.mini.loader:before,
-.ui.mini.loader:after {
+.mini.loader:before,
+.mini.loader:after {
   width: @mini;
   height: @mini;
   margin: @miniOffset;
 }
-.ui.tiny.loader:before,
-.ui.tiny.loader:after {
+.tiny.loader:before,
+.tiny.loader:after {
   width: @tiny;
   height: @tiny;
   margin: @tinyOffset;
 }
-.ui.small.loader:before,
-.ui.small.loader:after {
+.small.loader:before,
+.small.loader:after {
   width: @small;
   height: @small;
   margin: @smallOffset;
 }
-.ui.loader:before,
-.ui.loader:after {
+.loader:before,
+.loader:after {
   width: @medium;
   height: @medium;
   margin: @mediumOffset;
 }
-.ui.large.loader:before,
-.ui.large.loader:after {
+.large.loader:before,
+.large.loader:after {
   width: @large;
   height: @large;
   margin: @largeOffset;
 }
-.ui.big.loader:before,
-.ui.big.loader:after {
+.big.loader:before,
+.big.loader:after {
   width: @big;
   height: @big;
   margin: @bigOffset;
 }
-.ui.huge.loader:before,
-.ui.huge.loader:after {
+.huge.loader:before,
+.huge.loader:after {
   width: @huge;
   height: @huge;
   margin: @hugeOffset;
 }
-.ui.massive.loader:before,
-.ui.massive.loader:after {
+.massive.loader:before,
+.massive.loader:after {
   width: @massive;
   height: @massive;
   margin: @massiveOffset;
@@ -217,29 +217,29 @@
 --------------------*/
 
 /* Show inside active dimmer */
-.ui.dimmer .loader {
+.dimmer .loader {
   display: block;
 }
 
 /* Black Dimmer */
-.ui.dimmer .ui.loader {
+.dimmer .loader {
   color: @invertedLoaderTextColor;
 }
-.ui.dimmer .ui.loader:before {
+.dimmer .loader:before {
   border-color: @invertedLoaderFillColor;
 }
-.ui.dimmer .ui.loader:after {
+.dimmer .loader:after {
   border-color: @invertedShapeBorderColor;
 }
 
 /* White Dimmer (Inverted) */
-.ui.inverted.dimmer .ui.loader {
+.inverted.dimmer .loader {
   color: @loaderTextColor;
 }
-.ui.inverted.dimmer .ui.loader:before {
+.inverted.dimmer .loader:before {
   border-color: @loaderFillColor;
 }
-.ui.inverted.dimmer .ui.loader:after {
+.inverted.dimmer .loader:after {
   border-color: @shapeBorderColor;
 }
 
@@ -252,7 +252,7 @@
         Text
 --------------------*/
 
-.ui.text.loader {
+.text.loader {
   width: auto !important;
   height: auto !important;
   text-align: center;
@@ -264,17 +264,17 @@
             States
 *******************************/
 
-.ui.indeterminate.loader:after {
+.indeterminate.loader:after {
   animation-direction: @indeterminateDirection;
   animation-duration: @indeterminateSpeed;
 }
 
-.ui.loader.active,
-.ui.loader.visible {
+.loader.active,
+.loader.visible {
   display: block;
 }
-.ui.loader.disabled,
-.ui.loader.hidden {
+.loader.disabled,
+.loader.hidden {
   display: none;
 }
 
@@ -289,85 +289,85 @@
 
 
 /* Loader */
-.ui.inverted.dimmer .ui.mini.loader,
-.ui.mini.loader {
+.inverted.dimmer .mini.loader,
+.mini.loader {
   width: @mini;
   height: @mini;
   font-size: @miniFontSize;
 }
-.ui.inverted.dimmer .ui.tiny.loader,
-.ui.tiny.loader {
+.inverted.dimmer .tiny.loader,
+.tiny.loader {
   width: @tiny;
   height: @tiny;
   font-size: @tinyFontSize;
 }
-.ui.inverted.dimmer .ui.small.loader,
-.ui.small.loader {
+.inverted.dimmer .small.loader,
+.small.loader {
   width: @small;
   height: @small;
   font-size: @smallFontSize;
 }
-.ui.inverted.dimmer .ui.loader,
-.ui.loader {
+.inverted.dimmer .loader,
+.loader {
   width: @medium;
   height: @medium;
   font-size: @mediumFontSize;
 }
-.ui.inverted.dimmer .ui.large.loader,
-.ui.large.loader {
+.inverted.dimmer .large.loader,
+.large.loader {
   width: @large;
   height: @large;
   font-size: @largeFontSize;
 }
-.ui.inverted.dimmer .ui.big.loader,
-.ui.big.loader {
+.inverted.dimmer .big.loader,
+.big.loader {
   width: @big;
   height: @big;
   font-size: @bigFontSize;
 }
-.ui.inverted.dimmer .ui.huge.loader,
-.ui.huge.loader {
+.inverted.dimmer .huge.loader,
+.huge.loader {
   width: @huge;
   height: @huge;
   font-size: @hugeFontSize;
 }
-.ui.inverted.dimmer .ui.massive.loader,
-.ui.massive.loader {
+.inverted.dimmer .massive.loader,
+.massive.loader {
   width: @massive;
   height: @massive;
   font-size: @massiveFontSize;
 }
 
 /* Text Loader */
-.ui.mini.text.loader {
+.mini.text.loader {
   min-width: @mini;
   padding-top: (@mini + @textDistance);
 }
-.ui.tiny.text.loader {
+.tiny.text.loader {
   min-width: @tiny;
   padding-top: (@tiny + @textDistance);
 }
-.ui.small.text.loader {
+.small.text.loader {
   min-width: @small;
   padding-top: (@small + @textDistance);
 }
-.ui.text.loader {
+.text.loader {
   min-width: @medium;
   padding-top: (@medium + @textDistance);
 }
-.ui.large.text.loader {
+.large.text.loader {
   min-width: @large;
   padding-top: (@large + @textDistance);
 }
-.ui.big.text.loader {
+.big.text.loader {
   min-width: @big;
   padding-top: (@big + @textDistance);
 }
-.ui.huge.text.loader {
+.huge.text.loader {
   min-width: @huge;
   padding-top: (@huge + @textDistance);
 }
-.ui.massive.text.loader {
+.massive.text.loader {
   min-width: @massive;
   padding-top: (@massive + @textDistance);
 }
@@ -377,13 +377,13 @@
        Inverted
 --------------------*/
 
-.ui.inverted.loader {
+.inverted.loader {
   color: @invertedLoaderTextColor
 }
-.ui.inverted.loader:before {
+.inverted.loader:before {
   border-color: @invertedLoaderFillColor;
 }
-.ui.inverted.loader:after {
+.inverted.loader:after {
   border-top-color: @invertedLoaderLineColor;
 }
 
@@ -391,7 +391,7 @@
        Inline
 --------------------*/
 
-.ui.inline.loader {
+.inline.loader {
   position: relative;
   vertical-align: @inlineVerticalAlign;
   margin: @inlineMargin;
@@ -400,18 +400,18 @@
   transform: none;
 }
 
-.ui.inline.loader.active,
-.ui.inline.loader.visible {
+.inline.loader.active,
+.inline.loader.visible {
   display: inline-block;
 }
 
-/* Centered Inline */
-.ui.centered.inline.loader.active,
-.ui.centered.inline.loader.visible {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* Centered Inline = .center-block*/
+//.centered.inline.loader.active,
+//.centered.inline.loader.visible {
+//  display: block;
+//  margin-left: auto;
+//  margin-right: auto;
+//}
 
 
 //.loadUIOverrides();

@@ -40,8 +40,9 @@
 @contentChildDisplay: table-cell;
 @visibleOpacity: 1;
 
-@textColor: @white;
-@white            : #FFFFFF;
+@white                  : #FFFFFF;
+@dimmerTextColor        : @white;
+@invertedDimmerTextColor: rgba(0, 0, 0 , 0.85);
 
 @useCustomScrollbars: true;
 @trackInvertedBackground: rgba(255, 255, 255, 0.1);
@@ -79,7 +80,7 @@
   position: @dimmablePosition;
 }
 
-.ui.dimmer {
+.dimmer {
   display: none;
   position: @dimmerPosition;
   top: 0em !important;
@@ -105,39 +106,35 @@
 }
 
 /* Dimmer Content */
-.ui.dimmer > .content {
+.dimmer > .content {
   width: 100%;
   height: 100%;
   display: @contentDisplay;
   user-select: text;
 }
-.ui.dimmer > .content > * {
+.dimmer > .content > * {
   display: @contentChildDisplay;
   vertical-align: @verticalAlign;
-  color: @textColor;
+  color: @dimmerTextColor;
 }
 
-
-/* Loose Coupling */
-.ui.segment > .ui.dimmer {
-  border-radius: inherit !important;
-}
 
 /* Scrollbars */
 .addScrollbars() when (@useCustomScrollbars) {
-  .ui.dimmer:not(.inverted)::-webkit-scrollbar-track {
+  .dimmer:not(.inverted)::-webkit-scrollbar-track {
     background: @trackInvertedBackground;
   }
-  .ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb {
+  .dimmer:not(.inverted)::-webkit-scrollbar-thumb {
     background: @thumbInvertedBackground;
   }
-  .ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb:window-inactive {
+  .dimmer:not(.inverted)::-webkit-scrollbar-thumb:window-inactive {
     background: @thumbInvertedInactiveBackground;
   }
-  .ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb:hover {
+  .dimmer:not(.inverted)::-webkit-scrollbar-thumb:hover {
     background: @thumbInvertedHoverBackground;
   }
 }
+
 .addScrollbars();
 
 /*******************************
@@ -149,14 +146,14 @@
   overflow: @overflow;
 }
 
-.dimmed.dimmable > .ui.animating.dimmer,
-.dimmed.dimmable > .ui.visible.dimmer,
-.ui.active.dimmer {
+.dimmed.dimmable > .animating.dimmer,
+.dimmed.dimmable > .visible.dimmer,
+.active.dimmer {
   display: block;
   opacity: @visibleOpacity;
 }
 
-.ui.disabled.dimmer {
+.disabled.dimmer {
   width: 0 !important;
   height: 0 !important;
 }
@@ -169,7 +166,7 @@
       Page. web page 전체 fixed로 처리
 ---------------*/
 
-.ui.page.dimmer {
+.page.dimmer {
   position: @pageDimmerPosition;
   transform-style: @transformStyle;
   perspective: @perspective;
@@ -209,10 +206,10 @@ body.dimmable > .dimmer {
     Aligned
 ---------------*/
 
-.ui.dimmer > .top.aligned.content > * {
+.dimmer > .top.aligned.content > * {
   vertical-align: top;
 }
-.ui.dimmer > .bottom.aligned.content > * {
+.dimmer > .bottom.aligned.content > * {
   vertical-align: bottom;
 }
 
@@ -220,11 +217,11 @@ body.dimmable > .dimmer {
     Inverted
 ---------------*/
 
-.ui.inverted.dimmer {
+.inverted.dimmer {
   background-color: @invertedBackgroundColor;
 }
-.ui.inverted.dimmer > .content > * {
-  color: @textColor;
+.inverted.dimmer > .content > * {
+  color: @invertedTextColor;
 }
 
 /*--------------
@@ -232,7 +229,7 @@ body.dimmable > .dimmer {
 ---------------*/
 
 /* Displays without javascript */
-.ui.simple.dimmer {
+.simple.dimmer {
   display: block;
   overflow: hidden;
   opacity: 1;
@@ -241,7 +238,7 @@ body.dimmable > .dimmer {
   z-index: -100;
   background-color: @simpleStartBackgroundColor;
 }
-.dimmed.dimmable > .ui.simple.dimmer {
+.dimmed.dimmable > .simple.dimmer {
   overflow: visible;
   opacity: 1;
   width: 100%;
@@ -250,10 +247,10 @@ body.dimmable > .dimmer {
   z-index: @simpleZIndex;
 }
 
-.ui.simple.inverted.dimmer {
+.simple.inverted.dimmer {
   background-color: @simpleInvertedStartBackgroundColor;
 }
-.dimmed.dimmable > .ui.simple.inverted.dimmer {
+.dimmed.dimmable > .simple.inverted.dimmer {
   background-color: @simpleInvertedEndBackgroundColor;
 }
 

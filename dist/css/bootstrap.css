@@ -7302,7 +7302,7 @@ select.selectpicker {
 .dimmable:not(body) {
   position: relative;
 }
-.ui.dimmer {
+.dimmer {
   position: absolute;
   top: 0 !important;
   left: 0 !important;
@@ -7332,7 +7332,7 @@ select.selectpicker {
   will-change: opacity;
 }
 /* Dimmer Content */
-.ui.dimmer > .content {
+.dimmer > .content {
   display: table;
   width: 100%;
   height: 100%;
@@ -7341,26 +7341,22 @@ select.selectpicker {
       -ms-user-select: text;
           user-select: text;
 }
-.ui.dimmer > .content > * {
+.dimmer > .content > * {
   display: table-cell;
   color: #fff;
   vertical-align: middle;
 }
-/* Loose Coupling */
-.ui.segment > .ui.dimmer {
-  border-radius: inherit !important;
-}
 /* Scrollbars */
-.ui.dimmer:not(.inverted)::-webkit-scrollbar-track {
+.dimmer:not(.inverted)::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, .1);
 }
-.ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb {
+.dimmer:not(.inverted)::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, .25);
 }
-.ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb:window-inactive {
+.dimmer:not(.inverted)::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(255, 255, 255, .15);
 }
-.ui.dimmer:not(.inverted)::-webkit-scrollbar-thumb:hover {
+.dimmer:not(.inverted)::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, .35);
 }
 /*******************************
@@ -7370,13 +7366,13 @@ select.selectpicker {
 .dimmed.dimmable:not(body) {
   overflow: hidden;
 }
-.dimmed.dimmable > .ui.animating.dimmer,
-.dimmed.dimmable > .ui.visible.dimmer,
-.ui.active.dimmer {
+.dimmed.dimmable > .animating.dimmer,
+.dimmed.dimmable > .visible.dimmer,
+.active.dimmer {
   display: block;
   opacity: 1;
 }
-.ui.disabled.dimmer {
+.disabled.dimmer {
   width: 0 !important;
   height: 0 !important;
 }
@@ -7386,7 +7382,7 @@ select.selectpicker {
 /*--------------
       Page. web page 전체 fixed로 처리
 ---------------*/
-.ui.page.dimmer {
+.page.dimmer {
   position: fixed;
   -webkit-transform-origin: center center;
       -ms-transform-origin: center center;
@@ -7431,26 +7427,26 @@ body.dimmable > .dimmer {
 /*--------------
     Aligned
 ---------------*/
-.ui.dimmer > .top.aligned.content > * {
+.dimmer > .top.aligned.content > * {
   vertical-align: top;
 }
-.ui.dimmer > .bottom.aligned.content > * {
+.dimmer > .bottom.aligned.content > * {
   vertical-align: bottom;
 }
 /*--------------
     Inverted
 ---------------*/
-.ui.inverted.dimmer {
+.inverted.dimmer {
   background-color: rgba(255, 255, 255, .85);
 }
-.ui.inverted.dimmer > .content > * {
-  color: #fff;
+.inverted.dimmer > .content > * {
+  color: rgba(255, 255, 255, .9);
 }
 /*--------------
      Simple
 ---------------*/
 /* Displays without javascript */
-.ui.simple.dimmer {
+.simple.dimmer {
   z-index: -100;
   display: block;
   width: 0;
@@ -7459,7 +7455,7 @@ body.dimmable > .dimmer {
   background-color: rgba(0, 0, 0, 0);
   opacity: 1;
 }
-.dimmed.dimmable > .ui.simple.dimmer {
+.dimmed.dimmable > .simple.dimmer {
   z-index: 1;
   width: 100%;
   height: 100%;
@@ -7467,10 +7463,10 @@ body.dimmable > .dimmer {
   background-color: rgba(0, 0, 0, .85);
   opacity: 1;
 }
-.ui.simple.inverted.dimmer {
+.simple.inverted.dimmer {
   background-color: rgba(255, 255, 255, 0);
 }
-.dimmed.dimmable > .ui.simple.inverted.dimmer {
+.dimmed.dimmable > .simple.inverted.dimmer {
   background-color: rgba(255, 255, 255, .85);
 }
 /*!
@@ -7489,7 +7485,7 @@ body.dimmable > .dimmer {
             Loader
 *******************************/
 /* Standard Size */
-.ui.loader {
+.loader {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -7503,7 +7499,7 @@ body.dimmable > .dimmer {
           transform: translateX(-50%) translateY(-50%);
 }
 /* Static Shape */
-.ui.loader:before {
+.loader:before {
   position: absolute;
   top: 0;
   left: 50%;
@@ -7514,7 +7510,7 @@ body.dimmable > .dimmer {
   border-radius: 500rem;
 }
 /* Active Shape */
-.ui.loader:after {
+.loader:after {
   position: absolute;
   top: 0;
   left: 50%;
@@ -7568,50 +7564,50 @@ body.dimmable > .dimmer {
   }
 }
 /* Sizes */
-.ui.mini.loader:before,
-.ui.mini.loader:after {
+.mini.loader:before,
+.mini.loader:after {
   width: 1rem;
   height: 1rem;
   margin: 0 0 0 -.5rem;
 }
-.ui.tiny.loader:before,
-.ui.tiny.loader:after {
+.tiny.loader:before,
+.tiny.loader:after {
   width: 1.14285714rem;
   height: 1.14285714rem;
   margin: 0 0 0 -.57142857rem;
 }
-.ui.small.loader:before,
-.ui.small.loader:after {
+.small.loader:before,
+.small.loader:after {
   width: 1.71428571rem;
   height: 1.71428571rem;
   margin: 0 0 0 -.85714286rem;
 }
-.ui.loader:before,
-.ui.loader:after {
+.loader:before,
+.loader:after {
   width: 2.28571429rem;
   height: 2.28571429rem;
   margin: 0 0 0 -1.14285714rem;
 }
-.ui.large.loader:before,
-.ui.large.loader:after {
+.large.loader:before,
+.large.loader:after {
   width: 3.42857143rem;
   height: 3.42857143rem;
   margin: 0 0 0 -1.71428571rem;
 }
-.ui.big.loader:before,
-.ui.big.loader:after {
+.big.loader:before,
+.big.loader:after {
   width: 3.71428571rem;
   height: 3.71428571rem;
   margin: 0 0 0 -1.85714286rem;
 }
-.ui.huge.loader:before,
-.ui.huge.loader:after {
+.huge.loader:before,
+.huge.loader:after {
   width: 4.14285714rem;
   height: 4.14285714rem;
   margin: 0 0 0 -2.07142857rem;
 }
-.ui.massive.loader:before,
-.ui.massive.loader:after {
+.massive.loader:before,
+.massive.loader:after {
   width: 4.57142857rem;
   height: 4.57142857rem;
   margin: 0 0 0 -2.28571429rem;
@@ -7620,27 +7616,27 @@ body.dimmable > .dimmer {
       Coupling
 --------------------*/
 /* Show inside active dimmer */
-.ui.dimmer .loader {
+.dimmer .loader {
   display: block;
 }
 /* Black Dimmer */
-.ui.dimmer .ui.loader {
+.dimmer .loader {
   color: rgba(255, 255, 255, .9);
 }
-.ui.dimmer .ui.loader:before {
+.dimmer .loader:before {
   border-color: rgba(255, 255, 255, .15);
 }
-.ui.dimmer .ui.loader:after {
+.dimmer .loader:after {
   border-color: #fff transparent transparent;
 }
 /* White Dimmer (Inverted) */
-.ui.inverted.dimmer .ui.loader {
-  color: #fff;
+.inverted.dimmer .loader {
+  color: rgba(0, 0, 0, .87);
 }
-.ui.inverted.dimmer .ui.loader:before {
+.inverted.dimmer .loader:before {
   border-color: rgba(0, 0, 0, .1);
 }
-.ui.inverted.dimmer .ui.loader:after {
+.inverted.dimmer .loader:after {
   border-color: #767676 transparent transparent;
 }
 /*******************************
@@ -7649,7 +7645,7 @@ body.dimmable > .dimmer {
 /*-------------------
         Text
 --------------------*/
-.ui.text.loader {
+.text.loader {
   width: auto !important;
   height: auto !important;
   font-style: normal;
@@ -7658,7 +7654,7 @@ body.dimmable > .dimmer {
 /*******************************
             States
 *******************************/
-.ui.indeterminate.loader:after {
+.indeterminate.loader:after {
   -webkit-animation-duration: 1.2s;
        -o-animation-duration: 1.2s;
           animation-duration: 1.2s;
@@ -7666,12 +7662,12 @@ body.dimmable > .dimmer {
        -o-animation-direction: reverse;
           animation-direction: reverse;
 }
-.ui.loader.active,
-.ui.loader.visible {
+.loader.active,
+.loader.visible {
   display: block;
 }
-.ui.loader.disabled,
-.ui.loader.hidden {
+.loader.disabled,
+.loader.hidden {
   display: none;
 }
 /*******************************
@@ -7681,103 +7677,103 @@ body.dimmable > .dimmer {
         Sizes
 --------------------*/
 /* Loader */
-.ui.inverted.dimmer .ui.mini.loader,
-.ui.mini.loader {
+.inverted.dimmer .mini.loader,
+.mini.loader {
   width: 1rem;
   height: 1rem;
   font-size: .78571429em;
 }
-.ui.inverted.dimmer .ui.tiny.loader,
-.ui.tiny.loader {
+.inverted.dimmer .tiny.loader,
+.tiny.loader {
   width: 1.14285714rem;
   height: 1.14285714rem;
   font-size: .85714286em;
 }
-.ui.inverted.dimmer .ui.small.loader,
-.ui.small.loader {
+.inverted.dimmer .small.loader,
+.small.loader {
   width: 1.71428571rem;
   height: 1.71428571rem;
   font-size: .92857143em;
 }
-.ui.inverted.dimmer .ui.loader,
-.ui.loader {
+.inverted.dimmer .loader,
+.loader {
   width: 2.28571429rem;
   height: 2.28571429rem;
   font-size: 1em;
 }
-.ui.inverted.dimmer .ui.large.loader,
-.ui.large.loader {
+.inverted.dimmer .large.loader,
+.large.loader {
   width: 3.42857143rem;
   height: 3.42857143rem;
   font-size: 1.14285714em;
 }
-.ui.inverted.dimmer .ui.big.loader,
-.ui.big.loader {
+.inverted.dimmer .big.loader,
+.big.loader {
   width: 3.71428571rem;
   height: 3.71428571rem;
   font-size: 1.28571429em;
 }
-.ui.inverted.dimmer .ui.huge.loader,
-.ui.huge.loader {
+.inverted.dimmer .huge.loader,
+.huge.loader {
   width: 4.14285714rem;
   height: 4.14285714rem;
   font-size: 1.42857143em;
 }
-.ui.inverted.dimmer .ui.massive.loader,
-.ui.massive.loader {
+.inverted.dimmer .massive.loader,
+.massive.loader {
   width: 4.57142857rem;
   height: 4.57142857rem;
   font-size: 1.71428571em;
 }
 /* Text Loader */
-.ui.mini.text.loader {
+.mini.text.loader {
   min-width: 1rem;
   padding-top: 1.78571429rem;
 }
-.ui.tiny.text.loader {
+.tiny.text.loader {
   min-width: 1.14285714rem;
   padding-top: 1.92857143rem;
 }
-.ui.small.text.loader {
+.small.text.loader {
   min-width: 1.71428571rem;
   padding-top: 2.5rem;
 }
-.ui.text.loader {
+.text.loader {
   min-width: 2.28571429rem;
   padding-top: 3.07142857rem;
 }
-.ui.large.text.loader {
+.large.text.loader {
   min-width: 3.42857143rem;
   padding-top: 4.21428571rem;
 }
-.ui.big.text.loader {
+.big.text.loader {
   min-width: 3.71428571rem;
   padding-top: 4.5rem;
 }
-.ui.huge.text.loader {
+.huge.text.loader {
   min-width: 4.14285714rem;
   padding-top: 4.92857143rem;
 }
-.ui.massive.text.loader {
+.massive.text.loader {
   min-width: 4.57142857rem;
   padding-top: 5.35714286rem;
 }
 /*-------------------
        Inverted
 --------------------*/
-.ui.inverted.loader {
+.inverted.loader {
   color: rgba(255, 255, 255, .9);
 }
-.ui.inverted.loader:before {
+.inverted.loader:before {
   border-color: rgba(255, 255, 255, .15);
 }
-.ui.inverted.loader:after {
+.inverted.loader:after {
   border-top-color: #fff;
 }
 /*-------------------
        Inline
 --------------------*/
-.ui.inline.loader {
+.inline.loader {
   position: relative;
   top: 0;
   left: 0;
@@ -7788,15 +7784,9 @@ body.dimmable > .dimmer {
        -o-transform: none;
           transform: none;
 }
-.ui.inline.loader.active,
-.ui.inline.loader.visible {
+.inline.loader.active,
+.inline.loader.visible {
   display: inline-block;
 }
-/* Centered Inline */
-.ui.centered.inline.loader.active,
-.ui.centered.inline.loader.visible {
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-}
+/* Centered Inline = .center-block*/
 /*# sourceMappingURL=bootstrap.css.map */
