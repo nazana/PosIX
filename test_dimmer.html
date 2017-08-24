@@ -19,7 +19,8 @@
 </style>
 </head>
 
-<body>
+<body class="loading" data-toggle-id="pageLoader">
+
 <div class="container">
   <h1>
     <B>Semantic Dimmer</B>
@@ -27,7 +28,7 @@
 </div>
 <div class="container">
   <h2></h2>
-  <div class="row">
+  <div class="row loading" data-toggle-id="test" data-inverted="false" data-text="testing" id="testtest" data-closable="false">
     <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -87,19 +88,29 @@ $('.dimmer').dimmer('toggle');
   </div>
   <div class="row">
     <div class="col-md-12 ">
-      <div class="panel panel-default">
+      <div class="panel panel-default ">
         <div class="panel-heading">
           <h3 class="text-center">
             <B>Page Dimmer</B>
           </h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body loading">
           <H4>A dimmer can be formatted to be fixed to the page</H4>
         </div>
         <div class="panel-footer">
           <div class="text-center">
             <button type='button' class="btn btn-default btn-lg" id="show2">Show</button>
           </div>
+<div class="demo page dimmer" id="test">
+  <div class="content">
+    <div class="center">
+     <div class="loader massive text">
+      <h2>Dimmer Message</h2>
+      <h5>Dimmer sub-header</h5>
+     </div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -199,38 +210,34 @@ $('.dimmer').dimmer('toggle');
   
 </div>
 <!-- dimmer data -->
-<div class="demo page dimmer">
-  <div class="content">
-    <div class="center">
-      <h2 class="inverted icon header">
-        <i class="mail icon"></i>
-        Dimmer Message
-      </h2>
-      <h5>Dimmer sub-header</h5>
-    </div>
-  </div>
-</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
   window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')
 
   $(document).ready(function() {
+//$("#testtest").loading('show')
+//    $("body").setLoading('active');
+//    $("body").setLoading(false);
+
     $("#show1").on('click', function() {
       $('#dimmer1').dimmer('hide');
-      $('.dimmer1').dimmer('hide');
+//      $('.dimmer1').dimmer('hide');
     });
     
     $("#hide1").on('click', function() {
 //      $('#dimmer1').dimmer("set").opacity(.1);
 //      $('#dimmer1').dimmer('show');
 //      $('#dimmer1').dimmer('set opacity', '0.3').dimmer('show');
-//      $('#dimmer1').dimmer({'opacity': ''});
-      $('#dimmer1').dimmer('add content','<div class="content"><H4>TEST</H4></div>').dimmer('show');
-//      $('#dimmer1').dimmer('is').page();
+      $('#dimmer1').dimmer({'duration': '500'}).dimmer('show');
+//      $('#dimmer1').dimmer('show',{'duration': '500'});
+//      $('#dimmer1').dimmer('show',{'duration': '500','set opacity', '0.3'});
+//      $('.dimmer1').dimmer({'duration': '500'}).dimmer('show');
+//      $('#dimmer1').dimmer('add content','<div class="content"><H4>TEST</H4></div>', 'show');
+//      $('#dimmer1').dimmer('add content','<div class="content"><H4>TEST</H4></div>', 'show');
 //      $('.dimmer1').dimmer('show');
       
-//      alert($('#dimmer1').dimmer('get').duration());
+//      console.log(($('#dimmer1').dimmer('get').duration()));
 //      alert($('#dimmer1').dimmer('get duration')); 
     });
     
@@ -264,5 +271,7 @@ $('.dimmer').dimmer('toggle');
 
 </script>
 <script src="../dist/js/bootstrap.js"></script>
+<!--<script src="/js/loading.js"></script>-->
+<script src="/js/setLoading.js"></script>
 
 </html>

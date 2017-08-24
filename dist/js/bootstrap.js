@@ -4965,13 +4965,13 @@ $.fn.dimmer.settings = {
   },
 
   selector: {
-    dimmer   : '> .ui.dimmer',
-    content  : '.ui.dimmer > .content, .ui.dimmer > .content > .center'
+    dimmer   : '> .dimmer',
+    content  : '.dimmer > .content, .dimmer > .content > .center'
   },
 
   template: {
     dimmer: function() {
-     return $('<div />').attr('class', 'ui dimmer');
+     return $('<div />').attr('class', 'dimmer');
     }
   }
 
